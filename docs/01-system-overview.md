@@ -26,6 +26,16 @@ Naming these explicitly, because each has been the death of a similar tool elsew
 - **Not multi-tenant.** Single organization, single planning group, tens of people and tens of projects. Design decisions favor clarity over scale.
 - **Not a replacement for the funding document.** PoP dates and budgets are transcribed from contract documents; the system does not manage or version those documents.
 
+## Operational goals
+
+These come from the original requirement and shape the objective in `04-solver-design.md` more than any single constraint does.
+
+- **Steady pulse.** Assignments should be as stable month to month as possible: no sudden drop to zero, no repeated phase-in/phase-out for the same person on the same project. This is a management goal, not just a modeling nicety.
+- **Ramp-up.** A project's first month or two is ideally staffed only by PIs, co-PIs, and key technical contributors, with the rest of the team phased in once there is a project plan. In practice this is enforced by planners pre-setting narrower bounds for early months, not by a separate solver feature.
+- **Spend out by PoP end, non-linearly if needed.** A linear monthly spend profile is the naive default but rarely what actually happens. The solver should be willing to land on a non-linear spend profile in preference to causing churn or exceeding fragmentation limits. See `[OPEN-9]` for what this implies about target weighting.
+- **Fragmentation defaults.** Absent a planner override, every worker gets a soft limit of 2 concurrent projects and a hard limit of 4. Exceeding the soft limit should be rare.
+- **NCE as a release valve.** When worker constraints can't be satisfied within a project's period of performance, the system should be able to point at a no-cost extension (lengthening the PoP with no added funding) as a possible fix, not just report infeasibility. See `[OPEN-10]`; not yet built.
+
 ## Users and their loops
 
 **Program manager (primary).** Weekly to monthly cadence. Adjusts bounds and targets, triggers a solve, reviews the task view and resource view, investigates variance. Cares about: does the plan hit the target, and who is over capacity.
@@ -71,9 +81,12 @@ At the design ceiling the MIP has on the order of 500k continuous variables and 
 | ODC | Other direct costs. Non-labor, non-travel direct charges. |
 | OH | Overhead. An indirect rate applied to direct labor. |
 | Fee | Profit component applied on top of cost, in cost-plus structures. |
-| Rate structure | Which cost layers apply to a given project, and how they compose. |
-| Wrap rate | The composed multiplier from raw labor to billed or booked cost. |
-| Loaded cost | Labor cost after applying the applicable rate layers. |
+| FTE | Full-time-equivalent. Bounds are entered as an FTE fraction (e.g. 0.5 = half time), not hours; the solver converts. |
+| UFY | The corporate fiscal year, starting July 1. Wrap rates are set annually at this boundary, even though they are stored per calendar month. |
+| NCE | No-cost extension. Lengthening a project's period of performance with no additional funding. |
+| Rate structure | Which single rate layer (project, OH, or fee) applies to a given project. |
+| Wrap rate | The multiplier from base hourly rate to a specific layer's loaded rate (project, OH, or fee). |
+| Loaded cost | Labor cost after applying the applicable rate layer. |
 | Hard bound | A constraint the solver may never violate. Infeasibility is the correct outcome if it cannot be met. |
 | Soft bound | A preference. Violation is permitted and penalized in the objective. |
 | Baseline | The last human-accepted allocation, used as the reference for plan stability. |

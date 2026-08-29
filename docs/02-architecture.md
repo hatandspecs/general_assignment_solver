@@ -12,10 +12,11 @@ flowchart TB
             direction LR
             PPL["people"]
             PRJ["projects<br/>PoP, travel, ODC,<br/>rate structure"]
-            RAT["rates<br/>person x month"]
+            RAT["rates<br/>person x month<br/>(salary; rest derived)"]
+            WRP["wrap_rates<br/>global x month"]
             CAP["capacity<br/>person x month"]
             TGT["targets<br/>project x month"]
-            BND["bounds<br/>project x person"]
+            BND["bounds<br/>project x person<br/>(FTE fraction)"]
         end
 
         ALLOC["<b>allocation</b><br/>project x person x month<br/>hours_assigned | hours_actual | locked<br/><i>solver writes only hours_assigned</i>"]
@@ -57,6 +58,7 @@ flowchart TB
 
     ALLOC --> VIEWS
     RAT -.->|"cost = hours x rate(month)"| VIEWS
+    WRP -.->|"base_hourly x wrap_rate"| RAT
 
     VIEWS ==>|"adjust constraints,<br/>re-solve"| BND
     DIAG ==>|"relax bound or<br/>add capacity"| BND

@@ -13,9 +13,9 @@ allocsolver/
         calendar.py           Month type, horizon, ordering, parsing
         people.py
         projects.py           Project, RateStructure
-        rates.py
+        rates.py           Rate (salary, derived project/oh/fee), WrapRate
         capacity.py
-        bounds.py
+        bounds.py          FTE-fraction hard/soft min/max
         targets.py
         allocation.py         AllocationRow, AllocationWrite
         plan.py               Plan aggregate: the full validated input set
@@ -25,7 +25,7 @@ allocsolver/
         masks.py              eligibility, PoP windows, employment windows
 
     solve/                    Depends on models + costing.
-        variables.py          variable generation over E
+        variables.py          variable generation over E; FTE-bound to hours conversion
         constraints.py        C1 through C7
         objective.py          terms, normalization, weights
         build.py              assembles the model
