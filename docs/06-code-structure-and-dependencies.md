@@ -13,9 +13,9 @@ allocsolver/
         calendar.py           Month type, horizon, ordering, parsing
         people.py
         projects.py           Project, RateStructure
-        rates.py           Rate (salary, derived project/oh/fee), WrapRate
+        rates.py           Rate (annual_salary only), WrapRate
         capacity.py
-        bounds.py          FTE-fraction hard/soft min/max
+        bounds.py          hard/soft min/max, in hours
         targets.py
         allocation.py         AllocationRow, AllocationWrite
         plan.py               Plan aggregate: the full validated input set
@@ -25,7 +25,7 @@ allocsolver/
         masks.py              eligibility, PoP windows, employment windows
 
     solve/                    Depends on models + costing.
-        variables.py          variable generation over E; FTE-bound to hours conversion
+        variables.py          variable generation over E
         constraints.py        C1 through C7
         objective.py          terms, normalization, weights
         build.py              assembles the model
@@ -34,23 +34,41 @@ allocsolver/
         diagnostics.py        binding-constraint report, IIS wrapper
         result.py             SolveResult
 
+    reforecast/               Depends on models + costing. Not the solver.
+        variance.py           target-vs-actual variance for a closed month
+        redistribute.py       spreads variance across a project's
+                              remaining open months, proportional to
+                              their existing target shares (resolved
+                              `[OPEN-11]`)
+        propose.py            builds the proposed `targets` update for
+                              review, mirroring solve's dry-run/accept posture
+
     io/                       Depends on models only.
         grist.py              GristClient
         timekeeping.py        actuals parse, map, quarantine
         mapping.py            charge code and employee resolution
+        synthetic.py           generates a randomly generated fixture
+                              dataset shaped like the eventual real
+                              timekeeping export, for development before
+                              real integration access exists
         snapshot.py           git-backed snapshot read and write
-        mpxj_export.py        optional, guarded import
+        mpxj_export.py        legacy, guarded import, unconfirmed need
 
     reports/                  Depends on models + costing.
-        views.py              task view, resource view pivots
+        views.py              task view, resource view pivots; includes
+                              assigned_fte reporting check
         variance.py
+        exports.py            the three confirmed CSV exports: workforce
+                              assignment sheet (no cost columns), variance
+                              sheet, budget summary sheet
         diff.py               snapshot comparison
         render.py             rich terminal output
 
 tests/
     unit/
     property/                 hypothesis strategies over Plan
-    fixtures/                 small hand-checked planning scenarios
+    fixtures/                 small hand-checked planning scenarios,
+                              plus the synthetic generator's output
     test_rate_parity.py       Python vs Grist formula agreement
 
 grist/
@@ -71,15 +89,19 @@ flowchart TB
     MOD["models/"]
     COST["costing/"]
     SOLVE["solve/"]
+    REFORE["reforecast/"]
     IO["io/"]
     REP["reports/"]
 
     CLI --> SOLVE
+    CLI --> REFORE
     CLI --> IO
     CLI --> REP
     CLI --> CFG
     SOLVE --> COST
     SOLVE --> MOD
+    REFORE --> COST
+    REFORE --> MOD
     COST --> MOD
     IO --> MOD
     REP --> COST
@@ -90,14 +112,15 @@ flowchart TB
     classDef top fill:#3d2b1f,stroke:#c87f3f,color:#fff
     class MOD leaf
     class COST,IO mid
-    class SOLVE,REP,CLI top
+    class SOLVE,REFORE,REP,CLI top
 ```
 
 **Invariants, enforced by an import-linter contract in CI:**
 
 - `models/` imports nothing from the package. It is pure schema.
-- `costing/` never imports `solve/` or `io/`.
+- `costing/` never imports `solve/`, `reforecast/`, or `io/`.
 - `solve/` never imports `io/`. The solver receives a `Plan` object and returns a `SolveResult`. It has no idea Grist exists.
+- `reforecast/` never imports `io/` or `solve/`, for the same reason: it operates on `Plan`-shaped data in and a proposed `targets` update out, independent of Grist and of the MILP.
 - No cycles anywhere.
 
 That third rule is what makes the solver testable without a network, replayable from a snapshot, and swappable behind a different storage layer.
@@ -111,8 +134,7 @@ That third rule is what makes the solver testable without a network, replayable 
 | Python | 3.11+ | PSF | `datetime` improvements, `tomllib`, better typing |
 | `pydantic` | ^2.7 | MIT | Schema, validation, JSON round trip for snapshots |
 | `httpx` | ^0.27 | BSD-3 | Grist REST client, sync and async, connection reuse |
-| `pulp` | ^2.8 | MIT | MILP modeling. Readable algebraic syntax. |
-| `highspy` | ^1.7 | MIT | HiGHS solver. Fast open source MIP, IIS support. |
+| `ortools` | ^9.10 | Apache-2.0 | MILP modeling and solving, via `linear_solver` (MPSolver) with the bundled SCIP backend. |
 | `polars` | ^1.0 | MIT | Pivots and aggregation for views and ingest |
 | `python-dateutil` | ^2.9 | Apache-2.0 / BSD-3 | Month arithmetic |
 | `typer` | ^0.12 | MIT | CLI |
@@ -123,10 +145,11 @@ That third rule is what makes the solver testable without a network, replayable 
 
 | Package | License | Guard |
 |---|---|---|
-| `mpxj` | LGPL-2.1 | Extra `[msproject]`. Pulls JPype and needs a JVM. |
+| `mpxj` | LGPL-2.1 | Extra `[msproject]`. Pulls JPype and needs a JVM. Legacy, unconfirmed need — see `05-interfaces.md`. |
 | `JPype1` | Apache-2.0 | Transitive from `mpxj` |
-| `openpyxl` | MIT | Extra `[excel]`, only if timekeeping exports `.xlsx` |
+| `openpyxl` | MIT | Extra `[excel]`, only if timekeeping exports `.xlsx`, or for `.xlsx` report exports |
 | `duckdb` | MIT | Extra `[analysis]`, ad hoc snapshot querying |
+| `PySCIPOpt` | MIT | Extra `[iis]`. Direct SCIP access for `--iis` only; bypasses OR-Tools' generic wrapper for that one path. |
 
 ### Development
 
@@ -148,13 +171,16 @@ That third rule is what makes the solver testable without a network, replayable 
 
 ## Solver choice
 
-**HiGHS via `highspy`, modeled through PuLP.** MIT licensed, actively developed, strong MIP performance, and it supports IIS extraction, which CBC does not. Modeling through PuLP rather than the HiGHS API directly keeps the model readable and leaves the solver swappable.
+**Google OR-Tools, via `linear_solver` (`MPSolver`), with SCIP as the backend.** Apache-2.0, actively maintained, and the tool this design has targeted from the original requirement onward. `MPSolver` is OR-Tools' generic algebraic-modeling interface — it is not CP-SAT, and nothing here needs CP-SAT: hours are naturally continuous, and `MPSolver` handles continuous-plus-binary MILPs directly against SCIP (bundled, no separate install) or CBC. SCIP is generally considered the strongest fully open-source MIP solver available, competitive with commercial solvers on many benchmark classes, which matters once the design ceiling's ~500k-variable models are in play.
+
+**The one real cost: IIS is harder to reach.** `04-solver-design.md`'s `--iis` analyst tool wants an irreducible infeasible subsystem. SCIP supports this natively, but OR-Tools' `MPSolver` wrapper is intentionally generic across backends and doesn't expose it. Getting IIS out means dropping past OR-Tools into SCIP's own Python API (`PySCIPOpt`) for that one code path — a second dependency, used only behind `--iis`, not in the default flow. This is an accepted tradeoff, not an oversight: the elastic-relaxation report is the default, always-on diagnostic (see `04-solver-design.md`), and it does not depend on IIS. `--iis` stays a secondary, analyst-only escape hatch that may need its own backend access.
 
 **Alternatives, and why not:**
 
-- **CBC** (bundled with PuLP, EPL-2.0). Works, notably slower on MIPs of this shape, no IIS. Keep as a fallback so the tool runs with zero extra install.
-- **OR-Tools** (Apache-2.0). Excellent, especially CP-SAT. CP-SAT wants integer domains, and hours here are naturally continuous; discretizing to quarter hours to use it is a real option but adds a modeling wrinkle for no clear gain. Its MIP path is a wrapper over other solvers anyway.
-- **Pyomo** (BSD-3). More capable modeling layer than PuLP, more ceremony than this model needs.
+- **CP-SAT** (part of OR-Tools). Excellent, but wants integer domains. Discretizing hours to some fixed granularity (quarter hours, minutes) to use it is a real option but adds a modeling wrinkle for no clear gain over `MPSolver`+SCIP on a naturally continuous quantity.
+- **HiGHS, via `highspy`.** Fast, MIT licensed, and gives direct, first-class IIS access — the strongest argument in its favor. Passed over in favor of the explicit preference for OR-Tools; revisit only if SCIP-via-OR-Tools proves to be a real performance problem in practice, which is not expected at this design's scale.
+- **PuLP.** A modeling layer, not a solver — would sit on top of CBC/HiGHS/others rather than replacing this choice. Not needed: OR-Tools' `MPSolver` already gives an algebraic-enough interface without an extra dependency layer.
+- **Pyomo** (BSD-3). More capable modeling layer than either PuLP or `MPSolver`, more ceremony than this model needs.
 - **Gurobi / CPLEX.** Faster and better diagnostics. Commercial licensing. Worth revisiting only if the design ceiling is approached in practice.
 
 Isolate the choice behind `solve/run.py` so that swapping it is a one-file change. Do not let solver-specific types escape into `result.py`.
@@ -171,4 +197,4 @@ Two things to keep an eye on:
 
 ## Pinning and reproducibility
 
-Lock with `uv` or `pip-tools`; commit the lock file. Snapshots record the resolved versions of `allocsolver`, PuLP, and HiGHS in `meta.json`, because a solver version change can shift which optimal solution is returned among ties even when the objective value is identical. Without that record, a replay that produces a different plan is unexplainable.
+Lock with `uv` or `pip-tools`, or with a conda `environment.yml` for the reference environment; commit the lock file. Snapshots record the resolved versions of `allocsolver` and `ortools` (which pins its bundled SCIP version) in `meta.json`, because a solver version change can shift which optimal solution is returned among ties even when the objective value is identical. Without that record, a replay that produces a different plan is unexplainable.

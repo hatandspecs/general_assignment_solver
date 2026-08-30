@@ -1,3 +1,5 @@
+**initial design**
+
 This is the design document for a general assignment solver.  the goal is to take a set of proejcts which each have a planned monthly spend target, and then take a pool of people and assign them to the projects.  Most of the people will be pre-assigned in whole or part to programs manually by project planners, but it is a difficult problema dn takes a prohibitive amount of time to refine the work assignments plan down to the singleton hour.  In many cases trades have to be made. so this capability gives the project planners the ability to specify target information about the programs, and for each person, a hard minimum pre-assignment, a soft minimum, a soft maximum, and a hard maximum.  The solver works with these constraints to find an optimal assignment of people to projects for some number of hours.
 
 Additionally to giving work assignments of people to project, there will be a month end retrospecitive merge of actuals data that will show waht number of hours each person billed to the project, and the total cost of those hours, and deltas will be computed. this will indicate to managers if someone is over or under their target, and the manager can find out why.
@@ -126,3 +128,22 @@ The ultimate goal for the project is to spend out by the end of the PoP.  A typi
 Wherever possible, we do not want to start a project in the first month with a full complement of workers.  Ideally the first month includes a smaller set of workers representing the project PIs and Co-PIs and key technical contributors. this is so the team can determine a project plan in advance of the full team showing up for tasking. this will likely be manually enforced by the hard/soft min/max assignments tha are pre-assigned before the solver is run.
 
 I would like the interface to this solver to be some kind of linked spreadsheet or excel workbook, but ideally not excel itself.  the solver shall be fully implemented using open source python packages (or python bindings around other packages)
+
+
+
+**implentation notes**
+
+Unless thedre is a good reason not to or a better alternative, i'd like the optimization to be done using google ORTools.
+
+I want packages for this work to be installed in a conda virtual environment called general_assignment_solver.
+
+I want a medium-sized example to be created based on the instructions I left here: examples/medium_example/unstructured_notes_medium_example.md. I want all of the data files required to run the medium example to be stored in that folder, a python script that is run that reads the example data and runs the example, and an example readme that fully explains how to run the example and a tutorial on how to use the software written for a planner who would be using the tool.
+
+I want a minimally specified environment.yml file and instructions on how to use conda to replicate the environment from scratch using this file, and to run the medium_example.
+
+
+**next directive**
+
+please include mermaid system architecture and process flow diagrams throughout my documentation where relevant to communicating the design and intended use case.
+
+once the software implementation is complete and outputs can be generated from the medium_example, I would like a slide presentation built in marp explaining the work assignment scenario in medium_example, what this software/solver does, and the process flow diagram showing how to use this tool in a project planning proces over multiple months, and example outputs.

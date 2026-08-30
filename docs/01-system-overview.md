@@ -31,10 +31,11 @@ Naming these explicitly, because each has been the death of a similar tool elsew
 These come from the original requirement and shape the objective in `04-solver-design.md` more than any single constraint does.
 
 - **Steady pulse.** Assignments should be as stable month to month as possible: no sudden drop to zero, no repeated phase-in/phase-out for the same person on the same project. This is a management goal, not just a modeling nicety.
-- **Ramp-up.** A project's first month or two is ideally staffed only by PIs, co-PIs, and key technical contributors, with the rest of the team phased in once there is a project plan. In practice this is enforced by planners pre-setting narrower bounds for early months, not by a separate solver feature.
-- **Spend out by PoP end, non-linearly if needed.** A linear monthly spend profile is the naive default but rarely what actually happens. The solver should be willing to land on a non-linear spend profile in preference to causing churn or exceeding fragmentation limits. See `[OPEN-9]` for what this implies about target weighting.
+- **Ramp-up.** A project's first month or two is ideally staffed only by PIs, co-PIs, and key technical contributors, with the rest of the team phased in once there is a project plan. Confirmed as a real, routine pattern (not hypothetical) — enforced by planners setting narrower `bounds` for early months, which is why bounds are per-month (`03-data-model.md`), not by a separate solver feature.
+- **Spend out by PoP end, achieved by reforecasting, not in-solve trade-off.** A linear monthly spend profile is the naive default but rarely what actually happens; a project is routinely over or under its monthly target and the response is to modulate the remaining months to converge on near-zero variance by PoP end. The solver itself still treats whatever is currently in `targets` as dominant — the redistribution happens between solves, when a closed month's actuals trigger a reforecast of the remaining months' targets, split proportionally to their existing target shares and always reviewed by the PM before it's written. See "Reforecasting" in `04-solver-design.md`.
 - **Fragmentation defaults.** Absent a planner override, every worker gets a soft limit of 2 concurrent projects and a hard limit of 4. Exceeding the soft limit should be rare.
-- **NCE as a release valve.** When worker constraints can't be satisfied within a project's period of performance, the system should be able to point at a no-cost extension (lengthening the PoP with no added funding) as a possible fix, not just report infeasibility. See `[OPEN-10]`; not yet built.
+- **Idle capacity is a signal for humans, not a solver target.** When a solve leaves someone under-booked, the expected response is a planner investigating — renegotiating that person's bounds, or finding them work outside this system's tracked projects — not the solver forcing an assignment to zero it out. `W_idle` stays a low tie-breaker weight for this reason.
+- **NCE as a release valve.** When worker constraints can't be satisfied within a project's period of performance, the system should be able to point at a no-cost extension (lengthening the PoP with no added funding) as a possible fix, not just report infeasibility. Confirmed as v1.1 scope, diagnostics-only — not yet built.
 
 ## Users and their loops
 
@@ -44,19 +45,51 @@ These come from the original requirement and shape the objective in `04-solver-d
 
 **Analyst / the person maintaining this system.** Runs the solver, tunes weights, diagnoses infeasibility, extends the model. Cares about: reproducibility and being able to diff two scenarios.
 
+**Workforce (recipient only, no tool access).** Never opens Grist or the solver. Receives a plain export of their own hours by project for the immediate next month, on or before the 1st. Cares about: what they're assigned to work on next month. Never sees cost, rate, or salary information — the workforce export is scoped to worker/project/hours only, by design.
+
 ## Primary workflow
 
+Confirmed as the actual operating cadence, not a hypothetical:
+
 ```
-1. Actuals for the closed month land via ingest.
-2. Solver locks closed months to actuals.
-3. PM adjusts forward-looking bounds, capacity, and targets in Grist.
-4. PM triggers a solve.
-5. Solver returns either an updated allocation or a binding-constraint report.
-6. PM reviews task view and resource view, iterates from step 3.
-7. Accepted plan is snapshotted to git as the new baseline.
+1. End of month M: planners solve for M+1 and as many subsequent
+   months as they can, using bounds/targets/capacity edited in Grist
+   and whatever reforecast was accepted from M-1's actuals (M's own
+   actuals aren't in yet at this point — see below).
+2. By the 1st of M+1: the workforce export (hours only, no cost) is
+   generated and sent out.
+3. First week of M+1: M's actuals land via ingest. M becomes a
+   closed month; its allocation is fixed.
+4. Reforecast computes M's target-vs-actual variance and proposes an
+   updated target profile for the project's remaining open months
+   (including M+1, now in progress).
+5. If the variance is significant, planners re-solve M+1 forward
+   using the reforecast ("a hot fix") and re-send a revised workforce
+   export for M+1. If not, the cycle just continues at step 1 for
+   the next month.
+6. PM reviews task view and resource view; accepted plans are
+   snapshotted to git as the new baseline.
 ```
 
-The baseline snapshot in step 7 matters more than it looks. The solver's stability objective measures churn against the last accepted baseline, so without a deliberate accept step there is nothing to be stable relative to.
+```mermaid
+flowchart LR
+    A["End of month M:<br/>solve for M+1 forward"] --> B["By 1st of M+1:<br/>workforce export sent"]
+    B --> C["First week of M+1:<br/>M's actuals ingested,<br/>M becomes closed"]
+    C --> D["Reforecast:<br/>M's variance -> proposed<br/>targets for remaining months"]
+    D --> E{"Variance<br/>significant?"}
+    E -->|"no"| F["Continue to next<br/>regular monthly cycle"]
+    E -->|"yes: hot fix"| G["Re-solve M+1 forward<br/>with reforecast"]
+    G --> H["Re-send revised<br/>workforce export for M+1"]
+    H --> F
+    F --> A
+
+    classDef decision fill:#3d2b1f,stroke:#c87f3f,color:#fff
+    class E decision
+```
+
+The baseline snapshot in step 6 matters more than it looks. The solver's stability objective measures churn against the last accepted baseline, so without a deliberate accept step there is nothing to be stable relative to.
+
+The one-month lag is structural, not a bug to fix: a month's actuals are never available in time to inform the solve that plans that same month. Reforecasting always works one cycle behind, correcting the *next* solve rather than the one already sent out — except in a hot fix, which is exactly the exception built to shorten that lag when the miss is big enough to matter.
 
 ## Scale assumptions
 
@@ -81,7 +114,7 @@ At the design ceiling the MIP has on the order of 500k continuous variables and 
 | ODC | Other direct costs. Non-labor, non-travel direct charges. |
 | OH | Overhead. An indirect rate applied to direct labor. |
 | Fee | Profit component applied on top of cost, in cost-plus structures. |
-| FTE | Full-time-equivalent. Bounds are entered as an FTE fraction (e.g. 0.5 = half time), not hours; the solver converts. |
+| FTE | Full-time-equivalent. Bounds are entered and stored in hours, not FTE fraction; an aggregate %FTE per person per month is computed as a reporting check (`assigned_fte`), not a solver input. |
 | UFY | The corporate fiscal year, starting July 1. Wrap rates are set annually at this boundary, even though they are stored per calendar month. |
 | NCE | No-cost extension. Lengthening a project's period of performance with no additional funding. |
 | Rate structure | Which single rate layer (project, OH, or fee) applies to a given project. |
@@ -93,3 +126,5 @@ At the design ceiling the MIP has on the order of 500k continuous variables and 
 | Cell | One (project, person, month) allocation entry. |
 | Locked cell | A cell whose hours a human has pinned. The solver treats it as a fixed value. |
 | Closed month | A month whose actuals are final. Assignments are fixed to actuals. |
+| Reforecast | The step, triggered after a closed month's actuals land, that proposes redistributing that month's target-vs-actual variance across a project's remaining open months, proportional to their existing target shares. Always PM-reviewed before being written. |
+| Hot fix | An unplanned second solve for the current (in-progress) month, triggered when the just-closed month's reforecast reveals a variance significant enough that the already-distributed workforce export for the current month should be revised and re-sent. |

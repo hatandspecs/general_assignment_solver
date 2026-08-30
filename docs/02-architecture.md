@@ -16,7 +16,7 @@ flowchart TB
             WRP["wrap_rates<br/>global x month"]
             CAP["capacity<br/>person x month"]
             TGT["targets<br/>project x month"]
-            BND["bounds<br/>project x person<br/>(FTE fraction)"]
+            BND["bounds<br/>project x person x month<br/>(hours)"]
         end
 
         ALLOC["<b>allocation</b><br/>project x person x month<br/>hours_assigned | hours_actual | locked<br/><i>solver writes only hours_assigned</i>"]
@@ -42,11 +42,12 @@ flowchart TB
     end
 
     subgraph ING["ACTUALS INGEST"]
-        TK[("Timekeeping export")]
+        TK[("Timekeeping + finance export")]
         LOAD["Loader + reconcile"]
+        REFORE["Reforecast targets<br/>(redistribute month's<br/>variance to remaining months)"]
     end
 
-    EXPORT["Optional: mpxj to MSPDI"]
+    EXPORT["Exports: workforce sheet (hours only),<br/>variance sheet, budget summary<br/><i>mpxj/MSPDI: legacy, unconfirmed need</i>"]
     GIT[("Git: baseline snapshots")]
 
     INPUTS --> API --> PULL
@@ -55,6 +56,7 @@ flowchart TB
     SOLVE -->|infeasible| DIAG
     PUSH --> API --> ALLOC
     TK --> LOAD --> API
+    LOAD --> REFORE --> API
 
     ALLOC --> VIEWS
     RAT -.->|"cost = hours x rate(month)"| VIEWS
@@ -87,9 +89,11 @@ A batch process, not a daemon. Invoked by CLI or by a scheduled job. Stateless b
 
 ### Actuals ingest
 
-Reads an export from the timekeeping system, maps charge codes to (project, person, month), aggregates hours, and writes `hours_actual`. Runs on its own cadence, independent of solving.
+Reads an export from the timekeeping and finance system, maps charge codes to (project, person, month), aggregates hours, and writes `hours_actual`. Runs on its own cadence, independent of solving. The source system is confirmed; the exact export format is not yet in hand, so early development targets a synthetic, randomly generated dataset shaped like the eventual real export rather than blocking on integration access.
 
 Reconciliation is the hard part, not the loading. Charge code to project mapping is many-to-one and changes over time. See `05-interfaces.md`.
+
+Immediately downstream of a successful ingest for a closed month, **reforecasting** computes the variance between that month's target and its actual spend and proposes an updated `targets` profile for the project's remaining open months, so the plan keeps converging on its funded total even though no single month's number is sacred. See "Reforecasting" in `04-solver-design.md`.
 
 ### Git snapshot store
 
@@ -130,6 +134,28 @@ allocsolver solve --horizon 2026-09:2027-08 [--dry-run] [--accept]
   9. Accept     Only with --accept: tag the snapshot as the new baseline.
 ```
 
+```mermaid
+flowchart TB
+    F1["1. Fetch inputs"] --> F2["2. Validate"]
+    F2 -->|"fail"| F2E["Abort:<br/>report schema errors"]
+    F2 -->|"pass"| F3["3. Compose R[p,w,m]"]
+    F3 --> F4["4. Mask ineligible cells"]
+    F4 --> F5["5. Fix closed months<br/>and locked cells"]
+    F5 --> F6["6. Build model"]
+    F6 --> F7["7. Solve"]
+    F7 --> F8{"8. Feasible?"}
+    F8 -->|"yes"| F8Y["Write back,<br/>snapshot,<br/>report deltas vs baseline"]
+    F8 -->|"no"| F8N["Elastic re-solve,<br/>report binding set,<br/>write nothing"]
+    F8Y --> F9{"9. --accept?"}
+    F9 -->|"yes"| F9Y["Tag snapshot<br/>as new baseline"]
+    F9 -->|"no"| F9N["Baseline unchanged"]
+
+    classDef decision fill:#3d2b1f,stroke:#c87f3f,color:#fff
+    classDef stop fill:#4a1e1e,stroke:#c84f4f,color:#fff
+    class F2,F8,F9 decision
+    class F2E stop
+```
+
 Steps 8 and 9 are separate on purpose. A solve that is not accepted still writes `hours_assigned` so the operator can look at it in the views, but it does not move the baseline. Otherwise every exploratory solve resets the reference that plan stability is measured against, and the stability term becomes meaningless.
 
 ## Deployment
@@ -142,6 +168,8 @@ allocsolver:  python image, invoked ad hoc or by cron/systemd timer
 ```
 
 Grist defaults to SQLite storage, which is adequate at this scale. Postgres is available if concurrent editing becomes a problem, which at 1 to 3 editors it will not.
+
+**Future work, tracked but not blocking v1:** the planning group's actual track record with shared files (shared drives, hand-edited spreadsheets) is that people routinely overwrite each other's work, not because Grist-level concurrency is unusually fragile but because the group needs technical guardrails, not just goodwill. Grist's row-level access rules and the solver's single-writer-per-column discipline (see Boundaries, above) already help, but a real conflict-detection or locking mechanism for human edits is worth designing deliberately once this tool is in daily use, rather than assuming discipline will hold. This does not block `[OPEN-6]`'s read-consistency deferral, which is a narrower, lower-stakes question about the solver's own read burst.
 
 Secrets: a Grist API key in the environment, scoped to the planning document. The service needs write access to `allocation` only, which Grist access rules can enforce at column level.
 
@@ -156,3 +184,4 @@ Secrets: a Grist API key in the environment, scoped to the planning document. Th
 | Write partially succeeds | Batch write is a single API transaction. On failure, nothing is written and the prior state stands. |
 | Charge code maps to no project | Ingest quarantines the row and reports it. Never drops it. |
 | Someone hand-edits assigned hours in Grist | The next solve overwrites it unless the cell is locked. This is intended, and is why `locked` exists. |
+| Two planners edit overlapping bounds/targets at the same time | Not currently guarded beyond Grist's own row-level behavior. Known real-world failure mode with this planning group on shared files elsewhere; tracked as future work, not solved here. |

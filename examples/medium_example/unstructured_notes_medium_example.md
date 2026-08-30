@@ -13,3 +13,5 @@ For this example, the workable hours in each month should be based on openly ava
 The first year in the example will start on calander year (CY) 2027 and the demo should span 5 CY so that numerous UFY transistions can be examined.
 
 Randomly generate a full set of workers and projects using wroker names like firstname_1, lastname_1 and project_1, project_1b (a continuation of project_1), project_2, project_3, project_3b, project_3c, etc.
+
+of the 50 personnel 35 of them should be full time (100% FTE) on the projects in the group of projects. these represent dedicated staff in the unit doing the planning.  10 of them should be 75% time, meaning they can work 75% of the owrkable hours in a month on the portfolio of projects. 5 of them should be 25% time.  

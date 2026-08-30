@@ -18,25 +18,14 @@ Variables are generated over `E`, not over the full cross product. At the design
 |---|---|---|
 | `R[p,w,m]` | composed from `rates` and `wrap_rates` | Loaded hourly cost |
 | `cap[w,m]` | `capacity` | Available hours |
-| `hmin, smin, smax, hmax [p,w,m]` | `bounds` | FTE-fraction bounds (see conversion below) |
+| `hmin, smin, smax, hmax [p,w,m]` | `bounds` | Hour bounds (resolved `[OPEN-7]`: hours, not FTE fraction) |
 | `T[p,m]` | `targets` | Monthly labor spend target |
 | `tol[p,m]` | `targets` | Unpenalized deviation band |
 | `base[p,w,m]` | last accepted baseline | Prior assigned hours |
 | `fix[p,w,m]` | `allocation` | Value for cells in `F` |
 | `soft_maxproj[w], hard_maxproj[w]` | `people` | Concurrent project limits, soft and hard |
 
-## FTE-to-hours conversion
-
-The notes specify `hmin, smin, smax, hmax` as FTE fractions (e.g. `0.5` = half time) rather than raw hours, matching how planners actually enter a pre-assignment. The solver's variables are in hours, so bounds are converted at build time using that person's capacity for the specific month, not a fixed full-time constant — this keeps the conversion correct in a month where availability itself is reduced (partial leave, etc.):
-
-```
-hmin_h[p,w,m] = hmin[p,w,m] * cap[w,m]
-smin_h[p,w,m] = smin[p,w,m] * cap[w,m]
-smax_h[p,w,m] = smax[p,w,m] * cap[w,m]
-hmax_h[p,w,m] = hmax[p,w,m] * cap[w,m]
-```
-
-Constraints C1 and C2 below use the `_h` (hours) form. Captured as the candidate resolution — confirm at `[OPEN-7]` in `07-open-questions.md`.
+An earlier draft of this design read the notes as specifying `hmin, smin, smax, hmax` in FTE fraction, which would have needed a build-time conversion to hours via `cap[w,m]`. That reading was overridden: planners enter and expect to see hours directly, so no conversion happens here. The FTE view is reconstructed only for reporting — see `assigned_fte[w,m]` in `03-data-model.md`.
 
 ## Decision variables
 
@@ -58,7 +47,7 @@ Constraints C1 and C2 below use the `_h` (hours) form. Captured as the candidate
 **C1. Semi-continuous assignment.** For all `(p,w,m)` in `E`:
 
 ```
-hmin_h[p,w,m] * y[p,w,m]  <=  x[p,w,m]  <=  hmax_h[p,w,m] * y[p,w,m]
+hmin[p,w,m] * y[p,w,m]  <=  x[p,w,m]  <=  hmax[p,w,m] * y[p,w,m]
 ```
 
 Both bounds gated by `y`. The upper gate is what forces `x = 0` when `y = 0`.
@@ -66,8 +55,8 @@ Both bounds gated by `y`. The upper gate is what forces `x = 0` when `y = 0`.
 **C2. Soft bounds with elastic slack.** For all `(p,w,m)` in `E`:
 
 ```
-x[p,w,m] + u[p,w,m]  >=  smin_h[p,w,m] * y[p,w,m]
-x[p,w,m] - o[p,w,m]  <=  smax_h[p,w,m] * y[p,w,m]
+x[p,w,m] + u[p,w,m]  >=  smin[p,w,m] * y[p,w,m]
+x[p,w,m] - o[p,w,m]  <=  smax[p,w,m] * y[p,w,m]
 ```
 
 Gating by `y` prevents charging a soft-min penalty for a person who is simply not on the project. Without the gate, the objective pays to staff people it should leave off.
@@ -135,11 +124,26 @@ minimize
 
 **Normalization is not optional.** Spend deviation is in dollars, soft violations are in hours, headcount is a count. Without dividing each term by a scale factor, the weights are uninterpretable and tuning becomes trial and error. Use the horizon totals as the norms: total target dollars, total capacity hours, total eligible cells.
 
-**Suggested starting weights:** target 100, soft 10, frag 8, churn 5, idle 3, headcount 1. Target dominance is deliberate. The stated purpose of the tool is hitting the spend target; everything else is a tiebreaker among plans that hit it. `frag` is placed above `churn` because the notes call out fragmentation as something that "should be rare," language stronger than the general churn-avoidance goal.
+**Suggested starting weights:** target 100, soft 10, frag 8, churn 5, idle 3, headcount 1. Target dominance is deliberate. The stated purpose of the tool is hitting whatever is currently in `targets`; everything else is a tiebreaker among plans that hit it. `frag` is placed above `churn` because the notes call out fragmentation as something that "should be rare," language stronger than the general churn-avoidance goal.
 
 **The churn term is the one people leave out and regret.** Without it, a one-line change to a bound produces a completely reshuffled plan, because the solver is indifferent among equally optimal solutions and will return whichever one branch-and-bound reached first. Operators lose trust in a tool that scrambles the plan for no visible reason, and they stop re-solving, and then the tool is dead. Five percent weight on stability buys the plan's credibility.
 
-**Note from the source notes on target vs. churn/fragmentation priority.** The requirement states a preference for non-linear (redistributed) spend over churn or fragmentation violations: among plans that vary only in which month the dollars land, churn and fragmentation should generally win over precise adherence to a single month's target. `targets` already lets a PM enter an arbitrary non-linear monthly profile, so much of this is expressible today by how targets are populated. What is not yet settled is whether the *solver itself* should be free to deviate from a PM-entered soft monthly target — treating it as an aim point subject to churn/fragmentation tradeoffs, rather than dominant at weight 100 — or whether that redistribution should happen only by a human re-entering `targets`. See `[OPEN-9]`.
+**Resolved (`[OPEN-9]`): non-linear spend is achieved by reforecasting `targets`, not by loosening this weighting.** An earlier draft of this design considered demoting `W_target` below `W_churn`/`W_frag` so the solver itself could trade a month's target adherence for stability within a single solve. That is not the mechanism: target dominance at the objective level stays as documented above. Instead, when a month closes and actuals land, the variance between that month's target and its actual spend is redistributed across the project's *remaining* open months before the next solve — see **Reforecasting** below. The solver always tries hard to hit whatever is currently in `targets`; it's `targets` itself that gets updated to reflect reality.
+
+### Reforecasting
+
+Computed once actuals for a closed month `M` are ingested, which the confirmed operating cadence puts in the first week of month `M+1` — after `M+1`'s own solve already ran at the end of `M`, since `M`'s actuals don't exist yet at that point. So reforecasting is always one cycle behind whatever it's correcting, working on the most recently closed month to inform the *next* solve:
+
+```
+variance[p,M] = T[p,M] - actual_cost[p,M]     (positive = underspent, negative = overspent)
+
+for each remaining open month m in (M, pop_end[p]]:
+    T[p,m] <- T[p,m] + share(variance[p,M], m)
+```
+
+**Resolved (`[OPEN-11]`): `share()` splits the variance proportionally** to each remaining month's existing target share, preserving the plan's relative shape rather than flattening it. Reforecasting always produces a *proposed* updated `targets` table for the PM to review, never a silent overwrite — consistent with this design's existing posture (`--dry-run` as the default, `--accept` as an explicit step) and confirmed as the right posture by the PM: the actual monthly rhythm is that planners review the prior month's plan, adjust values for the current and future months themselves, and manually trigger the re-solve — reforecasting proposes a starting point for that review, it doesn't replace it.
+
+**Whether to act on it — the "hot fix" — is a judgment call, not an automatic trigger.** Confirmed cadence: planners solve at the end of month `M` for `M+1` forward and distribute by the 1st. `M`'s actuals land in the first week of `M+1`. *If* the resulting variance is significant, planners re-solve `M+1` (now in progress) incorporating the reforecast and re-send a revised assignment — a hot fix. If not, nothing happens until the next regular monthly cycle. No numeric threshold is defined for "significant"; it's left to planner judgment in v1. This keeps the project's total planned spend converging on its funded amount by PoP end even though no single month's target is held sacred, which is exactly the "modulated month by month... to spend to near zero by the end" pattern described as the normal operating mode.
 
 ### Lexicographic alternative
 
@@ -156,6 +160,18 @@ Slower (three solves) but produces defensible answers: "we hit the target, then 
 ## Infeasibility diagnostics
 
 A bare `infeasible` is useless to a program manager. The system never surfaces one.
+
+```mermaid
+flowchart TB
+    S["Solve"] --> Q{"Feasible?"}
+    Q -->|"yes"| W["Write hours_assigned,<br/>snapshot, report deltas"]
+    Q -->|"no"| E["Elastic re-solve:<br/>slack on every hard constraint"]
+    E --> R["Report binding set:<br/>nonzero slacks grouped<br/>by resource-month"]
+    R --> D["Driver line:<br/>which projects' hard<br/>minimums contributed"]
+
+    classDef decision fill:#3d2b1f,stroke:#c87f3f,color:#fff
+    class Q decision
+```
 
 **Elastic re-solve.** On infeasibility, rebuild with a slack variable on every hard constraint, penalized at a weight far above any other objective term:
 
@@ -181,7 +197,7 @@ INFEASIBLE. Minimum relaxation to reach feasibility:
 
 The last line is the part that gets acted on, and it is derived by grouping nonzero slacks by resource-month and listing which projects' hard minimums contribute.
 
-**IIS as a secondary tool.** An irreducible infeasible subsystem is more rigorous and less readable. Provide it behind `--iis` for the analyst, not in the default path. HiGHS and Gurobi both support it; CBC does not.
+**IIS as a secondary tool.** An irreducible infeasible subsystem is more rigorous and less readable. Provide it behind `--iis` for the analyst, not in the default path. SCIP supports it, but OR-Tools' `MPSolver` wrapper (the primary solve path, see `06-code-structure-and-dependencies.md`) doesn't expose it — `--iis` drops down to `PySCIPOpt` directly for this one path, an accepted extra dependency scoped to a rarely-used analyst tool.
 
 **No-cost extension (NCE) as a remediation option.** The notes ask for the solver to be able to recommend extending a project's period of performance with no additional funding when worker constraints otherwise can't be met. This is not yet modeled. Candidate approach: when the binding driver in the elastic re-solve is capacity contention concentrated near a project's `pop_end`, re-run the diagnostic with that project's `pop_end` relaxed by one or more months and report whether the binding set clears. This would be diagnostic-only in v1 — the tool reports "extending PROJ-C by 2 months resolves the binding constraint," it does not change `pop_end` itself. Scope and mechanics are open: `[OPEN-10]`.
 
@@ -204,10 +220,11 @@ Property tests matter more than example tests here, because the failure mode is 
 
 - **Feasibility monotonicity:** relaxing any bound never worsens the optimal objective.
 - **Capacity respected:** no person exceeds `cap` in any month, in any returned solution.
-- **Semi-continuity:** every nonzero `x` is at least its `hmin_h`, i.e. `hard_min[p,w,m] * cap[w,m]`.
+- **Semi-continuity:** every nonzero `x` is at least its `hard_min`.
 - **Fixed cells honored:** locked and closed-month cells match input exactly.
 - **Churn sanity:** re-solving with unchanged inputs returns the baseline unchanged.
 - **Fragmentation tiers:** no person exceeds `hard_maxproj` in any month; exceeding `soft_maxproj` only ever happens with a nonzero `frag` penalty charged.
 - **Rate agreement:** Python `loaded_rate()` matches the Grist formula across the full structure cross product, and against the `base_hourly x wrap_rate` decomposition.
+- **Reforecast conservation:** redistributing a month's variance across the remaining open months never changes the project's total planned-plus-actual spend, only its shape.
 
 The churn test is the regression canary. If it starts failing, either the model became degenerate or someone removed the stability term.
