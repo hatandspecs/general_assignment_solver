@@ -1,0 +1,14 @@
+[
+  {
+    "structure_id": "direct",
+    "rate_type": "project"
+  },
+  {
+    "structure_id": "oh_charged",
+    "rate_type": "oh"
+  },
+  {
+    "structure_id": "fee_charged",
+    "rate_type": "fee"
+  }
+]

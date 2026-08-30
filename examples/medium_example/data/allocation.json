@@ -1,0 +1,822 @@
+[
+  {
+    "project_id": "project_1",
+    "person_id": "person_41",
+    "month": "2027-01",
+    "hours_assigned": 31.14,
+    "hours_actual": 27.88,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_1",
+    "person_id": "person_32",
+    "month": "2027-01",
+    "hours_assigned": 34.09,
+    "hours_actual": 32.47,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_1",
+    "person_id": "person_43",
+    "month": "2027-01",
+    "hours_assigned": 45.63,
+    "hours_actual": 49.73,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_1",
+    "person_id": "person_41",
+    "month": "2027-02",
+    "hours_assigned": 38.66,
+    "hours_actual": 38.24,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_1",
+    "person_id": "person_32",
+    "month": "2027-02",
+    "hours_assigned": 36.7,
+    "hours_actual": 34.83,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_1",
+    "person_id": "person_43",
+    "month": "2027-02",
+    "hours_assigned": 44.1,
+    "hours_actual": 38.23,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_11",
+    "person_id": "person_43",
+    "month": "2027-02",
+    "hours_assigned": 34.89,
+    "hours_actual": 37.78,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_1",
+    "person_id": "person_26",
+    "month": "2027-02",
+    "hours_assigned": 37.73,
+    "hours_actual": 37.39,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_1",
+    "person_id": "person_9",
+    "month": "2027-02",
+    "hours_assigned": 94.75,
+    "hours_actual": 104.46,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_1",
+    "person_id": "person_34",
+    "month": "2027-02",
+    "hours_assigned": 100.01,
+    "hours_actual": 109.86,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_1",
+    "person_id": "person_35",
+    "month": "2027-02",
+    "hours_assigned": 85.2,
+    "hours_actual": 92.05,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_2",
+    "person_id": "person_36",
+    "month": "2027-01",
+    "hours_assigned": 12.09,
+    "hours_actual": 13.07,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_2",
+    "person_id": "person_29",
+    "month": "2027-01",
+    "hours_assigned": 42.04,
+    "hours_actual": 36.16,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_11",
+    "person_id": "person_29",
+    "month": "2027-01",
+    "hours_assigned": 35.12,
+    "hours_actual": 34.71,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_2",
+    "person_id": "person_36",
+    "month": "2027-02",
+    "hours_assigned": 8.23,
+    "hours_actual": 8.28,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_2",
+    "person_id": "person_29",
+    "month": "2027-02",
+    "hours_assigned": 36.41,
+    "hours_actual": 38.39,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_11",
+    "person_id": "person_29",
+    "month": "2027-02",
+    "hours_assigned": 45.32,
+    "hours_actual": 42.77,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_2",
+    "person_id": "person_30",
+    "month": "2027-02",
+    "hours_assigned": 23.33,
+    "hours_actual": 24.23,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_2",
+    "person_id": "person_44",
+    "month": "2027-02",
+    "hours_assigned": 119.24,
+    "hours_actual": 134.89,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_2",
+    "person_id": "person_28",
+    "month": "2027-02",
+    "hours_assigned": 86.13,
+    "hours_actual": 79.76,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_23",
+    "month": "2027-01",
+    "hours_assigned": 31.83,
+    "hours_actual": 28.95,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_39",
+    "month": "2027-01",
+    "hours_assigned": 148.42,
+    "hours_actual": 152.0,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_10",
+    "month": "2027-01",
+    "hours_assigned": 34.47,
+    "hours_actual": 30.47,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_23",
+    "month": "2027-02",
+    "hours_assigned": 57.14,
+    "hours_actual": 54.13,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_39",
+    "month": "2027-02",
+    "hours_assigned": 108.71,
+    "hours_actual": 101.41,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_10",
+    "month": "2027-02",
+    "hours_assigned": 39.41,
+    "hours_actual": 42.83,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_27",
+    "month": "2027-02",
+    "hours_assigned": 126.22,
+    "hours_actual": 108.88,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_16",
+    "month": "2027-02",
+    "hours_assigned": 40.83,
+    "hours_actual": 40.53,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_12",
+    "month": "2027-02",
+    "hours_assigned": 112.41,
+    "hours_actual": 108.07,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_3",
+    "person_id": "person_38",
+    "month": "2027-02",
+    "hours_assigned": 31.31,
+    "hours_actual": 28.09,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_4",
+    "person_id": "person_18",
+    "month": "2027-01",
+    "hours_assigned": 28.48,
+    "hours_actual": 29.49,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_4",
+    "person_id": "person_18",
+    "month": "2027-02",
+    "hours_assigned": 49.07,
+    "hours_actual": 50.91,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_18",
+    "month": "2027-02",
+    "hours_assigned": 102.93,
+    "hours_actual": 89.34,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_4",
+    "person_id": "person_1",
+    "month": "2027-02",
+    "hours_assigned": 138.44,
+    "hours_actual": 146.8,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_4",
+    "person_id": "person_49",
+    "month": "2027-02",
+    "hours_assigned": 58.26,
+    "hours_actual": 51.72,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_5",
+    "person_id": "person_2",
+    "month": "2027-01",
+    "hours_assigned": 31.82,
+    "hours_actual": 36.42,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_5",
+    "person_id": "person_22",
+    "month": "2027-01",
+    "hours_assigned": 129.13,
+    "hours_actual": 139.07,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_5",
+    "person_id": "person_2",
+    "month": "2027-02",
+    "hours_assigned": 44.59,
+    "hours_actual": 40.48,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_2",
+    "month": "2027-02",
+    "hours_assigned": 46.24,
+    "hours_actual": 48.87,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_5",
+    "person_id": "person_22",
+    "month": "2027-02",
+    "hours_assigned": 105.4,
+    "hours_actual": 93.85,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_5",
+    "person_id": "person_6",
+    "month": "2027-02",
+    "hours_assigned": 8.52,
+    "hours_actual": 8.48,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_5",
+    "person_id": "person_21",
+    "month": "2027-02",
+    "hours_assigned": 78.65,
+    "hours_actual": 73.81,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_6",
+    "person_id": "person_25",
+    "month": "2027-01",
+    "hours_assigned": 23.23,
+    "hours_actual": 21.07,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_6",
+    "person_id": "person_47",
+    "month": "2027-01",
+    "hours_assigned": 33.69,
+    "hours_actual": 32.15,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_6",
+    "person_id": "person_25",
+    "month": "2027-02",
+    "hours_assigned": 22.76,
+    "hours_actual": 21.23,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_6",
+    "person_id": "person_47",
+    "month": "2027-02",
+    "hours_assigned": 31.42,
+    "hours_actual": 35.33,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_6",
+    "person_id": "person_42",
+    "month": "2027-02",
+    "hours_assigned": 129.89,
+    "hours_actual": 113.09,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_6",
+    "person_id": "person_11",
+    "month": "2027-02",
+    "hours_assigned": 106.54,
+    "hours_actual": 100.01,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_7",
+    "person_id": "person_45",
+    "month": "2027-01",
+    "hours_assigned": 91.91,
+    "hours_actual": 88.25,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_7",
+    "person_id": "person_7",
+    "month": "2027-01",
+    "hours_assigned": 48.7,
+    "hours_actual": 50.72,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_7",
+    "person_id": "person_45",
+    "month": "2027-02",
+    "hours_assigned": 111.7,
+    "hours_actual": 101.16,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_7",
+    "person_id": "person_7",
+    "month": "2027-02",
+    "hours_assigned": 42.27,
+    "hours_actual": 46.79,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_7",
+    "person_id": "person_17",
+    "month": "2027-02",
+    "hours_assigned": 135.27,
+    "hours_actual": 124.67,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_7",
+    "person_id": "person_37",
+    "month": "2027-02",
+    "hours_assigned": 12.96,
+    "hours_actual": 13.11,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_11",
+    "person_id": "person_37",
+    "month": "2027-02",
+    "hours_assigned": 25.04,
+    "hours_actual": 24.19,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_7",
+    "person_id": "person_5",
+    "month": "2027-02",
+    "hours_assigned": 56.16,
+    "hours_actual": 57.03,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_11",
+    "person_id": "person_5",
+    "month": "2027-02",
+    "hours_assigned": 90.33,
+    "hours_actual": 93.39,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_8",
+    "person_id": "person_14",
+    "month": "2027-01",
+    "hours_assigned": 106.14,
+    "hours_actual": 110.63,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_8",
+    "person_id": "person_48",
+    "month": "2027-01",
+    "hours_assigned": 122.54,
+    "hours_actual": 123.39,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_8",
+    "person_id": "person_14",
+    "month": "2027-02",
+    "hours_assigned": 92.52,
+    "hours_actual": 82.24,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_14",
+    "month": "2027-02",
+    "hours_assigned": 41.36,
+    "hours_actual": 45.99,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_8",
+    "person_id": "person_48",
+    "month": "2027-02",
+    "hours_assigned": 102.59,
+    "hours_actual": 102.14,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_8",
+    "person_id": "person_24",
+    "month": "2027-02",
+    "hours_assigned": 10.82,
+    "hours_actual": 11.05,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_8",
+    "person_id": "person_3",
+    "month": "2027-02",
+    "hours_assigned": 35.22,
+    "hours_actual": 36.89,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_46",
+    "month": "2027-01",
+    "hours_assigned": 32.57,
+    "hours_actual": 34.54,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_8",
+    "month": "2027-01",
+    "hours_assigned": 45.78,
+    "hours_actual": 43.94,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_31",
+    "month": "2027-01",
+    "hours_assigned": 11.66,
+    "hours_actual": 10.16,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_46",
+    "month": "2027-02",
+    "hours_assigned": 39.14,
+    "hours_actual": 35.72,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_8",
+    "month": "2027-02",
+    "hours_assigned": 46.66,
+    "hours_actual": 52.12,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_31",
+    "month": "2027-02",
+    "hours_assigned": 10.89,
+    "hours_actual": 11.87,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_4",
+    "month": "2027-02",
+    "hours_assigned": 33.17,
+    "hours_actual": 33.75,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_13",
+    "month": "2027-02",
+    "hours_assigned": 126.83,
+    "hours_actual": 123.63,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_20",
+    "month": "2027-02",
+    "hours_assigned": 90.12,
+    "hours_actual": 95.76,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_9",
+    "person_id": "person_19",
+    "month": "2027-02",
+    "hours_assigned": 103.47,
+    "hours_actual": 96.2,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_50",
+    "month": "2027-01",
+    "hours_assigned": 94.79,
+    "hours_actual": 82.57,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_33",
+    "month": "2027-01",
+    "hours_assigned": 87.45,
+    "hours_actual": 99.11,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_40",
+    "month": "2027-01",
+    "hours_assigned": 40.5,
+    "hours_actual": 35.6,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_50",
+    "month": "2027-02",
+    "hours_assigned": 78.75,
+    "hours_actual": 79.5,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_33",
+    "month": "2027-02",
+    "hours_assigned": 84.73,
+    "hours_actual": 85.4,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_40",
+    "month": "2027-02",
+    "hours_assigned": 35.71,
+    "hours_actual": 37.05,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_10",
+    "person_id": "person_15",
+    "month": "2027-02",
+    "hours_assigned": 28.74,
+    "hours_actual": 30.89,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  },
+  {
+    "project_id": "project_11",
+    "person_id": "person_37",
+    "month": "2027-01",
+    "hours_assigned": 23.66,
+    "hours_actual": 20.86,
+    "locked": false,
+    "lock_note": null,
+    "solve_id": "synthetic-history"
+  }
+]

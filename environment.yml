@@ -1,0 +1,19 @@
+name: general_assignment_solver
+channels:
+  - conda-forge
+dependencies:
+  - python=3.11
+  - pip
+  - pip:
+      - pydantic>=2.7,<3
+      - ortools>=9.10
+      - polars>=1.0
+      - python-dateutil>=2.9
+      - typer>=0.12
+      - rich>=13
+      - tomli-w>=1.0
+      - holidays>=0.55
+      - openpyxl>=3.1
+      - pytest>=8.0
+      - hypothesis>=6.100
+      - -e .

@@ -1,0 +1,4622 @@
+[
+  {
+    "project_id": "project_1",
+    "month": "2027-01",
+    "labor_spend_target": 13319.18,
+    "target_tolerance": 665.96,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-02",
+    "labor_spend_target": 48888.89,
+    "target_tolerance": 2444.44,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-03",
+    "labor_spend_target": 49009.53,
+    "target_tolerance": 2450.48,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-04",
+    "labor_spend_target": 45644.37,
+    "target_tolerance": 2282.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-05",
+    "labor_spend_target": 51655.13,
+    "target_tolerance": 2582.76,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-06",
+    "labor_spend_target": 55211.16,
+    "target_tolerance": 2760.56,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-07",
+    "labor_spend_target": 46095.5,
+    "target_tolerance": 2304.77,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-08",
+    "labor_spend_target": 53182.31,
+    "target_tolerance": 2659.12,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-09",
+    "labor_spend_target": 46162.64,
+    "target_tolerance": 2308.13,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-10",
+    "labor_spend_target": 55361.98,
+    "target_tolerance": 2768.1,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-11",
+    "labor_spend_target": 53084.75,
+    "target_tolerance": 2654.24,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2027-12",
+    "labor_spend_target": 55200.54,
+    "target_tolerance": 2760.03,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1",
+    "month": "2028-01",
+    "labor_spend_target": 49314.45,
+    "target_tolerance": 2465.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-02",
+    "labor_spend_target": 12412.03,
+    "target_tolerance": 620.6,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-03",
+    "labor_spend_target": 46433.75,
+    "target_tolerance": 2321.69,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-04",
+    "labor_spend_target": 56204.55,
+    "target_tolerance": 2810.23,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-05",
+    "labor_spend_target": 51580.75,
+    "target_tolerance": 2579.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-06",
+    "labor_spend_target": 48973.92,
+    "target_tolerance": 2448.7,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-07",
+    "labor_spend_target": 48333.85,
+    "target_tolerance": 2416.69,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-08",
+    "labor_spend_target": 49126.03,
+    "target_tolerance": 2456.3,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-09",
+    "labor_spend_target": 57709.62,
+    "target_tolerance": 2885.48,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-10",
+    "labor_spend_target": 56257.7,
+    "target_tolerance": 2812.88,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-11",
+    "labor_spend_target": 61353.31,
+    "target_tolerance": 3067.67,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2028-12",
+    "labor_spend_target": 54372.89,
+    "target_tolerance": 2718.64,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2029-01",
+    "labor_spend_target": 48171.95,
+    "target_tolerance": 2408.6,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2029-02",
+    "labor_spend_target": 55196.94,
+    "target_tolerance": 2759.85,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2029-03",
+    "labor_spend_target": 58722.68,
+    "target_tolerance": 2936.13,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2029-04",
+    "labor_spend_target": 50444.44,
+    "target_tolerance": 2522.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2029-05",
+    "labor_spend_target": 58527.6,
+    "target_tolerance": 2926.38,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2029-06",
+    "labor_spend_target": 55152.28,
+    "target_tolerance": 2757.61,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1b",
+    "month": "2029-07",
+    "labor_spend_target": 59290.47,
+    "target_tolerance": 2964.52,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1c",
+    "month": "2029-08",
+    "labor_spend_target": 15400.03,
+    "target_tolerance": 770.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1c",
+    "month": "2029-09",
+    "labor_spend_target": 54810.92,
+    "target_tolerance": 2740.55,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1c",
+    "month": "2029-10",
+    "labor_spend_target": 51481.5,
+    "target_tolerance": 2574.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1c",
+    "month": "2029-11",
+    "labor_spend_target": 58091.43,
+    "target_tolerance": 2904.57,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1c",
+    "month": "2029-12",
+    "labor_spend_target": 56555.72,
+    "target_tolerance": 2827.79,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1c",
+    "month": "2030-01",
+    "labor_spend_target": 55333.52,
+    "target_tolerance": 2766.68,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1c",
+    "month": "2030-02",
+    "labor_spend_target": 53244.89,
+    "target_tolerance": 2662.24,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1c",
+    "month": "2030-03",
+    "labor_spend_target": 52873.61,
+    "target_tolerance": 2643.68,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2030-04",
+    "labor_spend_target": 13576.25,
+    "target_tolerance": 678.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2030-05",
+    "labor_spend_target": 52967.3,
+    "target_tolerance": 2648.36,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2030-06",
+    "labor_spend_target": 60465.15,
+    "target_tolerance": 3023.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2030-07",
+    "labor_spend_target": 55685.21,
+    "target_tolerance": 2784.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2030-08",
+    "labor_spend_target": 53620.72,
+    "target_tolerance": 2681.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2030-09",
+    "labor_spend_target": 54610.12,
+    "target_tolerance": 2730.51,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2030-10",
+    "labor_spend_target": 55402.81,
+    "target_tolerance": 2770.14,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2030-11",
+    "labor_spend_target": 57821.51,
+    "target_tolerance": 2891.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2030-12",
+    "labor_spend_target": 56496.56,
+    "target_tolerance": 2824.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2031-01",
+    "labor_spend_target": 61354.33,
+    "target_tolerance": 3067.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2031-02",
+    "labor_spend_target": 52108.66,
+    "target_tolerance": 2605.43,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2031-03",
+    "labor_spend_target": 53415.6,
+    "target_tolerance": 2670.78,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2031-04",
+    "labor_spend_target": 55625.6,
+    "target_tolerance": 2781.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2031-05",
+    "labor_spend_target": 57805.7,
+    "target_tolerance": 2890.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2031-06",
+    "labor_spend_target": 53061.38,
+    "target_tolerance": 2653.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1d",
+    "month": "2031-07",
+    "labor_spend_target": 58051.28,
+    "target_tolerance": 2902.56,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1e",
+    "month": "2031-08",
+    "labor_spend_target": 13668.79,
+    "target_tolerance": 683.44,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1e",
+    "month": "2031-09",
+    "labor_spend_target": 54225.84,
+    "target_tolerance": 2711.29,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1e",
+    "month": "2031-10",
+    "labor_spend_target": 61517.11,
+    "target_tolerance": 3075.86,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1e",
+    "month": "2031-11",
+    "labor_spend_target": 57514.81,
+    "target_tolerance": 2875.74,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_1e",
+    "month": "2031-12",
+    "labor_spend_target": 63594.22,
+    "target_tolerance": 3179.71,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-01",
+    "labor_spend_target": 3769.9,
+    "target_tolerance": 188.49,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-02",
+    "labor_spend_target": 32427.36,
+    "target_tolerance": 1621.37,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-03",
+    "labor_spend_target": 35269.85,
+    "target_tolerance": 1763.49,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-04",
+    "labor_spend_target": 36306.08,
+    "target_tolerance": 1815.3,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-05",
+    "labor_spend_target": 38503.65,
+    "target_tolerance": 1925.18,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-06",
+    "labor_spend_target": 38524.07,
+    "target_tolerance": 1926.2,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-07",
+    "labor_spend_target": 34976.56,
+    "target_tolerance": 1748.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-08",
+    "labor_spend_target": 27822.8,
+    "target_tolerance": 1391.14,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-09",
+    "labor_spend_target": 38784.93,
+    "target_tolerance": 1939.25,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-10",
+    "labor_spend_target": 29892.14,
+    "target_tolerance": 1494.61,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-11",
+    "labor_spend_target": 35149.81,
+    "target_tolerance": 1757.49,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2027-12",
+    "labor_spend_target": 37777.7,
+    "target_tolerance": 1888.88,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2028-01",
+    "labor_spend_target": 33779.87,
+    "target_tolerance": 1688.99,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2028-02",
+    "labor_spend_target": 35424.76,
+    "target_tolerance": 1771.24,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2028-03",
+    "labor_spend_target": 35844.84,
+    "target_tolerance": 1792.24,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2028-04",
+    "labor_spend_target": 28654.47,
+    "target_tolerance": 1432.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2028-05",
+    "labor_spend_target": 33024.29,
+    "target_tolerance": 1651.21,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2",
+    "month": "2028-06",
+    "labor_spend_target": 31808.71,
+    "target_tolerance": 1590.44,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2b",
+    "month": "2028-07",
+    "labor_spend_target": 3385.6,
+    "target_tolerance": 169.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2b",
+    "month": "2028-08",
+    "labor_spend_target": 29255.33,
+    "target_tolerance": 1462.77,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2b",
+    "month": "2028-09",
+    "labor_spend_target": 35905.05,
+    "target_tolerance": 1795.25,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2b",
+    "month": "2028-10",
+    "labor_spend_target": 37726.65,
+    "target_tolerance": 1886.33,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2b",
+    "month": "2028-11",
+    "labor_spend_target": 33423.46,
+    "target_tolerance": 1671.17,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2b",
+    "month": "2028-12",
+    "labor_spend_target": 32300.62,
+    "target_tolerance": 1615.03,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2b",
+    "month": "2029-01",
+    "labor_spend_target": 36738.81,
+    "target_tolerance": 1836.94,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2b",
+    "month": "2029-02",
+    "labor_spend_target": 40032.37,
+    "target_tolerance": 2001.62,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2b",
+    "month": "2029-03",
+    "labor_spend_target": 33138.32,
+    "target_tolerance": 1656.92,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2029-04",
+    "labor_spend_target": 3578.11,
+    "target_tolerance": 178.91,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2029-05",
+    "labor_spend_target": 36019.48,
+    "target_tolerance": 1800.97,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2029-06",
+    "labor_spend_target": 37294.99,
+    "target_tolerance": 1864.75,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2029-07",
+    "labor_spend_target": 32686.0,
+    "target_tolerance": 1634.3,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2029-08",
+    "labor_spend_target": 35179.14,
+    "target_tolerance": 1758.96,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2029-09",
+    "labor_spend_target": 35092.0,
+    "target_tolerance": 1754.6,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2029-10",
+    "labor_spend_target": 38982.18,
+    "target_tolerance": 1949.11,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2029-11",
+    "labor_spend_target": 36594.27,
+    "target_tolerance": 1829.71,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2029-12",
+    "labor_spend_target": 40625.44,
+    "target_tolerance": 2031.27,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2030-01",
+    "labor_spend_target": 41274.29,
+    "target_tolerance": 2063.71,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2030-02",
+    "labor_spend_target": 34836.18,
+    "target_tolerance": 1741.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2030-03",
+    "labor_spend_target": 35530.16,
+    "target_tolerance": 1776.51,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2030-04",
+    "labor_spend_target": 31211.64,
+    "target_tolerance": 1560.58,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2030-05",
+    "labor_spend_target": 42861.58,
+    "target_tolerance": 2143.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2030-06",
+    "labor_spend_target": 31243.54,
+    "target_tolerance": 1562.18,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2030-07",
+    "labor_spend_target": 34000.73,
+    "target_tolerance": 1700.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2030-08",
+    "labor_spend_target": 37843.82,
+    "target_tolerance": 1892.19,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2c",
+    "month": "2030-09",
+    "labor_spend_target": 32708.65,
+    "target_tolerance": 1635.43,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2030-10",
+    "labor_spend_target": 4715.8,
+    "target_tolerance": 235.79,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2030-11",
+    "labor_spend_target": 35978.3,
+    "target_tolerance": 1798.92,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2030-12",
+    "labor_spend_target": 33610.86,
+    "target_tolerance": 1680.54,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-01",
+    "labor_spend_target": 42560.84,
+    "target_tolerance": 2128.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-02",
+    "labor_spend_target": 36668.15,
+    "target_tolerance": 1833.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-03",
+    "labor_spend_target": 33210.61,
+    "target_tolerance": 1660.53,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-04",
+    "labor_spend_target": 37665.14,
+    "target_tolerance": 1883.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-05",
+    "labor_spend_target": 35376.9,
+    "target_tolerance": 1768.84,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-06",
+    "labor_spend_target": 35583.01,
+    "target_tolerance": 1779.15,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-07",
+    "labor_spend_target": 44591.28,
+    "target_tolerance": 2229.56,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-08",
+    "labor_spend_target": 37132.35,
+    "target_tolerance": 1856.62,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-09",
+    "labor_spend_target": 38716.69,
+    "target_tolerance": 1935.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-10",
+    "labor_spend_target": 41014.12,
+    "target_tolerance": 2050.71,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-11",
+    "labor_spend_target": 42450.6,
+    "target_tolerance": 2122.53,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_2d",
+    "month": "2031-12",
+    "labor_spend_target": 36556.68,
+    "target_tolerance": 1827.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-01",
+    "labor_spend_target": 21687.59,
+    "target_tolerance": 1084.38,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-02",
+    "labor_spend_target": 51402.46,
+    "target_tolerance": 2570.12,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-03",
+    "labor_spend_target": 44499.1,
+    "target_tolerance": 2224.96,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-04",
+    "labor_spend_target": 52543.21,
+    "target_tolerance": 2627.16,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-05",
+    "labor_spend_target": 42157.23,
+    "target_tolerance": 2107.86,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-06",
+    "labor_spend_target": 47335.68,
+    "target_tolerance": 2366.78,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-07",
+    "labor_spend_target": 44691.34,
+    "target_tolerance": 2234.57,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-08",
+    "labor_spend_target": 46318.43,
+    "target_tolerance": 2315.92,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-09",
+    "labor_spend_target": 44197.51,
+    "target_tolerance": 2209.88,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-10",
+    "labor_spend_target": 47454.73,
+    "target_tolerance": 2372.74,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-11",
+    "labor_spend_target": 47306.45,
+    "target_tolerance": 2365.32,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3",
+    "month": "2027-12",
+    "labor_spend_target": 44183.86,
+    "target_tolerance": 2209.19,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-01",
+    "labor_spend_target": 20379.28,
+    "target_tolerance": 1018.96,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-02",
+    "labor_spend_target": 47670.59,
+    "target_tolerance": 2383.53,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-03",
+    "labor_spend_target": 46775.65,
+    "target_tolerance": 2338.78,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-04",
+    "labor_spend_target": 53040.74,
+    "target_tolerance": 2652.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-05",
+    "labor_spend_target": 53727.69,
+    "target_tolerance": 2686.38,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-06",
+    "labor_spend_target": 50168.77,
+    "target_tolerance": 2508.44,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-07",
+    "labor_spend_target": 44580.61,
+    "target_tolerance": 2229.03,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-08",
+    "labor_spend_target": 48705.36,
+    "target_tolerance": 2435.27,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-09",
+    "labor_spend_target": 51055.09,
+    "target_tolerance": 2552.75,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-10",
+    "labor_spend_target": 46735.82,
+    "target_tolerance": 2336.79,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-11",
+    "labor_spend_target": 47175.18,
+    "target_tolerance": 2358.76,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2028-12",
+    "labor_spend_target": 51738.59,
+    "target_tolerance": 2586.93,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2029-01",
+    "labor_spend_target": 44814.02,
+    "target_tolerance": 2240.7,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2029-02",
+    "labor_spend_target": 58035.17,
+    "target_tolerance": 2901.76,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2029-03",
+    "labor_spend_target": 50947.21,
+    "target_tolerance": 2547.36,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3b",
+    "month": "2029-04",
+    "labor_spend_target": 54774.54,
+    "target_tolerance": 2738.73,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2029-05",
+    "labor_spend_target": 25570.14,
+    "target_tolerance": 1278.51,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2029-06",
+    "labor_spend_target": 47777.86,
+    "target_tolerance": 2388.89,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2029-07",
+    "labor_spend_target": 50037.73,
+    "target_tolerance": 2501.89,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2029-08",
+    "labor_spend_target": 54691.89,
+    "target_tolerance": 2734.59,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2029-09",
+    "labor_spend_target": 49785.84,
+    "target_tolerance": 2489.29,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2029-10",
+    "labor_spend_target": 51745.01,
+    "target_tolerance": 2587.25,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2029-11",
+    "labor_spend_target": 50418.13,
+    "target_tolerance": 2520.91,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2029-12",
+    "labor_spend_target": 52193.69,
+    "target_tolerance": 2609.68,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-01",
+    "labor_spend_target": 50716.03,
+    "target_tolerance": 2535.8,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-02",
+    "labor_spend_target": 57144.43,
+    "target_tolerance": 2857.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-03",
+    "labor_spend_target": 52769.79,
+    "target_tolerance": 2638.49,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-04",
+    "labor_spend_target": 54206.22,
+    "target_tolerance": 2710.31,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-05",
+    "labor_spend_target": 53460.16,
+    "target_tolerance": 2673.01,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-06",
+    "labor_spend_target": 51975.06,
+    "target_tolerance": 2598.75,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-07",
+    "labor_spend_target": 45869.29,
+    "target_tolerance": 2293.46,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-08",
+    "labor_spend_target": 50411.95,
+    "target_tolerance": 2520.6,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-09",
+    "labor_spend_target": 46670.22,
+    "target_tolerance": 2333.51,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3c",
+    "month": "2030-10",
+    "labor_spend_target": 57098.52,
+    "target_tolerance": 2854.93,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3d",
+    "month": "2030-11",
+    "labor_spend_target": 21087.84,
+    "target_tolerance": 1054.39,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3d",
+    "month": "2030-12",
+    "labor_spend_target": 46330.76,
+    "target_tolerance": 2316.54,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3d",
+    "month": "2031-01",
+    "labor_spend_target": 51504.63,
+    "target_tolerance": 2575.23,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3d",
+    "month": "2031-02",
+    "labor_spend_target": 52032.15,
+    "target_tolerance": 2601.61,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3d",
+    "month": "2031-03",
+    "labor_spend_target": 55094.34,
+    "target_tolerance": 2754.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3d",
+    "month": "2031-04",
+    "labor_spend_target": 47546.17,
+    "target_tolerance": 2377.31,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3d",
+    "month": "2031-05",
+    "labor_spend_target": 55431.2,
+    "target_tolerance": 2771.56,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3d",
+    "month": "2031-06",
+    "labor_spend_target": 50532.83,
+    "target_tolerance": 2526.64,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3d",
+    "month": "2031-07",
+    "labor_spend_target": 53999.7,
+    "target_tolerance": 2699.99,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3e",
+    "month": "2031-08",
+    "labor_spend_target": 24735.75,
+    "target_tolerance": 1236.79,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3e",
+    "month": "2031-09",
+    "labor_spend_target": 51589.27,
+    "target_tolerance": 2579.46,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3e",
+    "month": "2031-10",
+    "labor_spend_target": 50952.78,
+    "target_tolerance": 2547.64,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3e",
+    "month": "2031-11",
+    "labor_spend_target": 46913.21,
+    "target_tolerance": 2345.66,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_3e",
+    "month": "2031-12",
+    "labor_spend_target": 48272.54,
+    "target_tolerance": 2413.63,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4",
+    "month": "2027-01",
+    "labor_spend_target": 3071.31,
+    "target_tolerance": 153.57,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4",
+    "month": "2027-02",
+    "labor_spend_target": 21713.93,
+    "target_tolerance": 1085.7,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4",
+    "month": "2027-03",
+    "labor_spend_target": 15813.31,
+    "target_tolerance": 790.67,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4",
+    "month": "2027-04",
+    "labor_spend_target": 15494.89,
+    "target_tolerance": 774.74,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4",
+    "month": "2027-05",
+    "labor_spend_target": 15557.61,
+    "target_tolerance": 777.88,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4",
+    "month": "2027-06",
+    "labor_spend_target": 14753.21,
+    "target_tolerance": 737.66,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4",
+    "month": "2027-07",
+    "labor_spend_target": 17026.39,
+    "target_tolerance": 851.32,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2027-08",
+    "labor_spend_target": 3307.97,
+    "target_tolerance": 165.4,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2027-09",
+    "labor_spend_target": 16606.56,
+    "target_tolerance": 830.33,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2027-10",
+    "labor_spend_target": 18238.11,
+    "target_tolerance": 911.91,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2027-11",
+    "labor_spend_target": 17158.91,
+    "target_tolerance": 857.95,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2027-12",
+    "labor_spend_target": 18798.36,
+    "target_tolerance": 939.92,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-01",
+    "labor_spend_target": 17398.98,
+    "target_tolerance": 869.95,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-02",
+    "labor_spend_target": 20096.81,
+    "target_tolerance": 1004.84,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-03",
+    "labor_spend_target": 17334.99,
+    "target_tolerance": 866.75,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-04",
+    "labor_spend_target": 15976.54,
+    "target_tolerance": 798.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-05",
+    "labor_spend_target": 16336.14,
+    "target_tolerance": 816.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-06",
+    "labor_spend_target": 17890.58,
+    "target_tolerance": 894.53,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-07",
+    "labor_spend_target": 20062.16,
+    "target_tolerance": 1003.11,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-08",
+    "labor_spend_target": 18229.03,
+    "target_tolerance": 911.45,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-09",
+    "labor_spend_target": 19024.5,
+    "target_tolerance": 951.23,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-10",
+    "labor_spend_target": 18509.71,
+    "target_tolerance": 925.49,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4b",
+    "month": "2028-11",
+    "labor_spend_target": 17928.75,
+    "target_tolerance": 896.44,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2028-12",
+    "labor_spend_target": 5069.24,
+    "target_tolerance": 253.46,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-01",
+    "labor_spend_target": 18908.42,
+    "target_tolerance": 945.42,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-02",
+    "labor_spend_target": 17567.5,
+    "target_tolerance": 878.38,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-03",
+    "labor_spend_target": 20189.77,
+    "target_tolerance": 1009.49,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-04",
+    "labor_spend_target": 19730.24,
+    "target_tolerance": 986.51,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-05",
+    "labor_spend_target": 17175.03,
+    "target_tolerance": 858.75,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-06",
+    "labor_spend_target": 18919.28,
+    "target_tolerance": 945.96,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-07",
+    "labor_spend_target": 18271.45,
+    "target_tolerance": 913.57,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-08",
+    "labor_spend_target": 18966.79,
+    "target_tolerance": 948.34,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-09",
+    "labor_spend_target": 17260.14,
+    "target_tolerance": 863.01,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4c",
+    "month": "2029-10",
+    "labor_spend_target": 17908.47,
+    "target_tolerance": 895.42,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2029-11",
+    "labor_spend_target": 4828.52,
+    "target_tolerance": 241.43,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2029-12",
+    "labor_spend_target": 18128.06,
+    "target_tolerance": 906.4,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-01",
+    "labor_spend_target": 19734.04,
+    "target_tolerance": 986.7,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-02",
+    "labor_spend_target": 14596.23,
+    "target_tolerance": 729.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-03",
+    "labor_spend_target": 18763.97,
+    "target_tolerance": 938.2,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-04",
+    "labor_spend_target": 17679.17,
+    "target_tolerance": 883.96,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-05",
+    "labor_spend_target": 17108.29,
+    "target_tolerance": 855.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-06",
+    "labor_spend_target": 18936.14,
+    "target_tolerance": 946.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-07",
+    "labor_spend_target": 17551.57,
+    "target_tolerance": 877.58,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-08",
+    "labor_spend_target": 18566.79,
+    "target_tolerance": 928.34,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-09",
+    "labor_spend_target": 18679.44,
+    "target_tolerance": 933.97,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-10",
+    "labor_spend_target": 14940.45,
+    "target_tolerance": 747.02,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-11",
+    "labor_spend_target": 19392.23,
+    "target_tolerance": 969.61,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2030-12",
+    "labor_spend_target": 17241.16,
+    "target_tolerance": 862.06,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4d",
+    "month": "2031-01",
+    "labor_spend_target": 16582.29,
+    "target_tolerance": 829.11,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-02",
+    "labor_spend_target": 3588.83,
+    "target_tolerance": 179.44,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-03",
+    "labor_spend_target": 18884.45,
+    "target_tolerance": 944.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-04",
+    "labor_spend_target": 19612.65,
+    "target_tolerance": 980.63,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-05",
+    "labor_spend_target": 16728.93,
+    "target_tolerance": 836.45,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-06",
+    "labor_spend_target": 16494.85,
+    "target_tolerance": 824.74,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-07",
+    "labor_spend_target": 19895.51,
+    "target_tolerance": 994.78,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-08",
+    "labor_spend_target": 20248.11,
+    "target_tolerance": 1012.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-09",
+    "labor_spend_target": 19917.25,
+    "target_tolerance": 995.86,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-10",
+    "labor_spend_target": 22000.92,
+    "target_tolerance": 1100.05,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-11",
+    "labor_spend_target": 17672.42,
+    "target_tolerance": 883.62,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_4e",
+    "month": "2031-12",
+    "labor_spend_target": 15832.81,
+    "target_tolerance": 791.64,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5",
+    "month": "2027-01",
+    "labor_spend_target": 20780.85,
+    "target_tolerance": 1039.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5",
+    "month": "2027-02",
+    "labor_spend_target": 27709.63,
+    "target_tolerance": 1385.48,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5",
+    "month": "2027-03",
+    "labor_spend_target": 30455.42,
+    "target_tolerance": 1522.77,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5",
+    "month": "2027-04",
+    "labor_spend_target": 29092.45,
+    "target_tolerance": 1454.62,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5",
+    "month": "2027-05",
+    "labor_spend_target": 27441.85,
+    "target_tolerance": 1372.09,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5",
+    "month": "2027-06",
+    "labor_spend_target": 27306.48,
+    "target_tolerance": 1365.32,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5",
+    "month": "2027-07",
+    "labor_spend_target": 28268.84,
+    "target_tolerance": 1413.44,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5",
+    "month": "2027-08",
+    "labor_spend_target": 26815.6,
+    "target_tolerance": 1340.78,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2027-09",
+    "labor_spend_target": 18065.21,
+    "target_tolerance": 903.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2027-10",
+    "labor_spend_target": 28985.67,
+    "target_tolerance": 1449.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2027-11",
+    "labor_spend_target": 30719.05,
+    "target_tolerance": 1535.95,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2027-12",
+    "labor_spend_target": 30883.95,
+    "target_tolerance": 1544.2,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2028-01",
+    "labor_spend_target": 26585.57,
+    "target_tolerance": 1329.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2028-02",
+    "labor_spend_target": 28365.59,
+    "target_tolerance": 1418.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2028-03",
+    "labor_spend_target": 32773.22,
+    "target_tolerance": 1638.66,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2028-04",
+    "labor_spend_target": 31164.57,
+    "target_tolerance": 1558.23,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2028-05",
+    "labor_spend_target": 31159.4,
+    "target_tolerance": 1557.97,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5b",
+    "month": "2028-06",
+    "labor_spend_target": 29307.35,
+    "target_tolerance": 1465.37,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2028-07",
+    "labor_spend_target": 17462.51,
+    "target_tolerance": 873.13,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2028-08",
+    "labor_spend_target": 28244.65,
+    "target_tolerance": 1412.23,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2028-09",
+    "labor_spend_target": 30733.9,
+    "target_tolerance": 1536.7,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2028-10",
+    "labor_spend_target": 34764.91,
+    "target_tolerance": 1738.25,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2028-11",
+    "labor_spend_target": 37273.97,
+    "target_tolerance": 1863.7,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2028-12",
+    "labor_spend_target": 27817.9,
+    "target_tolerance": 1390.9,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2029-01",
+    "labor_spend_target": 35638.79,
+    "target_tolerance": 1781.94,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2029-02",
+    "labor_spend_target": 31336.74,
+    "target_tolerance": 1566.84,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2029-03",
+    "labor_spend_target": 30910.97,
+    "target_tolerance": 1545.55,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5c",
+    "month": "2029-04",
+    "labor_spend_target": 29060.07,
+    "target_tolerance": 1453.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2029-05",
+    "labor_spend_target": 20564.66,
+    "target_tolerance": 1028.23,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2029-06",
+    "labor_spend_target": 33916.37,
+    "target_tolerance": 1695.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2029-07",
+    "labor_spend_target": 30494.77,
+    "target_tolerance": 1524.74,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2029-08",
+    "labor_spend_target": 27314.72,
+    "target_tolerance": 1365.74,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2029-09",
+    "labor_spend_target": 33807.39,
+    "target_tolerance": 1690.37,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2029-10",
+    "labor_spend_target": 32761.32,
+    "target_tolerance": 1638.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2029-11",
+    "labor_spend_target": 27480.01,
+    "target_tolerance": 1374.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2029-12",
+    "labor_spend_target": 32353.91,
+    "target_tolerance": 1617.7,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2030-01",
+    "labor_spend_target": 28776.6,
+    "target_tolerance": 1438.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2030-02",
+    "labor_spend_target": 28588.03,
+    "target_tolerance": 1429.4,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2030-03",
+    "labor_spend_target": 31767.08,
+    "target_tolerance": 1588.35,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2030-04",
+    "labor_spend_target": 31139.91,
+    "target_tolerance": 1557.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2030-05",
+    "labor_spend_target": 30931.8,
+    "target_tolerance": 1546.59,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2030-06",
+    "labor_spend_target": 29167.29,
+    "target_tolerance": 1458.36,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2030-07",
+    "labor_spend_target": 33903.57,
+    "target_tolerance": 1695.18,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5d",
+    "month": "2030-08",
+    "labor_spend_target": 26445.75,
+    "target_tolerance": 1322.29,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2030-09",
+    "labor_spend_target": 17790.39,
+    "target_tolerance": 889.52,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2030-10",
+    "labor_spend_target": 35341.58,
+    "target_tolerance": 1767.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2030-11",
+    "labor_spend_target": 27448.03,
+    "target_tolerance": 1372.4,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2030-12",
+    "labor_spend_target": 26856.39,
+    "target_tolerance": 1342.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-01",
+    "labor_spend_target": 32313.73,
+    "target_tolerance": 1615.69,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-02",
+    "labor_spend_target": 32921.02,
+    "target_tolerance": 1646.05,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-03",
+    "labor_spend_target": 34656.69,
+    "target_tolerance": 1732.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-04",
+    "labor_spend_target": 25707.48,
+    "target_tolerance": 1285.37,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-05",
+    "labor_spend_target": 33726.77,
+    "target_tolerance": 1686.34,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-06",
+    "labor_spend_target": 34211.43,
+    "target_tolerance": 1710.57,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-07",
+    "labor_spend_target": 31949.64,
+    "target_tolerance": 1597.48,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-08",
+    "labor_spend_target": 35710.38,
+    "target_tolerance": 1785.52,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-09",
+    "labor_spend_target": 31907.31,
+    "target_tolerance": 1595.37,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-10",
+    "labor_spend_target": 37665.16,
+    "target_tolerance": 1883.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-11",
+    "labor_spend_target": 35421.31,
+    "target_tolerance": 1771.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_5e",
+    "month": "2031-12",
+    "labor_spend_target": 36184.78,
+    "target_tolerance": 1809.24,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-01",
+    "labor_spend_target": 9445.21,
+    "target_tolerance": 472.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-02",
+    "labor_spend_target": 51019.31,
+    "target_tolerance": 2550.97,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-03",
+    "labor_spend_target": 51862.79,
+    "target_tolerance": 2593.14,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-04",
+    "labor_spend_target": 49444.49,
+    "target_tolerance": 2472.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-05",
+    "labor_spend_target": 48793.06,
+    "target_tolerance": 2439.65,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-06",
+    "labor_spend_target": 54692.6,
+    "target_tolerance": 2734.63,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-07",
+    "labor_spend_target": 49121.55,
+    "target_tolerance": 2456.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-08",
+    "labor_spend_target": 40844.35,
+    "target_tolerance": 2042.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-09",
+    "labor_spend_target": 46094.29,
+    "target_tolerance": 2304.71,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-10",
+    "labor_spend_target": 50928.66,
+    "target_tolerance": 2546.43,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6",
+    "month": "2027-11",
+    "labor_spend_target": 50533.54,
+    "target_tolerance": 2526.68,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6b",
+    "month": "2027-12",
+    "labor_spend_target": 10812.84,
+    "target_tolerance": 540.64,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6b",
+    "month": "2028-01",
+    "labor_spend_target": 47409.99,
+    "target_tolerance": 2370.5,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6b",
+    "month": "2028-02",
+    "labor_spend_target": 49045.53,
+    "target_tolerance": 2452.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6b",
+    "month": "2028-03",
+    "labor_spend_target": 45250.6,
+    "target_tolerance": 2262.53,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6b",
+    "month": "2028-04",
+    "labor_spend_target": 47540.02,
+    "target_tolerance": 2377.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6b",
+    "month": "2028-05",
+    "labor_spend_target": 42200.61,
+    "target_tolerance": 2110.03,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6b",
+    "month": "2028-06",
+    "labor_spend_target": 44679.18,
+    "target_tolerance": 2233.96,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6b",
+    "month": "2028-07",
+    "labor_spend_target": 47011.47,
+    "target_tolerance": 2350.57,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2028-08",
+    "labor_spend_target": 11802.72,
+    "target_tolerance": 590.14,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2028-09",
+    "labor_spend_target": 55731.1,
+    "target_tolerance": 2786.56,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2028-10",
+    "labor_spend_target": 48401.78,
+    "target_tolerance": 2420.09,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2028-11",
+    "labor_spend_target": 44879.82,
+    "target_tolerance": 2243.99,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2028-12",
+    "labor_spend_target": 55982.5,
+    "target_tolerance": 2799.13,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-01",
+    "labor_spend_target": 46947.14,
+    "target_tolerance": 2347.36,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-02",
+    "labor_spend_target": 46786.61,
+    "target_tolerance": 2339.33,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-03",
+    "labor_spend_target": 46585.51,
+    "target_tolerance": 2329.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-04",
+    "labor_spend_target": 50929.68,
+    "target_tolerance": 2546.48,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-05",
+    "labor_spend_target": 50816.14,
+    "target_tolerance": 2540.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-06",
+    "labor_spend_target": 42536.22,
+    "target_tolerance": 2126.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-07",
+    "labor_spend_target": 53407.95,
+    "target_tolerance": 2670.4,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-08",
+    "labor_spend_target": 50667.26,
+    "target_tolerance": 2533.36,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-09",
+    "labor_spend_target": 44662.42,
+    "target_tolerance": 2233.12,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-10",
+    "labor_spend_target": 50776.18,
+    "target_tolerance": 2538.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-11",
+    "labor_spend_target": 53264.84,
+    "target_tolerance": 2663.24,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6c",
+    "month": "2029-12",
+    "labor_spend_target": 42664.07,
+    "target_tolerance": 2133.2,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-01",
+    "labor_spend_target": 11153.27,
+    "target_tolerance": 557.66,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-02",
+    "labor_spend_target": 53993.45,
+    "target_tolerance": 2699.67,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-03",
+    "labor_spend_target": 53577.44,
+    "target_tolerance": 2678.87,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-04",
+    "labor_spend_target": 44508.64,
+    "target_tolerance": 2225.43,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-05",
+    "labor_spend_target": 48860.84,
+    "target_tolerance": 2443.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-06",
+    "labor_spend_target": 47870.63,
+    "target_tolerance": 2393.53,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-07",
+    "labor_spend_target": 46085.82,
+    "target_tolerance": 2304.29,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-08",
+    "labor_spend_target": 51234.45,
+    "target_tolerance": 2561.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-09",
+    "labor_spend_target": 51252.08,
+    "target_tolerance": 2562.6,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-10",
+    "labor_spend_target": 46406.36,
+    "target_tolerance": 2320.32,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6d",
+    "month": "2030-11",
+    "labor_spend_target": 53161.14,
+    "target_tolerance": 2658.06,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6e",
+    "month": "2030-12",
+    "labor_spend_target": 11301.18,
+    "target_tolerance": 565.06,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6e",
+    "month": "2031-01",
+    "labor_spend_target": 52240.55,
+    "target_tolerance": 2612.03,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6e",
+    "month": "2031-02",
+    "labor_spend_target": 54786.54,
+    "target_tolerance": 2739.33,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6e",
+    "month": "2031-03",
+    "labor_spend_target": 49960.25,
+    "target_tolerance": 2498.01,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6e",
+    "month": "2031-04",
+    "labor_spend_target": 50768.3,
+    "target_tolerance": 2538.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6e",
+    "month": "2031-05",
+    "labor_spend_target": 51678.46,
+    "target_tolerance": 2583.92,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6e",
+    "month": "2031-06",
+    "labor_spend_target": 53869.34,
+    "target_tolerance": 2693.47,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6e",
+    "month": "2031-07",
+    "labor_spend_target": 48756.92,
+    "target_tolerance": 2437.85,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6e",
+    "month": "2031-08",
+    "labor_spend_target": 50597.73,
+    "target_tolerance": 2529.89,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6f",
+    "month": "2031-09",
+    "labor_spend_target": 10188.44,
+    "target_tolerance": 509.42,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6f",
+    "month": "2031-10",
+    "labor_spend_target": 55240.38,
+    "target_tolerance": 2762.02,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6f",
+    "month": "2031-11",
+    "labor_spend_target": 51767.79,
+    "target_tolerance": 2588.39,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_6f",
+    "month": "2031-12",
+    "labor_spend_target": 48291.57,
+    "target_tolerance": 2414.58,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-01",
+    "labor_spend_target": 17471.74,
+    "target_tolerance": 873.59,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-02",
+    "labor_spend_target": 39558.04,
+    "target_tolerance": 1977.9,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-03",
+    "labor_spend_target": 39396.76,
+    "target_tolerance": 1969.84,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-04",
+    "labor_spend_target": 32888.21,
+    "target_tolerance": 1644.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-05",
+    "labor_spend_target": 37476.12,
+    "target_tolerance": 1873.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-06",
+    "labor_spend_target": 41790.13,
+    "target_tolerance": 2089.51,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-07",
+    "labor_spend_target": 37115.13,
+    "target_tolerance": 1855.76,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-08",
+    "labor_spend_target": 35818.91,
+    "target_tolerance": 1790.95,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-09",
+    "labor_spend_target": 38490.79,
+    "target_tolerance": 1924.54,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-10",
+    "labor_spend_target": 39690.14,
+    "target_tolerance": 1984.51,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-11",
+    "labor_spend_target": 38407.61,
+    "target_tolerance": 1920.38,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2027-12",
+    "labor_spend_target": 30685.57,
+    "target_tolerance": 1534.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2028-01",
+    "labor_spend_target": 35945.0,
+    "target_tolerance": 1797.25,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2028-02",
+    "labor_spend_target": 38436.65,
+    "target_tolerance": 1921.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2028-03",
+    "labor_spend_target": 39769.21,
+    "target_tolerance": 1988.46,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2028-04",
+    "labor_spend_target": 40327.57,
+    "target_tolerance": 2016.38,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2028-05",
+    "labor_spend_target": 32487.38,
+    "target_tolerance": 1624.37,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7",
+    "month": "2028-06",
+    "labor_spend_target": 38634.32,
+    "target_tolerance": 1931.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2028-07",
+    "labor_spend_target": 23900.61,
+    "target_tolerance": 1195.03,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2028-08",
+    "labor_spend_target": 33056.99,
+    "target_tolerance": 1652.85,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2028-09",
+    "labor_spend_target": 36334.43,
+    "target_tolerance": 1816.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2028-10",
+    "labor_spend_target": 41792.14,
+    "target_tolerance": 2089.61,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2028-11",
+    "labor_spend_target": 41040.39,
+    "target_tolerance": 2052.02,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2028-12",
+    "labor_spend_target": 43544.79,
+    "target_tolerance": 2177.24,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2029-01",
+    "labor_spend_target": 35525.55,
+    "target_tolerance": 1776.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2029-02",
+    "labor_spend_target": 31439.4,
+    "target_tolerance": 1571.97,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2029-03",
+    "labor_spend_target": 36177.94,
+    "target_tolerance": 1808.9,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2029-04",
+    "labor_spend_target": 37635.36,
+    "target_tolerance": 1881.77,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7b",
+    "month": "2029-05",
+    "labor_spend_target": 40975.53,
+    "target_tolerance": 2048.78,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2029-06",
+    "labor_spend_target": 23121.71,
+    "target_tolerance": 1156.09,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2029-07",
+    "labor_spend_target": 33900.88,
+    "target_tolerance": 1695.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2029-08",
+    "labor_spend_target": 42340.01,
+    "target_tolerance": 2117.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2029-09",
+    "labor_spend_target": 35155.79,
+    "target_tolerance": 1757.79,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2029-10",
+    "labor_spend_target": 37829.03,
+    "target_tolerance": 1891.45,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2029-11",
+    "labor_spend_target": 41266.55,
+    "target_tolerance": 2063.33,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2029-12",
+    "labor_spend_target": 34845.26,
+    "target_tolerance": 1742.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2030-01",
+    "labor_spend_target": 36375.59,
+    "target_tolerance": 1818.78,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2030-02",
+    "labor_spend_target": 31505.97,
+    "target_tolerance": 1575.3,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2030-03",
+    "labor_spend_target": 41203.13,
+    "target_tolerance": 2060.16,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2030-04",
+    "labor_spend_target": 32876.96,
+    "target_tolerance": 1643.85,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7c",
+    "month": "2030-05",
+    "labor_spend_target": 36502.39,
+    "target_tolerance": 1825.12,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2030-06",
+    "labor_spend_target": 17261.73,
+    "target_tolerance": 863.09,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2030-07",
+    "labor_spend_target": 38300.63,
+    "target_tolerance": 1915.03,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2030-08",
+    "labor_spend_target": 39720.2,
+    "target_tolerance": 1986.01,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2030-09",
+    "labor_spend_target": 37924.94,
+    "target_tolerance": 1896.25,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2030-10",
+    "labor_spend_target": 37583.67,
+    "target_tolerance": 1879.18,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2030-11",
+    "labor_spend_target": 42377.17,
+    "target_tolerance": 2118.86,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2030-12",
+    "labor_spend_target": 37737.34,
+    "target_tolerance": 1886.87,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-01",
+    "labor_spend_target": 38577.95,
+    "target_tolerance": 1928.9,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-02",
+    "labor_spend_target": 41805.51,
+    "target_tolerance": 2090.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-03",
+    "labor_spend_target": 35574.19,
+    "target_tolerance": 1778.71,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-04",
+    "labor_spend_target": 42377.3,
+    "target_tolerance": 2118.87,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-05",
+    "labor_spend_target": 38714.66,
+    "target_tolerance": 1935.73,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-06",
+    "labor_spend_target": 39615.4,
+    "target_tolerance": 1980.77,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-07",
+    "labor_spend_target": 37457.11,
+    "target_tolerance": 1872.86,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-08",
+    "labor_spend_target": 33270.66,
+    "target_tolerance": 1663.53,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-09",
+    "labor_spend_target": 35556.42,
+    "target_tolerance": 1777.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-10",
+    "labor_spend_target": 41606.13,
+    "target_tolerance": 2080.31,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7d",
+    "month": "2031-11",
+    "labor_spend_target": 40483.11,
+    "target_tolerance": 2024.16,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_7e",
+    "month": "2031-12",
+    "labor_spend_target": 19312.15,
+    "target_tolerance": 965.61,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-01",
+    "labor_spend_target": 23729.95,
+    "target_tolerance": 1186.5,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-02",
+    "labor_spend_target": 23695.2,
+    "target_tolerance": 1184.76,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-03",
+    "labor_spend_target": 27056.12,
+    "target_tolerance": 1352.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-04",
+    "labor_spend_target": 28893.19,
+    "target_tolerance": 1444.66,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-05",
+    "labor_spend_target": 25238.04,
+    "target_tolerance": 1261.9,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-06",
+    "labor_spend_target": 24928.28,
+    "target_tolerance": 1246.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-07",
+    "labor_spend_target": 25856.47,
+    "target_tolerance": 1292.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-08",
+    "labor_spend_target": 24959.58,
+    "target_tolerance": 1247.98,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-09",
+    "labor_spend_target": 22902.5,
+    "target_tolerance": 1145.13,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-10",
+    "labor_spend_target": 24785.88,
+    "target_tolerance": 1239.29,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-11",
+    "labor_spend_target": 23845.91,
+    "target_tolerance": 1192.3,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8",
+    "month": "2027-12",
+    "labor_spend_target": 24788.11,
+    "target_tolerance": 1239.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-01",
+    "labor_spend_target": 25396.21,
+    "target_tolerance": 1269.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-02",
+    "labor_spend_target": 28287.75,
+    "target_tolerance": 1414.39,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-03",
+    "labor_spend_target": 23168.34,
+    "target_tolerance": 1158.42,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-04",
+    "labor_spend_target": 26506.48,
+    "target_tolerance": 1325.32,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-05",
+    "labor_spend_target": 21933.32,
+    "target_tolerance": 1096.67,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-06",
+    "labor_spend_target": 28774.32,
+    "target_tolerance": 1438.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-07",
+    "labor_spend_target": 24679.08,
+    "target_tolerance": 1233.95,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-08",
+    "labor_spend_target": 27354.06,
+    "target_tolerance": 1367.7,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-09",
+    "labor_spend_target": 29933.78,
+    "target_tolerance": 1496.69,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-10",
+    "labor_spend_target": 25464.08,
+    "target_tolerance": 1273.2,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-11",
+    "labor_spend_target": 30626.88,
+    "target_tolerance": 1531.34,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8b",
+    "month": "2028-12",
+    "labor_spend_target": 30280.09,
+    "target_tolerance": 1514.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8c",
+    "month": "2029-01",
+    "labor_spend_target": 27381.84,
+    "target_tolerance": 1369.09,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8c",
+    "month": "2029-02",
+    "labor_spend_target": 31349.61,
+    "target_tolerance": 1567.48,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8c",
+    "month": "2029-03",
+    "labor_spend_target": 30867.68,
+    "target_tolerance": 1543.38,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8c",
+    "month": "2029-04",
+    "labor_spend_target": 24707.72,
+    "target_tolerance": 1235.39,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8c",
+    "month": "2029-05",
+    "labor_spend_target": 29112.14,
+    "target_tolerance": 1455.61,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8c",
+    "month": "2029-06",
+    "labor_spend_target": 27269.52,
+    "target_tolerance": 1363.48,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8c",
+    "month": "2029-07",
+    "labor_spend_target": 29127.49,
+    "target_tolerance": 1456.37,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8c",
+    "month": "2029-08",
+    "labor_spend_target": 26013.77,
+    "target_tolerance": 1300.69,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2029-09",
+    "labor_spend_target": 24158.57,
+    "target_tolerance": 1207.93,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2029-10",
+    "labor_spend_target": 26936.23,
+    "target_tolerance": 1346.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2029-11",
+    "labor_spend_target": 24746.69,
+    "target_tolerance": 1237.33,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2029-12",
+    "labor_spend_target": 27655.37,
+    "target_tolerance": 1382.77,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2030-01",
+    "labor_spend_target": 29997.08,
+    "target_tolerance": 1499.85,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2030-02",
+    "labor_spend_target": 27566.29,
+    "target_tolerance": 1378.31,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2030-03",
+    "labor_spend_target": 27970.88,
+    "target_tolerance": 1398.54,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2030-04",
+    "labor_spend_target": 26821.09,
+    "target_tolerance": 1341.05,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2030-05",
+    "labor_spend_target": 30737.99,
+    "target_tolerance": 1536.9,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2030-06",
+    "labor_spend_target": 31221.61,
+    "target_tolerance": 1561.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2030-07",
+    "labor_spend_target": 25342.87,
+    "target_tolerance": 1267.14,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8d",
+    "month": "2030-08",
+    "labor_spend_target": 26076.19,
+    "target_tolerance": 1303.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8e",
+    "month": "2030-09",
+    "labor_spend_target": 21387.25,
+    "target_tolerance": 1069.36,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8e",
+    "month": "2030-10",
+    "labor_spend_target": 29800.82,
+    "target_tolerance": 1490.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8e",
+    "month": "2030-11",
+    "labor_spend_target": 23342.12,
+    "target_tolerance": 1167.11,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8e",
+    "month": "2030-12",
+    "labor_spend_target": 23589.51,
+    "target_tolerance": 1179.48,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8e",
+    "month": "2031-01",
+    "labor_spend_target": 29427.78,
+    "target_tolerance": 1471.39,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8e",
+    "month": "2031-02",
+    "labor_spend_target": 24318.74,
+    "target_tolerance": 1215.94,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8e",
+    "month": "2031-03",
+    "labor_spend_target": 27496.33,
+    "target_tolerance": 1374.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8f",
+    "month": "2031-04",
+    "labor_spend_target": 25276.58,
+    "target_tolerance": 1263.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8f",
+    "month": "2031-05",
+    "labor_spend_target": 29444.25,
+    "target_tolerance": 1472.21,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8f",
+    "month": "2031-06",
+    "labor_spend_target": 29173.62,
+    "target_tolerance": 1458.68,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8f",
+    "month": "2031-07",
+    "labor_spend_target": 30230.02,
+    "target_tolerance": 1511.5,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8f",
+    "month": "2031-08",
+    "labor_spend_target": 27687.78,
+    "target_tolerance": 1384.39,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8f",
+    "month": "2031-09",
+    "labor_spend_target": 29238.61,
+    "target_tolerance": 1461.93,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8f",
+    "month": "2031-10",
+    "labor_spend_target": 28642.57,
+    "target_tolerance": 1432.13,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8f",
+    "month": "2031-11",
+    "labor_spend_target": 31003.58,
+    "target_tolerance": 1550.18,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_8f",
+    "month": "2031-12",
+    "labor_spend_target": 27781.5,
+    "target_tolerance": 1389.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-01",
+    "labor_spend_target": 8021.66,
+    "target_tolerance": 401.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-02",
+    "labor_spend_target": 42891.41,
+    "target_tolerance": 2144.57,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-03",
+    "labor_spend_target": 37429.75,
+    "target_tolerance": 1871.49,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-04",
+    "labor_spend_target": 39395.75,
+    "target_tolerance": 1969.79,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-05",
+    "labor_spend_target": 48909.17,
+    "target_tolerance": 2445.46,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-06",
+    "labor_spend_target": 39773.73,
+    "target_tolerance": 1988.69,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-07",
+    "labor_spend_target": 37381.5,
+    "target_tolerance": 1869.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-08",
+    "labor_spend_target": 42098.71,
+    "target_tolerance": 2104.94,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-09",
+    "labor_spend_target": 46087.55,
+    "target_tolerance": 2304.38,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-10",
+    "labor_spend_target": 42795.51,
+    "target_tolerance": 2139.78,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9",
+    "month": "2027-11",
+    "labor_spend_target": 43988.62,
+    "target_tolerance": 2199.43,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2027-12",
+    "labor_spend_target": 8020.78,
+    "target_tolerance": 401.04,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-01",
+    "labor_spend_target": 40498.21,
+    "target_tolerance": 2024.91,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-02",
+    "labor_spend_target": 42887.14,
+    "target_tolerance": 2144.36,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-03",
+    "labor_spend_target": 45716.65,
+    "target_tolerance": 2285.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-04",
+    "labor_spend_target": 44737.3,
+    "target_tolerance": 2236.87,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-05",
+    "labor_spend_target": 46237.07,
+    "target_tolerance": 2311.85,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-06",
+    "labor_spend_target": 48959.69,
+    "target_tolerance": 2447.98,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-07",
+    "labor_spend_target": 41699.52,
+    "target_tolerance": 2084.98,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-08",
+    "labor_spend_target": 47298.94,
+    "target_tolerance": 2364.95,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-09",
+    "labor_spend_target": 41381.34,
+    "target_tolerance": 2069.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-10",
+    "labor_spend_target": 44023.68,
+    "target_tolerance": 2201.18,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-11",
+    "labor_spend_target": 46976.83,
+    "target_tolerance": 2348.84,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2028-12",
+    "labor_spend_target": 44144.46,
+    "target_tolerance": 2207.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2029-01",
+    "labor_spend_target": 43641.53,
+    "target_tolerance": 2182.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2029-02",
+    "labor_spend_target": 45659.17,
+    "target_tolerance": 2282.96,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2029-03",
+    "labor_spend_target": 46684.53,
+    "target_tolerance": 2334.23,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2029-04",
+    "labor_spend_target": 50129.25,
+    "target_tolerance": 2506.46,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9b",
+    "month": "2029-05",
+    "labor_spend_target": 48328.38,
+    "target_tolerance": 2416.42,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2029-06",
+    "labor_spend_target": 8696.43,
+    "target_tolerance": 434.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2029-07",
+    "labor_spend_target": 46888.23,
+    "target_tolerance": 2344.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2029-08",
+    "labor_spend_target": 53666.51,
+    "target_tolerance": 2683.33,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2029-09",
+    "labor_spend_target": 48624.5,
+    "target_tolerance": 2431.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2029-10",
+    "labor_spend_target": 46656.01,
+    "target_tolerance": 2332.8,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2029-11",
+    "labor_spend_target": 51140.14,
+    "target_tolerance": 2557.01,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2029-12",
+    "labor_spend_target": 47748.45,
+    "target_tolerance": 2387.42,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2030-01",
+    "labor_spend_target": 42999.06,
+    "target_tolerance": 2149.95,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2030-02",
+    "labor_spend_target": 45366.74,
+    "target_tolerance": 2268.34,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2030-03",
+    "labor_spend_target": 46508.22,
+    "target_tolerance": 2325.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2030-04",
+    "labor_spend_target": 52283.08,
+    "target_tolerance": 2614.15,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9c",
+    "month": "2030-05",
+    "labor_spend_target": 52612.76,
+    "target_tolerance": 2630.64,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9d",
+    "month": "2030-06",
+    "labor_spend_target": 7330.57,
+    "target_tolerance": 366.53,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9d",
+    "month": "2030-07",
+    "labor_spend_target": 51649.9,
+    "target_tolerance": 2582.5,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9d",
+    "month": "2030-08",
+    "labor_spend_target": 45542.08,
+    "target_tolerance": 2277.1,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9d",
+    "month": "2030-09",
+    "labor_spend_target": 44112.7,
+    "target_tolerance": 2205.63,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9d",
+    "month": "2030-10",
+    "labor_spend_target": 42016.43,
+    "target_tolerance": 2100.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9d",
+    "month": "2030-11",
+    "labor_spend_target": 46954.15,
+    "target_tolerance": 2347.71,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2030-12",
+    "labor_spend_target": 8903.31,
+    "target_tolerance": 445.17,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-01",
+    "labor_spend_target": 42939.94,
+    "target_tolerance": 2147.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-02",
+    "labor_spend_target": 46157.94,
+    "target_tolerance": 2307.9,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-03",
+    "labor_spend_target": 50566.89,
+    "target_tolerance": 2528.34,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-04",
+    "labor_spend_target": 53276.63,
+    "target_tolerance": 2663.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-05",
+    "labor_spend_target": 49373.33,
+    "target_tolerance": 2468.67,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-06",
+    "labor_spend_target": 47280.17,
+    "target_tolerance": 2364.01,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-07",
+    "labor_spend_target": 53307.06,
+    "target_tolerance": 2665.35,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-08",
+    "labor_spend_target": 53022.19,
+    "target_tolerance": 2651.11,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-09",
+    "labor_spend_target": 43263.42,
+    "target_tolerance": 2163.17,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9e",
+    "month": "2031-10",
+    "labor_spend_target": 48630.21,
+    "target_tolerance": 2431.51,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9f",
+    "month": "2031-11",
+    "labor_spend_target": 7801.45,
+    "target_tolerance": 390.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_9f",
+    "month": "2031-12",
+    "labor_spend_target": 50552.47,
+    "target_tolerance": 2527.62,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10",
+    "month": "2027-01",
+    "labor_spend_target": 25966.01,
+    "target_tolerance": 1298.3,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10",
+    "month": "2027-02",
+    "labor_spend_target": 44190.97,
+    "target_tolerance": 2209.55,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10",
+    "month": "2027-03",
+    "labor_spend_target": 44208.88,
+    "target_tolerance": 2210.44,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10",
+    "month": "2027-04",
+    "labor_spend_target": 53264.6,
+    "target_tolerance": 2663.23,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10",
+    "month": "2027-05",
+    "labor_spend_target": 43502.21,
+    "target_tolerance": 2175.11,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10",
+    "month": "2027-06",
+    "labor_spend_target": 49043.31,
+    "target_tolerance": 2452.17,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10",
+    "month": "2027-07",
+    "labor_spend_target": 49356.3,
+    "target_tolerance": 2467.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10",
+    "month": "2027-08",
+    "labor_spend_target": 47882.3,
+    "target_tolerance": 2394.12,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10",
+    "month": "2027-09",
+    "labor_spend_target": 46045.65,
+    "target_tolerance": 2302.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10b",
+    "month": "2027-10",
+    "labor_spend_target": 26365.75,
+    "target_tolerance": 1318.29,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10b",
+    "month": "2027-11",
+    "labor_spend_target": 45697.09,
+    "target_tolerance": 2284.85,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10b",
+    "month": "2027-12",
+    "labor_spend_target": 41784.35,
+    "target_tolerance": 2089.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10b",
+    "month": "2028-01",
+    "labor_spend_target": 48298.67,
+    "target_tolerance": 2414.93,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10b",
+    "month": "2028-02",
+    "labor_spend_target": 52235.12,
+    "target_tolerance": 2611.76,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10b",
+    "month": "2028-03",
+    "labor_spend_target": 39799.27,
+    "target_tolerance": 1989.96,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10b",
+    "month": "2028-04",
+    "labor_spend_target": 53501.24,
+    "target_tolerance": 2675.06,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10b",
+    "month": "2028-05",
+    "labor_spend_target": 45651.46,
+    "target_tolerance": 2282.57,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10c",
+    "month": "2028-06",
+    "labor_spend_target": 26388.13,
+    "target_tolerance": 1319.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10c",
+    "month": "2028-07",
+    "labor_spend_target": 50039.82,
+    "target_tolerance": 2501.99,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10c",
+    "month": "2028-08",
+    "labor_spend_target": 51717.78,
+    "target_tolerance": 2585.89,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10c",
+    "month": "2028-09",
+    "labor_spend_target": 43334.4,
+    "target_tolerance": 2166.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10c",
+    "month": "2028-10",
+    "labor_spend_target": 49337.54,
+    "target_tolerance": 2466.88,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10c",
+    "month": "2028-11",
+    "labor_spend_target": 51881.58,
+    "target_tolerance": 2594.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10c",
+    "month": "2028-12",
+    "labor_spend_target": 53016.44,
+    "target_tolerance": 2650.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-01",
+    "labor_spend_target": 29066.48,
+    "target_tolerance": 1453.32,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-02",
+    "labor_spend_target": 45998.46,
+    "target_tolerance": 2299.92,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-03",
+    "labor_spend_target": 48641.55,
+    "target_tolerance": 2432.08,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-04",
+    "labor_spend_target": 45159.68,
+    "target_tolerance": 2257.98,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-05",
+    "labor_spend_target": 44790.9,
+    "target_tolerance": 2239.54,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-06",
+    "labor_spend_target": 52784.12,
+    "target_tolerance": 2639.21,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-07",
+    "labor_spend_target": 48947.91,
+    "target_tolerance": 2447.4,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-08",
+    "labor_spend_target": 53813.45,
+    "target_tolerance": 2690.67,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-09",
+    "labor_spend_target": 45558.55,
+    "target_tolerance": 2277.93,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-10",
+    "labor_spend_target": 50969.21,
+    "target_tolerance": 2548.46,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-11",
+    "labor_spend_target": 50144.9,
+    "target_tolerance": 2507.25,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2029-12",
+    "labor_spend_target": 53536.3,
+    "target_tolerance": 2676.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2030-01",
+    "labor_spend_target": 51982.01,
+    "target_tolerance": 2599.1,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2030-02",
+    "labor_spend_target": 52946.78,
+    "target_tolerance": 2647.34,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2030-03",
+    "labor_spend_target": 53512.24,
+    "target_tolerance": 2675.61,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2030-04",
+    "labor_spend_target": 43670.36,
+    "target_tolerance": 2183.52,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10d",
+    "month": "2030-05",
+    "labor_spend_target": 50879.48,
+    "target_tolerance": 2543.97,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2030-06",
+    "labor_spend_target": 29463.33,
+    "target_tolerance": 1473.17,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2030-07",
+    "labor_spend_target": 47831.75,
+    "target_tolerance": 2391.59,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2030-08",
+    "labor_spend_target": 51713.56,
+    "target_tolerance": 2585.68,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2030-09",
+    "labor_spend_target": 45520.0,
+    "target_tolerance": 2276.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2030-10",
+    "labor_spend_target": 44298.51,
+    "target_tolerance": 2214.93,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2030-11",
+    "labor_spend_target": 45580.46,
+    "target_tolerance": 2279.02,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2030-12",
+    "labor_spend_target": 52092.36,
+    "target_tolerance": 2604.62,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2031-01",
+    "labor_spend_target": 49807.1,
+    "target_tolerance": 2490.35,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2031-02",
+    "labor_spend_target": 45034.43,
+    "target_tolerance": 2251.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2031-03",
+    "labor_spend_target": 46143.04,
+    "target_tolerance": 2307.15,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2031-04",
+    "labor_spend_target": 53852.37,
+    "target_tolerance": 2692.62,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2031-05",
+    "labor_spend_target": 48066.07,
+    "target_tolerance": 2403.3,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2031-06",
+    "labor_spend_target": 56568.23,
+    "target_tolerance": 2828.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2031-07",
+    "labor_spend_target": 58483.66,
+    "target_tolerance": 2924.18,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10e",
+    "month": "2031-08",
+    "labor_spend_target": 52105.6,
+    "target_tolerance": 2605.28,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10f",
+    "month": "2031-09",
+    "labor_spend_target": 26634.71,
+    "target_tolerance": 1331.74,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10f",
+    "month": "2031-10",
+    "labor_spend_target": 54282.18,
+    "target_tolerance": 2714.11,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10f",
+    "month": "2031-11",
+    "labor_spend_target": 51742.46,
+    "target_tolerance": 2587.12,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_10f",
+    "month": "2031-12",
+    "labor_spend_target": 60308.38,
+    "target_tolerance": 3015.42,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-01",
+    "labor_spend_target": 4123.66,
+    "target_tolerance": 206.18,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-02",
+    "labor_spend_target": 19125.46,
+    "target_tolerance": 956.27,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-03",
+    "labor_spend_target": 24955.23,
+    "target_tolerance": 1247.76,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-04",
+    "labor_spend_target": 21370.17,
+    "target_tolerance": 1068.51,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-05",
+    "labor_spend_target": 27228.86,
+    "target_tolerance": 1361.44,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-06",
+    "labor_spend_target": 27602.06,
+    "target_tolerance": 1380.1,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-07",
+    "labor_spend_target": 19225.33,
+    "target_tolerance": 961.27,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-08",
+    "labor_spend_target": 22771.85,
+    "target_tolerance": 1138.59,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-09",
+    "labor_spend_target": 24194.8,
+    "target_tolerance": 1209.74,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11",
+    "month": "2027-10",
+    "labor_spend_target": 20591.8,
+    "target_tolerance": 1029.59,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2027-11",
+    "labor_spend_target": 4818.33,
+    "target_tolerance": 240.92,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2027-12",
+    "labor_spend_target": 22104.21,
+    "target_tolerance": 1105.21,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2028-01",
+    "labor_spend_target": 21975.49,
+    "target_tolerance": 1098.77,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2028-02",
+    "labor_spend_target": 22121.44,
+    "target_tolerance": 1106.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2028-03",
+    "labor_spend_target": 19205.28,
+    "target_tolerance": 960.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2028-04",
+    "labor_spend_target": 19349.76,
+    "target_tolerance": 967.49,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2028-05",
+    "labor_spend_target": 19696.22,
+    "target_tolerance": 984.81,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2028-06",
+    "labor_spend_target": 21705.21,
+    "target_tolerance": 1085.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2028-07",
+    "labor_spend_target": 25826.45,
+    "target_tolerance": 1291.32,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11b",
+    "month": "2028-08",
+    "labor_spend_target": 23791.5,
+    "target_tolerance": 1189.57,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2028-09",
+    "labor_spend_target": 4993.59,
+    "target_tolerance": 249.68,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2028-10",
+    "labor_spend_target": 24416.68,
+    "target_tolerance": 1220.83,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2028-11",
+    "labor_spend_target": 22501.82,
+    "target_tolerance": 1125.09,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2028-12",
+    "labor_spend_target": 20891.64,
+    "target_tolerance": 1044.58,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2029-01",
+    "labor_spend_target": 24208.18,
+    "target_tolerance": 1210.41,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2029-02",
+    "labor_spend_target": 24912.73,
+    "target_tolerance": 1245.64,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2029-03",
+    "labor_spend_target": 25667.82,
+    "target_tolerance": 1283.39,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2029-04",
+    "labor_spend_target": 24205.11,
+    "target_tolerance": 1210.26,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2029-05",
+    "labor_spend_target": 23110.45,
+    "target_tolerance": 1155.52,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2029-06",
+    "labor_spend_target": 22905.42,
+    "target_tolerance": 1145.27,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2029-07",
+    "labor_spend_target": 20941.36,
+    "target_tolerance": 1047.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11c",
+    "month": "2029-08",
+    "labor_spend_target": 22694.49,
+    "target_tolerance": 1134.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11d",
+    "month": "2029-09",
+    "labor_spend_target": 5319.38,
+    "target_tolerance": 265.97,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11d",
+    "month": "2029-10",
+    "labor_spend_target": 23284.33,
+    "target_tolerance": 1164.22,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11d",
+    "month": "2029-11",
+    "labor_spend_target": 28167.03,
+    "target_tolerance": 1408.35,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11d",
+    "month": "2029-12",
+    "labor_spend_target": 20054.47,
+    "target_tolerance": 1002.72,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11d",
+    "month": "2030-01",
+    "labor_spend_target": 21995.75,
+    "target_tolerance": 1099.79,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11d",
+    "month": "2030-02",
+    "labor_spend_target": 21856.79,
+    "target_tolerance": 1092.84,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11d",
+    "month": "2030-03",
+    "labor_spend_target": 24860.14,
+    "target_tolerance": 1243.01,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11e",
+    "month": "2030-04",
+    "labor_spend_target": 4653.78,
+    "target_tolerance": 232.69,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11e",
+    "month": "2030-05",
+    "labor_spend_target": 22257.67,
+    "target_tolerance": 1112.88,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11e",
+    "month": "2030-06",
+    "labor_spend_target": 24744.07,
+    "target_tolerance": 1237.2,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11e",
+    "month": "2030-07",
+    "labor_spend_target": 23027.68,
+    "target_tolerance": 1151.38,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11e",
+    "month": "2030-08",
+    "labor_spend_target": 23942.88,
+    "target_tolerance": 1197.14,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11e",
+    "month": "2030-09",
+    "labor_spend_target": 24456.37,
+    "target_tolerance": 1222.82,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11e",
+    "month": "2030-10",
+    "labor_spend_target": 23614.29,
+    "target_tolerance": 1180.71,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11e",
+    "month": "2030-11",
+    "labor_spend_target": 22327.81,
+    "target_tolerance": 1116.39,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11e",
+    "month": "2030-12",
+    "labor_spend_target": 26423.41,
+    "target_tolerance": 1321.17,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-01",
+    "labor_spend_target": 5111.1,
+    "target_tolerance": 255.55,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-02",
+    "labor_spend_target": 26094.25,
+    "target_tolerance": 1304.71,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-03",
+    "labor_spend_target": 20935.61,
+    "target_tolerance": 1046.78,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-04",
+    "labor_spend_target": 23418.67,
+    "target_tolerance": 1170.93,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-05",
+    "labor_spend_target": 23581.47,
+    "target_tolerance": 1179.07,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-06",
+    "labor_spend_target": 21565.49,
+    "target_tolerance": 1078.27,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-07",
+    "labor_spend_target": 28734.68,
+    "target_tolerance": 1436.73,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-08",
+    "labor_spend_target": 25991.55,
+    "target_tolerance": 1299.58,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-09",
+    "labor_spend_target": 24871.98,
+    "target_tolerance": 1243.6,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-10",
+    "labor_spend_target": 23862.99,
+    "target_tolerance": 1193.15,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-11",
+    "labor_spend_target": 22265.95,
+    "target_tolerance": 1113.3,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_11f",
+    "month": "2031-12",
+    "labor_spend_target": 27355.01,
+    "target_tolerance": 1367.75,
+    "target_type": "soft"
+  }
+]
