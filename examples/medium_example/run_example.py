@@ -16,6 +16,7 @@ from allocsolver.io.local import load_plan
 from allocsolver.reforecast.propose import propose_reforecast
 from allocsolver.reports.exports import export_budget_summary, export_variance_sheet, export_workforce_sheet
 from allocsolver.reports.render import render_resource_view, render_task_view
+from allocsolver.reports.staffing_balance import export_staffing_balance
 from allocsolver.reports.views import build_rows
 from allocsolver.solve.run import solve
 
@@ -97,8 +98,11 @@ def main() -> None:
     )
     export_variance_sheet(plan, result.hours_assigned, OUTPUT_DIR / "variance.csv")
     for project_id in SAMPLE_PROJECTS:
-        export_budget_summary(plan, result.hours_assigned, project_id, OUTPUT_DIR / f"budget_{project_id}.csv")
-    console.print(f"Wrote workforce, variance, and budget-summary exports to {OUTPUT_DIR}/")
+        export_budget_summary(
+            plan, result.hours_assigned, project_id, OUTPUT_DIR / f"budget_{project_id}.csv", as_of_month=first_open_month
+        )
+    export_staffing_balance(plan, OUTPUT_DIR / "staffing_balance.csv", hours_assigned=result.hours_assigned)
+    console.print(f"Wrote workforce, variance, budget-summary, and staffing-balance exports to {OUTPUT_DIR}/")
     console.print("See README.md for what a planner does with each of these in practice.")
 
 

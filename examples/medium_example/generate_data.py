@@ -45,9 +45,9 @@ NUM_PROJECT_SLOTS_RANGE = (10, 12)
 POP_LENGTH_RANGE_MONTHS = (6, 18)
 SALARY_RANGE = (100_000, 250_000)
 OCTOBER_RAISE_RANGE = (0.01, 0.04)
-PROJECT_WRAP_RATE_MEAN, PROJECT_WRAP_RATE_STDEV = 1.029, 0.02
-OH_WRAP_RATE_MEAN, OH_WRAP_RATE_STDEV = 1.50, 0.05  # assumption, not in the spec
-FEE_WRAP_RATE_MEAN, FEE_WRAP_RATE_STDEV = 1.08, 0.01  # assumption, not in the spec
+PROJECT_WRAP_RATE_MEAN, PROJECT_WRAP_RATE_STDEV = 2.9, 0.02 * 2.9  # ~2.9 +/- 2% (relative)
+OH_WRAP_RATE_MEAN, OH_WRAP_RATE_STDEV = 1.65, 0.02 * 1.65
+FEE_WRAP_RATE_MEAN, FEE_WRAP_RATE_STDEV = 1.1, 0.02 * 1.1
 CLOSED_THROUGH = Month(2027, 2)  # first two months treated as already-closed, actualed
 
 
@@ -56,10 +56,8 @@ def generate_people(rng: random.Random) -> tuple[list[Person], dict[str, float]]
     fte_levels = [1.0] * 35 + [0.75] * 10 + [0.25] * 5
     rng.shuffle(fte_levels)
 
-    first_names = [f"firstname_{i}" for i in range(1, NUM_PEOPLE + 1)]
-    last_names = [f"lastname_{i}" for i in range(1, NUM_PEOPLE + 1)]
-    rng.shuffle(last_names)
-
+    # Per the spec: person_i is named "firstname_i lastname_i" — matching numbers, not
+    # independently shuffled first/last name pools.
     people = []
     fte_by_person: dict[str, float] = {}
     for i in range(NUM_PEOPLE):
@@ -67,7 +65,7 @@ def generate_people(rng: random.Random) -> tuple[list[Person], dict[str, float]]
         people.append(
             Person(
                 person_id=person_id,
-                name=f"{first_names[i]} {last_names[i]}",
+                name=f"firstname_{i + 1} lastname_{i + 1}",
                 active_from=HORIZON_START,
                 active_to=None,
             )
@@ -127,75 +125,94 @@ def generate_capacity(people: list[Person], fte_by_person: dict[str, float], wra
     return rows
 
 
-def generate_project_chains(rng: random.Random) -> list[Project]:
-    """~10-12 concurrent "slots", each a chain of back-to-back contracts covering the horizon."""
-    num_slots = rng.randint(*NUM_PROJECT_SLOTS_RANGE)
-    rate_structures_by_slot = {}
-    for slot in range(num_slots):
-        roll = rng.random()
-        if roll < 0.08:
-            rate_structures_by_slot[slot] = "oh_charged"
-        elif roll < 0.14:
-            rate_structures_by_slot[slot] = "fee_charged"
-        else:
-            rate_structures_by_slot[slot] = "direct"
+def _draw_rate_structure(rng: random.Random) -> str:
+    """Drawn per project, so one unlucky draw can't dominate the project count the
+    way it would if it applied to a whole lane's worth of back-to-back projects."""
+    roll = rng.random()
+    if roll < 0.10:
+        return "oh_charged"
+    if roll < 0.15:
+        return "fee_charged"
+    return "direct"
 
-    projects: list[Project] = []
-    for slot in range(num_slots):
-        # Naming per the spec: project_1, then project_1b, project_1c, ... (skip "a").
-        suffix_chars = iter("bcdefghijklmnopqrstuvwxyz")
+
+def generate_project_chains(rng: random.Random) -> list[Project]:
+    """A fixed number of concurrent "lanes" maintains ~10-12 simultaneously active
+    projects throughout the horizon: each lane just keeps generating one independent
+    project after another, back to back, until the horizon is filled. No tracking of
+    which projects are "really" a continuation of which — each is independent, with
+    its own rate structure and its own crew (`assign_crews`).
+
+    Project names are plain sequential integers assigned in chronological PoP-start
+    order (project_1, project_2, project_3, ...).
+    """
+    num_lanes = rng.randint(*NUM_PROJECT_SLOTS_RANGE)
+    raw: list[dict] = []
+
+    for _ in range(num_lanes):
         cursor = HORIZON_START
-        first = True
         while cursor <= HORIZON_END:
             pop_len = rng.randint(*POP_LENGTH_RANGE_MONTHS)
             pop_end = min(HORIZON_END, cursor.add(pop_len - 1))
-            name_suffix = "" if first else next(suffix_chars)
-            project_id = f"project_{slot + 1}{name_suffix}"
-            projects.append(
-                Project(
-                    project_id=project_id,
-                    name=f"Project {slot + 1}{name_suffix.upper()}",
-                    pop_start=cursor,
-                    pop_end=pop_end,
-                    rate_structure=rate_structures_by_slot[slot],
-                    travel_budget=round(rng.uniform(5_000, 50_000), 2),
-                    odc_budget=round(rng.uniform(2_000, 30_000), 2),
-                    status=ProjectStatus.ACTIVE,
-                )
+            raw.append(
+                {"pop_start": cursor, "pop_end": pop_end, "rate_structure": _draw_rate_structure(rng)}
             )
             cursor = pop_end.add(1)
-            first = False
+
+    raw.sort(key=lambda r: r["pop_start"])
+
+    projects: list[Project] = []
+    for i, r in enumerate(raw):
+        projects.append(
+            Project(
+                project_id=f"project_{i + 1}",
+                name=f"Project {i + 1}",
+                pop_start=r["pop_start"],
+                pop_end=r["pop_end"],
+                rate_structure=r["rate_structure"],
+                travel_budget=round(rng.uniform(5_000, 50_000), 2),
+                odc_budget=round(rng.uniform(2_000, 30_000), 2),
+                status=ProjectStatus.ACTIVE,
+            )
+        )
     return projects
 
 
-def assign_crews(rng: random.Random, projects: list[Project], people: list[Person]) -> dict[str, list[tuple[str, str]]]:
-    """Per project chain (slot), a stable crew that carries across its own continuations.
+def assign_crews(
+    rng: random.Random, projects: list[Project], people: list[Person]
+) -> dict[str, list[tuple[str, str]]]:
+    """Each project gets its own independently drawn crew.
+
+    Fragmentation limits are respected against *temporal overlap*, not lifetime
+    totals: a person who's free again once an earlier, non-overlapping project ended
+    is eligible again, the same way real availability works. (A running total that's
+    never decremented would eventually exhaust everyone eligible, once there are more
+    independent projects than a per-person lifetime cap of 4 could ever cover.)
 
     Returns {project_id: [(person_id, role), ...]} where role is "primary" or "secondary".
     """
     person_ids = [p.person_id for p in people]
-    slot_of = {}
-    for project in projects:
-        slot = project.project_id.split("_")[1].rstrip("abcdefghijklmnopqrstuvwxyz")
-        slot_of.setdefault(slot, []).append(project)
-
-    concurrent_count: dict[str, int] = {pid: 0 for pid in person_ids}
+    committed: dict[str, list[Project]] = {pid: [] for pid in person_ids}
     assignments: dict[str, list[tuple[str, str]]] = {}
 
-    for slot, chain in slot_of.items():
-        crew_size = rng.randint(3, 7)
-        # Respect each person's hard fragmentation limit (default 4) when forming crews,
-        # so the synthetic input data itself doesn't force a hard-constraint violation.
-        eligible_candidates = [pid for pid in person_ids if concurrent_count[pid] < 4]
-        candidates = sorted(eligible_candidates, key=lambda pid: (concurrent_count[pid], rng.random()))
+    def overlaps(a: Project, b: Project) -> bool:
+        return a.pop_start <= b.pop_end and b.pop_start <= a.pop_end
+
+    for project in sorted(projects, key=lambda p: p.pop_start):
+        crew_size = rng.randint(5, 10)
+
+        def load(pid: str) -> int:
+            return sum(1 for other in committed[pid] if overlaps(other, project))
+
+        eligible_candidates = [pid for pid in person_ids if load(pid) < 4]
+        candidates = sorted(eligible_candidates, key=lambda pid: (load(pid), rng.random()))
         crew = candidates[:crew_size]
         for pid in crew:
-            concurrent_count[pid] += 1
-        roles = ["primary"] * max(1, crew_size // 2) + ["secondary"] * (crew_size - max(1, crew_size // 2))
+            committed[pid].append(project)
+
+        roles = ["primary"] * max(1, len(crew) // 2) + ["secondary"] * (len(crew) - max(1, len(crew) // 2))
         rng.shuffle(roles)
-        crew_roles = list(zip(crew, roles))
-        for project in chain:
-            assignments[project.project_id] = crew_roles
+        assignments[project.project_id] = list(zip(crew, roles))
 
     return assignments
 
@@ -227,7 +244,7 @@ def generate_bounds_and_targets(
                 cap = capacity_index.get((person_id, month), 0.0)
                 if cap <= 0:
                     continue
-                intensity = rng.uniform(0.6, 1.0) if role == "primary" else rng.uniform(0.2, 0.4)
+                intensity = rng.uniform(0.72, 1.0) if role == "primary" else rng.uniform(0.32, 0.52)
                 target_hours = intensity * cap
                 soft_min = round(0.7 * target_hours, 2)
                 soft_max = round(target_hours, 2)
@@ -264,10 +281,13 @@ def generate_closed_month_actuals(
 ) -> list[AllocationRow]:
     """For months <= CLOSED_THROUGH: a synthetic prior plan plus actuals that vary from it.
 
-    Closed months fix `hours_assigned` (`04-solver-design.md`, C5), so a person's fixed
-    hours across their *simultaneous* projects that month must not exceed their capacity —
-    generating each project's hours independently could violate that, so this scales the
-    naive per-project draws down proportionally when their sum would oversubscribe the month.
+    Closed months fix `x` to `hours_actual`, not `hours_assigned` (`04-solver-design.md`,
+    C5 plus the "closed month" rule) — so it's the *actual* hours whose sum across a
+    person's simultaneous projects that month must not exceed their capacity. Capping
+    each project's actual draw independently at the person's full capacity isn't enough:
+    two projects each near-capacity on their own can still sum past it. Both the planned
+    and the actual draws are scaled down proportionally per (person, month) when their
+    sum would oversubscribe it.
     """
     from collections import defaultdict
 
@@ -279,13 +299,22 @@ def generate_closed_month_actuals(
     rows = []
     for (person_id, month), bounds_list in by_person_month.items():
         cap = capacity_index.get((person_id, month), 0.0)
-        naive = {b.project_id: rng.uniform(0.85, 1.0) * b.soft_max for b in bounds_list}
-        total_naive = sum(naive.values())
-        scale = min(1.0, cap / total_naive) if total_naive > 0 else 1.0
+
+        naive_planned = {b.project_id: rng.uniform(0.85, 1.0) * b.soft_max for b in bounds_list}
+        total_planned = sum(naive_planned.values())
+        scale_planned = min(1.0, cap / total_planned) if total_planned > 0 else 1.0
+        planned_by_project = {pid: v * scale_planned for pid, v in naive_planned.items()}
+
+        # Same tight, slightly-overspend-leaning noise as the live simulation
+        # (`io/synthetic.py`'s NORMAL_NOISE) — no reason this bootstrap history
+        # should be biased differently than the months the simulation itself creates.
+        naive_actual = {pid: v * rng.uniform(0.98, 1.03) for pid, v in planned_by_project.items()}
+        total_actual = sum(naive_actual.values())
+        scale_actual = min(1.0, cap / total_actual) if total_actual > 0 else 1.0
 
         for b in bounds_list:
-            planned = round(naive[b.project_id] * scale, 2)
-            actual = round(min(cap, planned * rng.uniform(0.85, 1.15)), 2)
+            planned = round(planned_by_project[b.project_id], 2)
+            actual = round(naive_actual[b.project_id] * scale_actual, 2)
             rows.append(
                 AllocationRow(
                     project_id=b.project_id,
@@ -342,6 +371,17 @@ def main() -> None:
     bounds, targets = generate_bounds_and_targets(rng, projects, crews, capacity_index, rate_fn)
     allocation = generate_closed_month_actuals(rng, bounds, capacity_index)
 
+    # labor_budget is the fixed funded ceiling the monthly targets are planned (and
+    # later reforecast) against — set once, from the sum of this project's own
+    # just-generated targets, then never recomputed.
+    labor_budget_by_project: dict[str, float] = {}
+    for t in targets:
+        labor_budget_by_project[t.project_id] = labor_budget_by_project.get(t.project_id, 0.0) + t.labor_spend_target
+    projects = [
+        p.model_copy(update={"labor_budget": round(labor_budget_by_project.get(p.project_id, 0.0), 2)})
+        for p in projects
+    ]
+
     plan = Plan(
         horizon_start=HORIZON_START,
         horizon_end=HORIZON_END,
@@ -358,10 +398,23 @@ def main() -> None:
     )
 
     from allocsolver.io.local import save_plan
+    from allocsolver.io.pre_assignments import clear_pre_assignments
+    from allocsolver.reports.staffing_balance import staffing_balance
 
     save_plan(plan, args.out)
+    clear_pre_assignments(args.out)  # starts empty: the planner's inbox for manual pre-assignments
     print(f"Generated {len(people)} people, {len(projects)} projects, {len(bounds)} bounds rows.")
     print(f"Wrote data files to {args.out}")
+
+    balances = staffing_balance(plan)  # demand approximated from bounds.soft_max; no solve exists yet
+    total_capacity = sum(b.capacity_dollars for b in balances)
+    total_demand = sum(b.demand_dollars for b in balances)
+    shortfall_months = sum(1 for b in balances if b.balance_dollars < -1e-6)
+    print(
+        f"Staffing balance (pre-solve estimate): ${total_capacity:,.0f} spend capacity vs "
+        f"${total_demand:,.0f} intended spend demand over the horizon "
+        f"(${total_capacity - total_demand:+,.0f} net, {shortfall_months} month(s) with a shortfall)."
+    )
 
 
 if __name__ == "__main__":
