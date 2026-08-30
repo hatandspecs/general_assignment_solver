@@ -30,6 +30,12 @@ class Project(BaseModel):
     pop_start: Month
     pop_end: Month
     rate_structure: str  # RateStructure.structure_id
+    labor_budget: float = 0.0
+    """The total funded labor amount for the whole PoP — the fixed ceiling
+    `targets.labor_spend_target` is planned (and reforecast) against. Distinct from the
+    monthly targets themselves: reforecasting redistributes *how* this total lands
+    across months, but conserves the total itself (see the reforecast conservation
+    test in `04-solver-design.md`)."""
     travel_budget: float = 0.0
     odc_budget: float = 0.0
     status: ProjectStatus = ProjectStatus.ACTIVE

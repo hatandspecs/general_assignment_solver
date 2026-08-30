@@ -109,26 +109,33 @@ Both of the last two are planning signals, not errors, and both are invisible wi
 ## CLI
 
 ```
-allocsolver solve      --horizon 2026-09:2027-08
-                       [--dry-run] [--accept] [--time-limit 300]
-                       [--weights weights.toml] [--lexicographic]
+allocsolver validate      --data-dir data                checks only, no solve
 
-allocsolver validate   --horizon ...          checks only, no solve
-allocsolver ingest     --file actuals.csv [--dry-run]
-allocsolver reforecast --project <id> [--dry-run] [--accept]
-                       propose (and optionally accept) an updated
-                       target profile for a project's remaining open
-                       months, following a closed-month ingest
-allocsolver diff       --from <snap> --to <snap>
-allocsolver snapshot   --list | --show <id> | --accept <id>
-allocsolver export     --format assignments --month 2026-11 --out nov.csv
-allocsolver export     --format variance --horizon ... --out variance.csv
-allocsolver export     --format budget-summary --project PROJ-A --out budget.csv
-allocsolver export     --format mspdi --out plan.xml     (legacy, see below)
-allocsolver iis        --horizon ...          analyst tool, infeasibility only
+allocsolver solve         --data-dir data
+                          [--time-limit 300] [--mip-gap 0.01]
+                          [--export-dir output]
+
+allocsolver advance-month --data-dir data [--output-dir output]
+                          [--time-limit 300] [--mip-gap 0.01]
+                          [--seed N] [--yes]
+                          the simulated real-time engine: solve the
+                          current month forward, simulate that month's
+                          actuals, close it, propose (and on --yes,
+                          apply) a reforecast, one month per invocation
+
+allocsolver ingest        --file actuals.csv [--dry-run]
+allocsolver reforecast    --project <id> [--dry-run] [--accept]
+allocsolver diff          --from <snap> --to <snap>
+allocsolver snapshot      --list | --show <id> | --accept <id>
+allocsolver export        --format mspdi --out plan.xml     (legacy, see below)
+allocsolver iis           --horizon ...          analyst tool, infeasibility only
 ```
 
-`--dry-run` on both `solve` and `ingest` writes nothing and prints the deltas it would have made. This is the default posture for anyone learning the tool.
+**Implemented:** `validate`, `solve`, `advance-month` — all three work against a local JSON data directory (`io/local.py`), not yet a live Grist document. `solve`'s `--export-dir` and `advance-month`'s automatic per-month bundle are what actually produce the three confirmed export formats today, rather than a standalone `export --format ...` verb.
+
+**Still design-only** (this section's original target shape, not yet built): `ingest` against a real timekeeping export, `reforecast` as its own CLI verb (the mechanism itself is implemented and used internally by `advance-month`, just not exposed standalone), `diff`, `snapshot`, `iis`, and the `mspdi` export format.
+
+`--dry-run` on `ingest` (once built) writes nothing and prints the deltas it would have made, matching `solve`'s posture of never writing without being asked.
 
 ## Snapshots
 
@@ -186,6 +193,8 @@ For planners. One row per (worker, project):
 | Actual hours billed | |
 | Delta | `assigned - actual` |
 
+**Implemented timing detail.** In the per-month output produced by `advance-month` (`06-code-structure-and-dependencies.md`'s `reforecast/` and `reports/exports.py`), each dated folder `output/<month>/` names its variance file `<month-1>_variance.csv` — the *previous* month's, not its own. A month's actuals aren't known until the month after it closes, so the variance a given cycle can meaningfully report is always one month behind the one it just solved. The work-assignment file in the same folder is prefixed with `<month>` itself, since that plan genuinely is for `<month>`, sent before it starts.
+
 ### Budget summary sheet
 
 For planners, one per project. A metadata block plus a monthly matrix:
@@ -194,6 +203,7 @@ For planners, one per project. A metadata block plus a monthly matrix:
 Metadata:
     Project name
     PoP dates
+    Labor budget (the fixed funded ceiling; see labor_budget in 03-data-model.md)
     Budget expended (planned)
     Budget expended (actual)
     Budget remaining (planned)
@@ -205,7 +215,21 @@ Monthly matrix (columns = each month in the PoP):
     Delta
 ```
 
+Budget expended/remaining are measured against `labor_budget` — the project's fixed funded total — not a sum of whatever the monthly targets currently say, since reforecasting redistributes the latter without changing the former.
+
+A project's budget summary is also copied into a persistent `completed_project_reports/` folder (sibling to the dated per-month folders, not itself month-named) the one month its PoP actually ends, so a project's final report doesn't require hunting through every dated folder to find.
+
 All three are computed entirely from existing derived values (`03-data-model.md`'s Derived section) — no new stored data, just a new rendering. Format is CSV by default (universally readable, no dependency); `openpyxl` (already an optional extra for timekeeping `.xlsx` input) covers `.xlsx` output too if that's ever preferred over CSV.
+
+### Manual pre-assignments
+
+A planner's own input, kept in a file separate from anything the solver or the ingest/reforecast machinery writes: `pre_assignments.json`, one `bounds`-shaped row per manual decision (bring a specific person onto a specific project for a specific month, at specific hour bounds). `advance-month` applies it — upserting each entry into `bounds` by `(project_id, person_id, month)`, running full plan validation so a typo'd id is caught immediately — then clears it before solving. The override itself persists permanently in `bounds`; the file is only ever "this cycle's new manual decisions," not a running log.
+
+### Staffing balance assessment
+
+Not one of the three confirmed exports, but implemented alongside them (`reports/staffing_balance.py`): `staffing_balance.csv`, one row per month, comparing total available spend *capacity* against total portfolio spend *demand* — in dollars, not raw hours, since not all person-hours are equivalent (salary and applicable wrap rate both vary person to person and month to month, so an hour of capacity and an hour of demand aren't fungible units to compare directly). Capacity is valued at each person's standard "direct" project rate (capacity itself isn't tied to any one project's rate structure); demand uses each cell's real `loaded_rate()`. Real demand comes from a solve's `hours_assigned` if one exists, otherwise `bounds.soft_max` as the planner's intended demand before any solve. Each row is flagged `surplus`, `shortfall`, or `balanced`, plus a `TOTAL` row across the whole horizon.
+
+This exists because "spend every project out fully" (`01-system-overview.md`'s operational goals) only works if the org's total staff-hours genuinely cover the portfolio's total demand. The report is deliberately an assessment, not a remediation — like an infeasibility report naming a binding constraint without relaxing it, this names the imbalance (find outside-portfolio work for a surplus month, pull in staff from elsewhere for a shortfall one) without deciding how to fix it.
 
 ### MS Project export (legacy, unconfirmed need)
 

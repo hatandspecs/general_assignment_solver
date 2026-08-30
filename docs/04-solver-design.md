@@ -44,7 +44,7 @@ An earlier draft of this design read the notes as specifying `hmin, smin, smax, 
 
 ## Constraints
 
-**C1. Semi-continuous assignment.** For all `(p,w,m)` in `E`:
+**C1. Semi-continuous assignment.** For all `(p,w,m)` in `E \ F` — note the exclusion of fixed cells, resolved below at C5:
 
 ```
 hmin[p,w,m] * y[p,w,m]  <=  x[p,w,m]  <=  hmax[p,w,m] * y[p,w,m]
@@ -52,7 +52,7 @@ hmin[p,w,m] * y[p,w,m]  <=  x[p,w,m]  <=  hmax[p,w,m] * y[p,w,m]
 
 Both bounds gated by `y`. The upper gate is what forces `x = 0` when `y = 0`.
 
-**C2. Soft bounds with elastic slack.** For all `(p,w,m)` in `E`:
+**C2. Soft bounds with elastic slack.** For all `(p,w,m)` in `E \ F`:
 
 ```
 x[p,w,m] + u[p,w,m]  >=  smin[p,w,m] * y[p,w,m]
@@ -92,6 +92,8 @@ x[p,w,m] = fix[p,w,m]
 ```
 
 Applied as variable bound fixing rather than as a constraint row, which lets presolve remove them entirely.
+
+**Resolved: C1/C2 exclude `F` entirely, not just structurally redundant with it.** An earlier build applied C1/C2 to all of `E`, `F` included — harmless when `fix[p,w,m]` happens to sit inside `[hmin, hmax]`, but a real (not merely redundant) conflict the moment it doesn't: a closed month's `fix` value is history, not a new assignment, and history can legitimately fall outside bounds that were only ever meant to gate *future* assignment. `01-system-overview.md`'s "a project should never finish with unspent budget" goal is exactly this in practice: staffing pulled in from elsewhere to close out a project's spend can land a specific person's actual hours for that month above what was originally bounded. Re-imposing `hmax` on an already-fixed cell then manufactures an infeasibility over something that already happened and can't be changed. C1/C2 apply only to `E \ F`; `F` is governed by C5 alone.
 
 **C6. Fragmentation.** For all `w`, `m`:
 
@@ -220,8 +222,8 @@ Property tests matter more than example tests here, because the failure mode is 
 
 - **Feasibility monotonicity:** relaxing any bound never worsens the optimal objective.
 - **Capacity respected:** no person exceeds `cap` in any month, in any returned solution.
-- **Semi-continuity:** every nonzero `x` is at least its `hard_min`.
-- **Fixed cells honored:** locked and closed-month cells match input exactly.
+- **Semi-continuity:** every nonzero `x` in `E \ F` is at least its `hard_min`.
+- **Fixed cells honored:** locked and closed-month cells match input exactly, *even when that value falls outside the cell's own hard bounds* — C1/C2 don't apply to `F`, so this must never be reported as infeasible.
 - **Churn sanity:** re-solving with unchanged inputs returns the baseline unchanged.
 - **Fragmentation tiers:** no person exceeds `hard_maxproj` in any month; exceeding `soft_maxproj` only ever happens with a nonzero `frag` penalty charged.
 - **Rate agreement:** Python `loaded_rate()` matches the Grist formula across the full structure cross product, and against the `base_hourly x wrap_rate` decomposition.

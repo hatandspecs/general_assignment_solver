@@ -61,8 +61,11 @@ allocsolver/
     reforecast/    Target-vs-actual variance and the proportional redistribution
                     that follows a closed month
     reports/       Task/resource views and the three confirmed export formats
-    io/            Local JSON file I/O (the current stand-in for a live Grist doc)
-    cli.py         `allocsolver validate|solve`
+    io/            Local JSON file I/O (the current stand-in for a live Grist doc),
+                    synthetic-actuals simulation, and the manual pre-assignment inbox
+    cli.py         `allocsolver validate|solve|advance-month` — the last one is a
+                    simulated real-time engine: solve, simulate that month's
+                    actuals, close it, reforecast, one month per invocation
 
 tests/             pytest suite covering the model invariants in
                     docs/04-solver-design.md, "Testing the model"
@@ -76,8 +79,15 @@ Implemented: the full data model and its validation, cost composition (resolved
 selection-not-stacking rate model), the MILP (semi-continuous assignment, soft
 bounds, capacity, spend targets, fragmentation tiers, churn minimization),
 elastic-relaxation infeasibility diagnostics, the reforecast mechanism, task/resource
-views, and the three confirmed exports (workforce sheet, variance sheet, budget
-summary).
+views, the three confirmed exports (workforce sheet, variance sheet, budget
+summary — measured against each project's fixed `labor_budget`), a manual
+pre-assignment inbox (`pre_assignments.json`, validated and merged into `bounds`
+before each solve), a staffing-balance assessment (spend capacity vs. spend demand,
+in dollars, surfaced as a monthly surplus/shortfall — an assessment, not an
+auto-remediation), and a simulated real-time engine that drives the whole monthly
+solve/actuals/close/reforecast cycle (`allocsolver advance-month`, proven feasible
+across all 58 months of the medium
+example's full 5-year horizon).
 
 Still design-only (documented in `docs/05-interfaces.md` but not built): a live Grist
 document and its REST client, the real timekeeping-ingest pipeline (this build's

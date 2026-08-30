@@ -44,10 +44,14 @@ def build_elastic_model(plan: Plan) -> ElasticBundle:
     by_project_month = _group_by_project_month(cells)
     inf = solver.infinity()
 
-    # C1': hard min/max, relaxed with slack.
+    # C1': hard min/max, relaxed with slack. Skipped for fixed cells — same reasoning
+    # as the primary model (`constraints.py`): a closed month's actual is historical
+    # fact, not a bound to diagnose a violation against.
     s_hmin: dict[Cell, pywraplp.Variable] = {}
     s_hmax: dict[Cell, pywraplp.Variable] = {}
     for cell in cells:
+        if cell in fixed:
+            continue
         p, w, m = cell
         b = bounds_index[cell]
         x, y, u, o = v.x[cell], v.y[cell], v.u[cell], v.o[cell]

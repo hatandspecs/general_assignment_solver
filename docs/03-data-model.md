@@ -51,6 +51,7 @@ Two fragmentation limits, not one: the source requirement is explicit that a wor
 | `pop_start` | month | |
 | `pop_end` | month | |
 | `rate_structure` | ref -> `rate_structures` | Which cost layers apply. |
+| `labor_budget` | decimal | The total funded labor amount for the whole PoP — the fixed ceiling `targets.labor_spend_target` is planned against. Reforecasting redistributes how this lands across months; it does not change this total (see the conservation property in `04-solver-design.md`). |
 | `travel_budget` | decimal | Carried, not optimized. `[OPEN-4]` |
 | `odc_budget` | decimal | Carried, not optimized. `[OPEN-4]` |
 | `status` | enum | `active`, `pending`, `closed`. Non-active excluded from solve. |

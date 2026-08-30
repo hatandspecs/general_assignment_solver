@@ -44,14 +44,23 @@ allocsolver/
                               review, mirroring solve's dry-run/accept posture
 
     io/                       Depends on models only.
-        grist.py              GristClient
-        timekeeping.py        actuals parse, map, quarantine
-        mapping.py            charge code and employee resolution
-        synthetic.py           generates a randomly generated fixture
-                              dataset shaped like the eventual real
-                              timekeeping export, for development before
-                              real integration access exists
-        snapshot.py           git-backed snapshot read and write
+        local.py              implemented: load/save a Plan as one JSON
+                              file per table — the current stand-in for
+                              a live Grist document (`grist.py` below)
+        pre_assignments.py    implemented: the planner's manual
+                              pre-assignment inbox — load, apply
+                              (upsert into bounds, fully re-validated),
+                              and clear `pre_assignments.json`
+        synthetic.py           implemented: perturbs a solved month's
+                              hours into plausible hours_actual,
+                              standing in for a real timekeeping import
+        grist.py              not yet built: GristClient
+        timekeeping.py        not yet built: real actuals parse, map,
+                              quarantine
+        mapping.py            not yet built: charge code and employee
+                              resolution
+        snapshot.py           not yet built: git-backed snapshot read
+                              and write
         mpxj_export.py        legacy, guarded import, unconfirmed need
 
     reports/                  Depends on models + costing.

@@ -50,6 +50,10 @@ class Month:
     def first_day(self) -> date:
         return date(self.year, self.month, 1)
 
+    def last_day(self) -> date:
+        next_month_first = self.add(1).first_day()
+        return date.fromordinal(next_month_first.toordinal() - 1)
+
     def is_ufy_start(self) -> bool:
         """True if this month opens a corporate fiscal year (UFY), which starts July 1."""
         return self.month == 7

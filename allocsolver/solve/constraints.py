@@ -40,7 +40,15 @@ def add_constraints(
     by_project_month = _group_by_project_month(cells)
 
     # C1 + C2: semi-continuous assignment, soft bounds with elastic slack.
+    # Skipped for cells in `fixed`: those are handled purely by C5's bound-fixing
+    # (`apply_fixed`, below) — a closed month's actual is historical fact, not a new
+    # assignment to bound against hard_max/soft_max. Applying C1/C2 to an already-
+    # fixed cell would re-litigate what already happened, and can conflict outright
+    # (e.g. a true-up actual that landed a hair above the cell's hard_max) with no
+    # way to satisfy both — a manufactured infeasibility, not a real one.
     for cell in cells:
+        if cell in fixed:
+            continue
         b = bounds_index[cell]
         x, y, u, o = v.x[cell], v.y[cell], v.u[cell], v.o[cell]
         solver.Add(x >= b.hard_min * y)

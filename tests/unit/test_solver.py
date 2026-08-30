@@ -75,6 +75,25 @@ def test_closed_month_fixes_to_actuals():
     assert result.hours_assigned[("proj_a", "alice", m1)] == 55.0
 
 
+def test_closed_month_actual_exceeding_hard_max_is_not_infeasible():
+    """A closed month's actual is historical fact, not a new bound to satisfy — a
+    true-up-style actual that landed above the cell's hard_max must not make the
+    plan infeasible (regression: C1/C2 must not apply to fixed cells)."""
+    plan = two_person_two_project_plan(soft_min=40.0, soft_max=90.0, hard_max=100.0)  # actual below will exceed hard_max
+    m1 = plan.horizon_start
+    plan = plan.model_copy(
+        update={
+            "closed_through": m1,
+            "allocation": [
+                AllocationRow(project_id="proj_a", person_id="alice", month=m1, hours_assigned=90.0, hours_actual=110.0),
+            ],
+        }
+    )
+    result = solve(plan)
+    assert result.feasible
+    assert result.hours_assigned[("proj_a", "alice", m1)] == 110.0
+
+
 def test_fragmentation_tiers():
     """No person exceeds hard_maxproj; exceeding soft_maxproj only with a nonzero frag charge."""
     plan = two_person_two_project_plan(hard_max_concurrent=1, soft_max_concurrent=1)
