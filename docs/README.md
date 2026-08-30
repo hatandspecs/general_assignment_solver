@@ -15,6 +15,8 @@ Design docs for a MILP-driven labor allocation and spend planning system, replac
 | `05-interfaces.md` | Grist API contract, actuals ingest, CLI, snapshots | Writing an integration |
 | `06-code-structure-and-dependencies.md` | Package layout, dependency graph, licenses | Setting up the repo |
 | `07-open-questions.md` | Decisions not yet made, with the tradeoff for each | Before committing to schema or formulation |
+| `08-grist-ui-design.md` | The live Grist deployment: schema, backend service, widget, provisioning | Running or changing `grist_planner/` |
+| `09-planner-tutorial.md` | Hands-on walkthrough of a full planning month | Learning the UI, or writing the next one |
 
 ## One-paragraph summary
 
@@ -42,9 +44,14 @@ These reflect the user's answers across two rounds of `07-open-questions.md`; se
 ## Repository layout
 
 ```
-design-docs/          this set
-allocsolver/          python package (see 06)
+docs/                 this set
+allocsolver/           python package (see 06)
 tests/
-grist/                document schema export, seeded fixtures
-deploy/               docker compose, env templates
+examples/medium_example/   a 5-year simulated demo (see its own README)
+grist_planner/         the live Grist deployment (see 08, 09):
+    deploy_planner.sh      up/down/reset/logs/status/seed
+    docker-compose.yml
+    planner_api/            FastAPI backend wrapping allocsolver
+    widget/                 the control-panel widget (static HTML/JS)
+    tutorial_data/          the small dataset docs/09 walks through
 ```

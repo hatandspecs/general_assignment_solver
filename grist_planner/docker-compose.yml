@@ -1,0 +1,35 @@
+services:
+  grist:
+    image: gristlabs/grist:1.7.17
+    restart: unless-stopped
+    ports:
+      - "${GRIST_PORT:-8484}:8484"
+    environment:
+      - GRIST_BOOT_KEY=${GRIST_BOOT_KEY}
+    volumes:
+      - grist_data:/persist
+
+  planner-api:
+    build:
+      context: ..
+      dockerfile: grist_planner/docker/Dockerfile
+    restart: unless-stopped
+    ports:
+      - "${PLANNER_API_PORT:-8000}:8000"
+    environment:
+      - GRIST_INTERNAL_URL=http://grist:8484
+      - GRIST_BOOT_KEY=${GRIST_BOOT_KEY}
+      - GRIST_ADMIN_EMAIL=${GRIST_ADMIN_EMAIL:-planner@example.com}
+      - GRIST_WORKSPACE_NAME=${GRIST_WORKSPACE_NAME:-Planner}
+      - GRIST_DOC_NAME=${GRIST_DOC_NAME:-Labor Allocation Planner}
+      - WIDGET_URL=http://localhost:${PLANNER_API_PORT:-8000}/widget/index.html
+      - STATE_FILE=/data/.grist_state.json
+    volumes:
+      - planner_state:/data
+      - ./tutorial_data:/tutorial_data:ro
+    depends_on:
+      - grist
+
+volumes:
+  grist_data:
+  planner_state:

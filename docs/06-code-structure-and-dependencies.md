@@ -45,8 +45,9 @@ allocsolver/
 
     io/                       Depends on models only.
         local.py              implemented: load/save a Plan as one JSON
-                              file per table — the current stand-in for
-                              a live Grist document (`grist.py` below)
+                              file per table — used by the CLI and the
+                              standalone examples; the live Grist document
+                              (below) is the other Plan I/O backend
         pre_assignments.py    implemented: the planner's manual
                               pre-assignment inbox — load, apply
                               (upsert into bounds, fully re-validated),
@@ -54,7 +55,6 @@ allocsolver/
         synthetic.py           implemented: perturbs a solved month's
                               hours into plausible hours_actual,
                               standing in for a real timekeeping import
-        grist.py              not yet built: GristClient
         timekeeping.py        not yet built: real actuals parse, map,
                               quarantine
         mapping.py            not yet built: charge code and employee
@@ -62,6 +62,13 @@ allocsolver/
         snapshot.py           not yet built: git-backed snapshot read
                               and write
         mpxj_export.py        legacy, guarded import, unconfirmed need
+
+    The `GristClient` from `05-interfaces.md` is implemented, but lives outside
+    this package: `grist_planner/planner_api/grist_client.py`, alongside the
+    FastAPI service that uses it (`docs/08-grist-ui-design.md`). It depends on
+    `httpx` and `fastapi`, neither of which the core solver needs — keeping them
+    out of `allocsolver`'s own dependency list is why the Grist integration is a
+    separate deployment rather than a fourth module in `io/`.
 
     reports/                  Depends on models + costing.
         views.py              task view, resource view pivots; includes

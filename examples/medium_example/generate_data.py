@@ -25,6 +25,7 @@ generator's assumptions, flagged so they're easy to find and change:
 
 import argparse
 import random
+from collections import defaultdict
 from pathlib import Path
 
 from allocsolver.costing.rates import loaded_rate
@@ -125,13 +126,38 @@ def generate_capacity(people: list[Person], fte_by_person: dict[str, float], wra
     return rows
 
 
+def compute_capacity_dollars_by_month(
+    capacity: list[Capacity], rates: list[Rate], wrap_rates: list[WrapRate]
+) -> dict[Month, float]:
+    """Same valuation as `staffing_balance._capacity_dollar_rate` (every hour priced
+    at the direct project wrap rate) — this is the reference `generate_bounds_and_targets`
+    calibrates demand against, so the generated data and the eventual staffing-balance
+    report agree on what "capacity" means."""
+    rate_index = {(r.person_id, r.month): r.annual_salary for r in rates}
+    wrap_index = {wr.month: wr for wr in wrap_rates}
+    totals: dict[Month, float] = defaultdict(float)
+    for c in capacity:
+        wr = wrap_index[c.month]
+        base_hourly = rate_index[(c.person_id, c.month)] / 12 / wr.workable_hours
+        totals[c.month] += c.available_hours * base_hourly * wr.project_wrap_rate
+    return dict(totals)
+
+
 def _draw_rate_structure(rng: random.Random) -> str:
     """Drawn per project, so one unlucky draw can't dominate the project count the
-    way it would if it applied to a whole lane's worth of back-to-back projects."""
+    way it would if it applied to a whole lane's worth of back-to-back projects.
+
+    OH/fee-charged projects are a token minority, not the ~15% used earlier: their
+    wrap rates (~1.65x, ~1.1x) are well below the direct rate (~2.9x) that the
+    staffing-balance report's capacity figure is valued at, so any meaningful OH/fee
+    share puts a structural ceiling on demand well below capacity even at 100%
+    crew utilization — a gap no amount of monthly calibration below can close.
+    Keeping OH/fee to a sliver keeps that gap negligible while still showing that
+    the funding types exist."""
     roll = rng.random()
-    if roll < 0.10:
+    if roll < 0.003:
         return "oh_charged"
-    if roll < 0.15:
+    if roll < 0.005:
         return "fee_charged"
     return "direct"
 
@@ -219,59 +245,192 @@ def assign_crews(
 
 def generate_bounds_and_targets(
     rng: random.Random,
+    people: list[Person],
     projects: list[Project],
     crews: dict[str, list[tuple[str, str]]],
     capacity_index: dict[tuple[str, Month], float],
+    capacity_dollars_by_month: dict[Month, float],
     rate_fn,
 ) -> tuple[list[Bounds], list[Target]]:
-    bounds: list[Bounds] = []
-    targets: list[Target] = []
+    """Two passes: first generate each crew member's "raw" target hours from their
+    role/intensity as before; then, per month, uniformly rescale every cell's raw
+    hours so the portfolio's total target dollars land within a small, deliberately
+    narrow band of that month's total labor spend capacity (`compute_capacity_dollars_
+    by_month`) — the business philosophy is a near-full, only-slightly-short (rarely
+    slightly over) draw on the pool each month, not the wide swings independent
+    per-project/per-person draws would otherwise produce (`staffing_balance.py`).
+
+    Ramp-up (first PoP month at ~40% crew) is skipped for any project whose
+    `pop_start` is the horizon's own first month: with every one of the ~10-12
+    lanes starting simultaneously right at `HORIZON_START`, ramping all of them at
+    once would manufacture an artificial portfolio-wide dip in month one that no
+    other month has — those lanes are treated as already-established, mid-steady-
+    state work that merely happens to be visible from the start of this window.
+    """
     horizon = set(Month.range(HORIZON_START, HORIZON_END))
 
+    # Pass 1: each crewed person's own (project, role) cells this month, with a raw
+    # role-intensity draw kept only as a *relative weight* between a person's own
+    # concurrent cells — not an absolute hours anchor. An absolute anchor is what
+    # the old, uniform-monthly-scale approach used, and it strands capacity no scale
+    # factor can recover: a person crewed onto just one secondary-role project that
+    # month has no *other* bound to soak up the rest of their hours, so scaling
+    # their one small cell up or down never reaches the capacity that has nowhere
+    # to go. Filling per-person instead (pass 2) reaches it directly.
+    cells_by_month: dict[Month, list[dict]] = defaultdict(list)
+    pop_months_by_project: dict[str, list[Month]] = {}
     for project in projects:
         crew = crews[project.project_id]
         pop_months = [m for m in project.months() if m in horizon]
+        pop_months_by_project[project.project_id] = pop_months
         if not pop_months:
             continue
         ramp_crew_size = max(1, round(len(crew) * 0.4))
         ramp_crew = set(pid for pid, _ in crew[:ramp_crew_size])
+        skip_ramp = project.pop_start == HORIZON_START
 
         for month_idx, month in enumerate(pop_months):
-            active_crew = crew if month_idx > 0 else [(pid, role) for pid, role in crew if pid in ramp_crew]
-            target_dollars = 0.0
+            use_full_crew = skip_ramp or month_idx > 0
+            active_crew = crew if use_full_crew else [(pid, role) for pid, role in crew if pid in ramp_crew]
 
             for person_id, role in active_crew:
                 cap = capacity_index.get((person_id, month), 0.0)
                 if cap <= 0:
                     continue
-                intensity = rng.uniform(0.72, 1.0) if role == "primary" else rng.uniform(0.32, 0.52)
-                target_hours = intensity * cap
-                soft_min = round(0.7 * target_hours, 2)
+                weight = rng.uniform(0.72, 1.0) if role == "primary" else rng.uniform(0.32, 0.52)
+                cells_by_month[month].append(
+                    {
+                        "project_id": project.project_id,
+                        "person_id": person_id,
+                        "weight": weight,
+                        "rate": rate_fn(project.project_id, person_id, month),
+                        "cap": cap,
+                    }
+                )
+
+    # Pass 1b: crew rotation occasionally leaves a handful of people with no active
+    # assignment at all in a given month (one project ended, the next one they'd
+    # rotate onto hasn't picked them up yet). That's real capacity with no bound to
+    # reach it — pass 2's per-person fill can't recover it no matter the fraction,
+    # since fraction only redistributes among people who already have a cell. Backfill
+    # each such person onto one of that month's already-active projects (a plausible
+    # "pulled in wherever needed" assignment) so their capacity is reachable too.
+    all_person_ids = [p.person_id for p in people]
+    for month in list(cells_by_month.keys()):
+        cells = cells_by_month[month]
+        covered = {c["person_id"] for c in cells}
+        active_project_ids = list({c["project_id"] for c in cells})
+        if not active_project_ids:
+            continue
+        for person_id in all_person_ids:
+            if person_id in covered:
+                continue
+            cap = capacity_index.get((person_id, month), 0.0)
+            if cap <= 0:
+                continue
+            project_id = rng.choice(active_project_ids)
+            cells_by_month[month].append(
+                {
+                    "project_id": project_id,
+                    "person_id": person_id,
+                    "weight": rng.uniform(0.32, 0.52),
+                    "rate": rate_fn(project_id, person_id, month),
+                    "cap": cap,
+                }
+            )
+
+    # Pass 2: per month, fill every crewed person up to a calibrated fraction of
+    # *their own* capacity (never more), splitting that total across their own
+    # concurrent cells by relative weight (primary gets the larger share). The
+    # fraction is solved directly from the month's total labor spend capacity minus
+    # a small, deliberately narrow (and usually-shortfall) target imbalance —
+    # linear in the fraction, since each person's own weighted-average rate doesn't
+    # depend on it — clipped at 1.0 (100% personal utilization is the real ceiling;
+    # if even that isn't enough to reach the target, the shortfall is genuine: this
+    # month's crewed subset of the pool doesn't have enough capacity, not a
+    # calibration miss).
+    bounds: list[Bounds] = []
+    target_dollars_by_project_month: dict[tuple[str, Month], float] = defaultdict(float)
+    for project in projects:
+        for month in pop_months_by_project[project.project_id]:
+            target_dollars_by_project_month[(project.project_id, month)] += 0.0  # ensure every PoP month appears
+
+    for month, cells in cells_by_month.items():
+        by_person: dict[str, list[dict]] = defaultdict(list)
+        for c in cells:
+            by_person[c["person_id"]].append(c)
+
+        person_cap: dict[str, float] = {}
+        person_avg_rate: dict[str, float] = {}
+        for person_id, person_cells in by_person.items():
+            total_weight = sum(c["weight"] for c in person_cells)
+            person_cap[person_id] = person_cells[0]["cap"]
+            person_avg_rate[person_id] = sum(c["weight"] * c["rate"] for c in person_cells) / total_weight
+
+        # capacity_of_crewed: total dollar capacity of just the people actually
+        # crewed this month, valued at each person's own weighted-average
+        # applicable rate — what `fraction` is solved against.
+        #
+        # Deliberately *not* clipped to <= 1.0: `fraction` sets each person's
+        # *target* hours, and targets represent what the projects need, not a
+        # promise about what the pool can actually deliver (`staffing_balance.py`).
+        # A fraction above 1.0 asks a crewed person's cells for more than their own
+        # 100% capacity — the solver's real per-person capacity constraint (C3)
+        # still caps what actually gets assigned, so this never manufactures an
+        # infeasibility; it just leaves that month's targets genuinely unmet,
+        # which is the real signal this demo is usually a labor deficit, not
+        # (falsely) an always-achievable one.
+        capacity_of_crewed = sum(person_cap[pid] * person_avg_rate[pid] for pid in by_person)
+        capacity_dollars = capacity_dollars_by_month.get(month, 0.0)
+        # A mixture, not a single always-slightly-negative draw: reforecast pushes
+        # any month's underspend forward as a target *increase* for that project's
+        # remaining months (proportional redistribution, `reforecast/redistribute.py`)
+        # with no damping. If targets ran short of capacity almost every month, every
+        # project would underspend almost every month, and reforecast would compound
+        # that into an ever-growing target across the whole 5-year horizon — a real
+        # spiral this demo hit once. Genuine catch-up months (target comfortably
+        # *below* capacity) let a project's actual meet or clear its target, which
+        # reforecast then redistributes as a target *decrease* — the reset that
+        # keeps "usually a slight deficit" from silently becoming "always growing".
+        if rng.random() < 0.82:
+            target_balance = rng.uniform(-5000.0, -500.0)  # usual: deficit
+        else:
+            target_balance = rng.uniform(500.0, 3000.0)  # occasional: catch-up
+        desired_demand = capacity_dollars - target_balance
+        fraction = desired_demand / capacity_of_crewed if capacity_of_crewed > 0 else 0.0
+
+        for person_id, person_cells in by_person.items():
+            total_weight = sum(c["weight"] for c in person_cells)
+            person_total_hours = fraction * person_cap[person_id]
+            for c in person_cells:
+                target_hours = person_total_hours * (c["weight"] / total_weight)
+                soft_min = round(0.92 * target_hours, 2)
                 soft_max = round(target_hours, 2)
-                hard_max = round(min(cap, 1.15 * target_hours), 2)
+                hard_max = round(1.15 * target_hours, 2)
                 bounds.append(
                     Bounds(
-                        project_id=project.project_id,
+                        project_id=c["project_id"],
                         person_id=person_id,
                         month=month,
                         hard_min=0.0,
                         soft_min=soft_min,
                         soft_max=soft_max,
-                        hard_max=max(hard_max, soft_max),
+                        hard_max=hard_max,
                         eligible=True,
                     )
                 )
-                target_dollars += soft_max * rate_fn(project.project_id, person_id, month)
+                target_dollars_by_project_month[(c["project_id"], month)] += soft_max * c["rate"]
 
-            targets.append(
-                Target(
-                    project_id=project.project_id,
-                    month=month,
-                    labor_spend_target=round(target_dollars, 2),
-                    target_tolerance=round(0.05 * target_dollars, 2),
-                    target_type=TargetType.SOFT,
-                )
-            )
+    targets = [
+        Target(
+            project_id=project_id,
+            month=month,
+            labor_spend_target=round(target_dollars, 2),
+            target_tolerance=round(0.01 * target_dollars, 2),
+            target_type=TargetType.SOFT,
+        )
+        for (project_id, month), target_dollars in target_dollars_by_project_month.items()
+    ]
 
     return bounds, targets
 
@@ -300,7 +459,7 @@ def generate_closed_month_actuals(
     for (person_id, month), bounds_list in by_person_month.items():
         cap = capacity_index.get((person_id, month), 0.0)
 
-        naive_planned = {b.project_id: rng.uniform(0.85, 1.0) * b.soft_max for b in bounds_list}
+        naive_planned = {b.project_id: rng.uniform(0.96, 1.0) * b.soft_max for b in bounds_list}
         total_planned = sum(naive_planned.values())
         scale_planned = min(1.0, cap / total_planned) if total_planned > 0 else 1.0
         planned_by_project = {pid: v * scale_planned for pid, v in naive_planned.items()}
@@ -312,9 +471,21 @@ def generate_closed_month_actuals(
         total_actual = sum(naive_actual.values())
         scale_actual = min(1.0, cap / total_actual) if total_actual > 0 else 1.0
 
+        actual_by_project = {pid: round(v * scale_actual, 2) for pid, v in naive_actual.items()}
+        # Rounding each project's actual independently, after the scale-down above
+        # already lands the (unrounded) sum at exactly `cap`, can push the *rounded*
+        # sum a few hundredths of an hour back over it — and this month's `hours_actual`
+        # is what C3's exact capacity constraint fixes cells to once closed, so even
+        # that tiny an overage makes the very first solve infeasible. Trim any such
+        # excess from the largest cell, the only one big enough to absorb it cleanly.
+        excess = round(sum(actual_by_project.values()) - cap, 2)
+        if excess > 0:
+            largest_project_id = max(actual_by_project, key=actual_by_project.get)
+            actual_by_project[largest_project_id] = round(actual_by_project[largest_project_id] - excess, 2)
+
         for b in bounds_list:
             planned = round(planned_by_project[b.project_id], 2)
-            actual = round(naive_actual[b.project_id] * scale_actual, 2)
+            actual = actual_by_project[b.project_id]
             rows.append(
                 AllocationRow(
                     project_id=b.project_id,
@@ -367,8 +538,11 @@ def main() -> None:
         allocation=[],
     )
     rate_fn = lambda project_id, person_id, month: loaded_rate(rate_lookup_plan, person_id, month, project_id)  # noqa: E731
+    capacity_dollars_by_month = compute_capacity_dollars_by_month(capacity, rates, wrap_rates)
 
-    bounds, targets = generate_bounds_and_targets(rng, projects, crews, capacity_index, rate_fn)
+    bounds, targets = generate_bounds_and_targets(
+        rng, people, projects, crews, capacity_index, capacity_dollars_by_month, rate_fn
+    )
     allocation = generate_closed_month_actuals(rng, bounds, capacity_index)
 
     # labor_budget is the fixed funded ceiling the monthly targets are planned (and
@@ -406,14 +580,16 @@ def main() -> None:
     print(f"Generated {len(people)} people, {len(projects)} projects, {len(bounds)} bounds rows.")
     print(f"Wrote data files to {args.out}")
 
-    balances = staffing_balance(plan)  # demand approximated from bounds.soft_max; no solve exists yet
+    balances = staffing_balance(plan)  # demand from plan.targets; no solve needed for this estimate
     total_capacity = sum(b.capacity_dollars for b in balances)
     total_demand = sum(b.demand_dollars for b in balances)
     shortfall_months = sum(1 for b in balances if b.balance_dollars < -1e-6)
+    max_abs_balance = max((abs(b.balance_dollars) for b in balances), default=0.0)
     print(
         f"Staffing balance (pre-solve estimate): ${total_capacity:,.0f} spend capacity vs "
         f"${total_demand:,.0f} intended spend demand over the horizon "
-        f"(${total_capacity - total_demand:+,.0f} net, {shortfall_months} month(s) with a shortfall)."
+        f"(${total_capacity - total_demand:+,.0f} net, {shortfall_months} month(s) with a shortfall, "
+        f"max |monthly balance| ${max_abs_balance:,.0f})."
     )
 
 

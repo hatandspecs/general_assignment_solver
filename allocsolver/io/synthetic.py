@@ -69,8 +69,21 @@ def simulate_actuals_for_month(
         # — the staffing balance report is where that shortfall should be caught.
         scale = min(1.0, cap / total) if total > 0 else 1.0
 
+        actuals = {project_id: round(hours * scale, 2) for project_id, hours in naive_actual.items()}
+        # Rounding each project's actual independently, after the scale-down above
+        # already lands the (unrounded) sum at exactly `cap`, can push the *rounded*
+        # sum a few hundredths of an hour back over it. C3 treats capacity as an
+        # exact ceiling (`total + idle == cap`), so even that tiny an overage makes
+        # this person-month infeasible once it's closed and fixed. Trim any such
+        # excess from the largest cell — the only one big enough to absorb it
+        # without going negative or visibly distorting that project's own hours.
+        excess = round(sum(actuals.values()) - cap, 2)
+        if excess > 0:
+            largest_project_id = max(actuals, key=actuals.get)
+            actuals[largest_project_id] = round(actuals[largest_project_id] - excess, 2)
+
         for project_id, hours in project_hours:
-            actual = round(naive_actual[project_id] * scale, 2)
+            actual = actuals[project_id]
             rows.append(
                 AllocationRow(
                     project_id=project_id,

@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Planner Control Panel</title>
+<link rel="stylesheet" href="widget.css">
+</head>
+<body>
+  <header>
+    <h1>Labor Allocation Planner</h1>
+    <div id="state-banner" class="banner">Loading plan state…</div>
+  </header>
+
+  <main>
+    <section id="section-pre-assignments">
+      <h2>1. Pre-Assignments</h2>
+      <p class="hint">
+        Load a pre-assignment JSON file, or edit the <code>Pre_Assignments</code> table
+        directly in Grist (open it from the page list on the left) — either way, these
+        are what "Run Planning" and "Export Work Assignments" merge into Bounds.
+      </p>
+      <input type="file" id="pre-assignment-file" accept="application/json">
+      <button id="btn-upload-pre-assignments">Load Pre-Assignment JSON</button>
+      <div class="result" id="result-pre-assignments"></div>
+    </section>
+
+    <section id="section-run-planning">
+      <h2>2. Run Planning</h2>
+      <p class="hint">Solves with the current Pre-Assignments merged in. Preview only — nothing is saved.</p>
+      <button id="btn-run-planning">Run Planning (Preview)</button>
+      <div class="result" id="result-run-planning"></div>
+    </section>
+
+    <section id="section-export">
+      <h2>3. Export Work Assignments</h2>
+      <p class="hint">
+        Commits: merges Pre-Assignments into Bounds for good, clears the inbox, and
+        produces this month's work-assignment sheet. Do this once you're happy with
+        the plan from step 2.
+      </p>
+      <button id="btn-export">Export Work Assignments (Commit Plan)</button>
+      <a id="link-download-assignments" class="download-link" href="/api/export-work-assignments/download">Download CSV</a>
+      <div class="result" id="result-export"></div>
+    </section>
+
+    <section id="section-portfolio">
+      <h2>4. Project Portfolio Reports</h2>
+      <p class="hint">Budget summary for every currently-active project, plus the staffing balance assessment.</p>
+      <button id="btn-portfolio">Run Portfolio Reports</button>
+      <a id="link-download-portfolio" class="download-link" href="/api/run-portfolio-reports/download">Download ZIP</a>
+      <div class="result" id="result-portfolio"></div>
+    </section>
+
+    <section id="section-actuals">
+      <h2>5. Load Actuals &amp; Close the Month</h2>
+      <p class="hint">
+        CSV columns: <code>person_id, project_id, hours_actual</code>. No file yet?
+        Leave it empty and use "Preview" to see synthetic actuals instead — handy for
+        practicing the tutorial before real timekeeping data exists.
+      </p>
+      <input type="file" id="actuals-file" accept=".csv">
+      <button id="btn-actuals-preview">Preview</button>
+      <label><input type="checkbox" id="accept-reforecast"> Accept reforecast proposal</label>
+      <button id="btn-actuals-commit">Confirm &amp; Close Month</button>
+      <div class="result" id="result-actuals"></div>
+    </section>
+
+    <section id="section-variance">
+      <h2>6. Variance Report (assigned vs. actual billed hours)</h2>
+      <label>Month: <input type="text" id="variance-month" placeholder="YYYY-MM"></label>
+      <button id="btn-variance">Get Variance Report</button>
+      <div class="result" id="result-variance"></div>
+    </section>
+  </main>
+
+  <script src="widget.js"></script>
+</body>
+</html>

@@ -5,7 +5,7 @@
     "pop_start": "2027-01",
     "pop_end": "2027-11",
     "rate_structure": "direct",
-    "labor_budget": 2293510.99,
+    "labor_budget": 2392009.99,
     "travel_budget": 38829.96,
     "odc_budget": 25516.16,
     "status": "active"
@@ -16,7 +16,7 @@
     "pop_start": "2027-01",
     "pop_end": "2027-12",
     "rate_structure": "direct",
-    "labor_budget": 1663595.06,
+    "labor_budget": 1726264.67,
     "travel_budget": 17479.01,
     "odc_budget": 23774.9,
     "status": "active"
@@ -27,7 +27,7 @@
     "pop_start": "2027-01",
     "pop_end": "2028-05",
     "rate_structure": "direct",
-    "labor_budget": 2168059.05,
+    "labor_budget": 1917596.82,
     "travel_budget": 26806.87,
     "odc_budget": 8698.88,
     "status": "active"
@@ -38,7 +38,7 @@
     "pop_start": "2027-01",
     "pop_end": "2028-03",
     "rate_structure": "direct",
-    "labor_budget": 2283716.66,
+    "labor_budget": 2210856.78,
     "travel_budget": 24794.27,
     "odc_budget": 21979.26,
     "status": "active"
@@ -48,8 +48,8 @@
     "name": "Project 5",
     "pop_start": "2027-01",
     "pop_end": "2028-02",
-    "rate_structure": "fee_charged",
-    "labor_budget": 981907.91,
+    "rate_structure": "direct",
+    "labor_budget": 2465331.47,
     "travel_budget": 15552.21,
     "odc_budget": 11403.73,
     "status": "active"
@@ -60,7 +60,7 @@
     "pop_start": "2027-01",
     "pop_end": "2027-09",
     "rate_structure": "direct",
-    "labor_budget": 1972527.61,
+    "labor_budget": 1993791.37,
     "travel_budget": 45186.21,
     "odc_budget": 4256.17,
     "status": "active"
@@ -71,7 +71,7 @@
     "pop_start": "2027-01",
     "pop_end": "2028-06",
     "rate_structure": "direct",
-    "labor_budget": 2920350.41,
+    "labor_budget": 2731494.34,
     "travel_budget": 11787.38,
     "odc_budget": 12724.99,
     "status": "active"
@@ -82,7 +82,7 @@
     "pop_start": "2027-01",
     "pop_end": "2028-06",
     "rate_structure": "direct",
-    "labor_budget": 4529357.89,
+    "labor_budget": 3662222.86,
     "travel_budget": 11876.24,
     "odc_budget": 7990.68,
     "status": "active"
@@ -93,7 +93,7 @@
     "pop_start": "2027-01",
     "pop_end": "2027-12",
     "rate_structure": "direct",
-    "labor_budget": 2217270.11,
+    "labor_budget": 1850952.36,
     "travel_budget": 23669.06,
     "odc_budget": 11264.68,
     "status": "active"
@@ -104,7 +104,7 @@
     "pop_start": "2027-01",
     "pop_end": "2028-06",
     "rate_structure": "direct",
-    "labor_budget": 3420777.33,
+    "labor_budget": 3144395.92,
     "travel_budget": 25966.59,
     "odc_budget": 3743.44,
     "status": "active"
@@ -115,7 +115,7 @@
     "pop_start": "2027-01",
     "pop_end": "2028-06",
     "rate_structure": "direct",
-    "labor_budget": 4035234.01,
+    "labor_budget": 3531754.63,
     "travel_budget": 42480.1,
     "odc_budget": 12905.35,
     "status": "active"
@@ -126,7 +126,7 @@
     "pop_start": "2027-01",
     "pop_end": "2028-03",
     "rate_structure": "direct",
-    "labor_budget": 1515174.25,
+    "labor_budget": 1420870.49,
     "travel_budget": 39640.81,
     "odc_budget": 28489.74,
     "status": "active"
@@ -137,7 +137,7 @@
     "pop_start": "2027-10",
     "pop_end": "2028-12",
     "rate_structure": "direct",
-    "labor_budget": 1979685.82,
+    "labor_budget": 2135301.76,
     "travel_budget": 5878.94,
     "odc_budget": 26658.39,
     "status": "active"
@@ -148,7 +148,7 @@
     "pop_start": "2027-12",
     "pop_end": "2028-06",
     "rate_structure": "direct",
-    "labor_budget": 1835553.64,
+    "labor_budget": 1492121.49,
     "travel_budget": 30906.07,
     "odc_budget": 15355.43,
     "status": "active"
@@ -158,8 +158,8 @@
     "name": "Project 15",
     "pop_start": "2028-01",
     "pop_end": "2029-02",
-    "rate_structure": "fee_charged",
-    "labor_budget": 1212065.01,
+    "rate_structure": "direct",
+    "labor_budget": 3223533.06,
     "travel_budget": 47423.37,
     "odc_budget": 10361.15,
     "status": "active"
@@ -170,7 +170,7 @@
     "pop_start": "2028-01",
     "pop_end": "2029-03",
     "rate_structure": "direct",
-    "labor_budget": 2508951.35,
+    "labor_budget": 2136477.9,
     "travel_budget": 22549.4,
     "odc_budget": 26965.96,
     "status": "active"
@@ -181,7 +181,7 @@
     "pop_start": "2028-03",
     "pop_end": "2029-02",
     "rate_structure": "direct",
-    "labor_budget": 2501734.52,
+    "labor_budget": 2431354.58,
     "travel_budget": 42607.79,
     "odc_budget": 17070.18,
     "status": "active"
@@ -192,7 +192,7 @@
     "pop_start": "2028-04",
     "pop_end": "2028-10",
     "rate_structure": "direct",
-    "labor_budget": 1339258.34,
+    "labor_budget": 1385795.14,
     "travel_budget": 38058.53,
     "odc_budget": 24396.31,
     "status": "active"
@@ -203,7 +203,7 @@
     "pop_start": "2028-04",
     "pop_end": "2029-05",
     "rate_structure": "direct",
-    "labor_budget": 2621123.31,
+    "labor_budget": 2440225.54,
     "travel_budget": 45401.51,
     "odc_budget": 15670.43,
     "status": "active"
@@ -214,7 +214,7 @@
     "pop_start": "2028-06",
     "pop_end": "2029-10",
     "rate_structure": "direct",
-    "labor_budget": 2702256.37,
+    "labor_budget": 2902394.58,
     "travel_budget": 17282.09,
     "odc_budget": 15597.98,
     "status": "active"
@@ -225,7 +225,7 @@
     "pop_start": "2028-07",
     "pop_end": "2029-04",
     "rate_structure": "direct",
-    "labor_budget": 1140517.11,
+    "labor_budget": 1121335.1,
     "travel_budget": 22498.57,
     "odc_budget": 20728.46,
     "status": "active"
@@ -235,8 +235,8 @@
     "name": "Project 22",
     "pop_start": "2028-07",
     "pop_end": "2029-10",
-    "rate_structure": "oh_charged",
-    "labor_budget": 2281953.03,
+    "rate_structure": "direct",
+    "labor_budget": 3863242.73,
     "travel_budget": 40916.4,
     "odc_budget": 22277.08,
     "status": "active"
@@ -247,7 +247,7 @@
     "pop_start": "2028-07",
     "pop_end": "2029-04",
     "rate_structure": "direct",
-    "labor_budget": 2418132.4,
+    "labor_budget": 2008413.5,
     "travel_budget": 42822.75,
     "odc_budget": 27747.17,
     "status": "active"
@@ -258,7 +258,7 @@
     "pop_start": "2028-07",
     "pop_end": "2029-01",
     "rate_structure": "direct",
-    "labor_budget": 654883.01,
+    "labor_budget": 582024.96,
     "travel_budget": 49132.49,
     "odc_budget": 16955.46,
     "status": "active"
@@ -269,7 +269,7 @@
     "pop_start": "2028-07",
     "pop_end": "2029-08",
     "rate_structure": "direct",
-    "labor_budget": 2166467.43,
+    "labor_budget": 1821718.39,
     "travel_budget": 45811.8,
     "odc_budget": 18573.0,
     "status": "active"
@@ -280,7 +280,7 @@
     "pop_start": "2028-11",
     "pop_end": "2029-08",
     "rate_structure": "direct",
-    "labor_budget": 1597660.72,
+    "labor_budget": 1606884.8,
     "travel_budget": 34834.99,
     "odc_budget": 4350.53,
     "status": "active"
@@ -291,7 +291,7 @@
     "pop_start": "2029-01",
     "pop_end": "2029-11",
     "rate_structure": "direct",
-    "labor_budget": 2681004.15,
+    "labor_budget": 3340568.75,
     "travel_budget": 24287.57,
     "odc_budget": 26271.84,
     "status": "active"
@@ -302,7 +302,7 @@
     "pop_start": "2029-02",
     "pop_end": "2029-10",
     "rate_structure": "direct",
-    "labor_budget": 1235058.52,
+    "labor_budget": 1097867.32,
     "travel_budget": 13177.81,
     "odc_budget": 9284.38,
     "status": "active"
@@ -313,7 +313,7 @@
     "pop_start": "2029-03",
     "pop_end": "2030-05",
     "rate_structure": "direct",
-    "labor_budget": 2583609.31,
+    "labor_budget": 2260272.79,
     "travel_budget": 19730.87,
     "odc_budget": 14731.58,
     "status": "active"
@@ -324,7 +324,7 @@
     "pop_start": "2029-03",
     "pop_end": "2030-02",
     "rate_structure": "direct",
-    "labor_budget": 1204786.86,
+    "labor_budget": 1370115.28,
     "travel_budget": 20187.52,
     "odc_budget": 26629.92,
     "status": "active"
@@ -335,7 +335,7 @@
     "pop_start": "2029-04",
     "pop_end": "2030-08",
     "rate_structure": "direct",
-    "labor_budget": 2814177.05,
+    "labor_budget": 2716697.79,
     "travel_budget": 17521.55,
     "odc_budget": 28633.72,
     "status": "active"
@@ -345,8 +345,8 @@
     "name": "Project 32",
     "pop_start": "2029-05",
     "pop_end": "2030-02",
-    "rate_structure": "oh_charged",
-    "labor_budget": 718912.46,
+    "rate_structure": "direct",
+    "labor_budget": 1291808.02,
     "travel_budget": 23970.42,
     "odc_budget": 25377.51,
     "status": "active"
@@ -356,8 +356,8 @@
     "name": "Project 33",
     "pop_start": "2029-05",
     "pop_end": "2030-01",
-    "rate_structure": "fee_charged",
-    "labor_budget": 677397.64,
+    "rate_structure": "direct",
+    "labor_budget": 1788573.2,
     "travel_budget": 26163.81,
     "odc_budget": 22972.68,
     "status": "active"
@@ -368,7 +368,7 @@
     "pop_start": "2029-06",
     "pop_end": "2030-07",
     "rate_structure": "direct",
-    "labor_budget": 2204418.57,
+    "labor_budget": 2039251.22,
     "travel_budget": 7343.85,
     "odc_budget": 28653.75,
     "status": "active"
@@ -379,7 +379,7 @@
     "pop_start": "2029-09",
     "pop_end": "2030-12",
     "rate_structure": "direct",
-    "labor_budget": 2638273.92,
+    "labor_budget": 2596943.04,
     "travel_budget": 15090.0,
     "odc_budget": 3921.31,
     "status": "active"
@@ -390,7 +390,7 @@
     "pop_start": "2029-09",
     "pop_end": "2030-11",
     "rate_structure": "direct",
-    "labor_budget": 4680398.45,
+    "labor_budget": 4240269.9,
     "travel_budget": 48077.85,
     "odc_budget": 3127.23,
     "status": "active"
@@ -401,7 +401,7 @@
     "pop_start": "2029-11",
     "pop_end": "2030-09",
     "rate_structure": "direct",
-    "labor_budget": 1172602.15,
+    "labor_budget": 1160920.31,
     "travel_budget": 6396.35,
     "odc_budget": 8923.93,
     "status": "active"
@@ -412,7 +412,7 @@
     "pop_start": "2029-11",
     "pop_end": "2030-12",
     "rate_structure": "direct",
-    "labor_budget": 2363065.21,
+    "labor_budget": 2290632.46,
     "travel_budget": 42765.3,
     "odc_budget": 19397.4,
     "status": "active"
@@ -423,7 +423,7 @@
     "pop_start": "2029-11",
     "pop_end": "2031-03",
     "rate_structure": "direct",
-    "labor_budget": 2209715.31,
+    "labor_budget": 2099116.11,
     "travel_budget": 15734.52,
     "odc_budget": 15259.71,
     "status": "active"
@@ -434,7 +434,7 @@
     "pop_start": "2029-12",
     "pop_end": "2030-12",
     "rate_structure": "direct",
-    "labor_budget": 3307249.44,
+    "labor_budget": 3696300.2,
     "travel_budget": 10147.53,
     "odc_budget": 28537.2,
     "status": "active"
@@ -445,7 +445,7 @@
     "pop_start": "2030-02",
     "pop_end": "2030-07",
     "rate_structure": "direct",
-    "labor_budget": 674883.62,
+    "labor_budget": 661889.69,
     "travel_budget": 25926.53,
     "odc_budget": 9174.82,
     "status": "active"
@@ -456,7 +456,7 @@
     "pop_start": "2030-03",
     "pop_end": "2031-05",
     "rate_structure": "direct",
-    "labor_budget": 2943978.06,
+    "labor_budget": 2634293.23,
     "travel_budget": 21600.28,
     "odc_budget": 18965.0,
     "status": "active"
@@ -467,7 +467,7 @@
     "pop_start": "2030-03",
     "pop_end": "2030-10",
     "rate_structure": "direct",
-    "labor_budget": 1810856.51,
+    "labor_budget": 1506703.95,
     "travel_budget": 48368.06,
     "odc_budget": 22114.0,
     "status": "active"
@@ -478,7 +478,7 @@
     "pop_start": "2030-06",
     "pop_end": "2030-11",
     "rate_structure": "direct",
-    "labor_budget": 1604314.68,
+    "labor_budget": 1385486.74,
     "travel_budget": 40000.63,
     "odc_budget": 6585.44,
     "status": "active"
@@ -489,7 +489,7 @@
     "pop_start": "2030-08",
     "pop_end": "2031-08",
     "rate_structure": "direct",
-    "labor_budget": 2642132.08,
+    "labor_budget": 2065871.74,
     "travel_budget": 18996.75,
     "odc_budget": 18203.17,
     "status": "active"
@@ -500,7 +500,7 @@
     "pop_start": "2030-08",
     "pop_end": "2031-03",
     "rate_structure": "direct",
-    "labor_budget": 877159.59,
+    "labor_budget": 714468.16,
     "travel_budget": 46799.92,
     "odc_budget": 18122.31,
     "status": "active"
@@ -511,7 +511,7 @@
     "pop_start": "2030-09",
     "pop_end": "2031-08",
     "rate_structure": "direct",
-    "labor_budget": 2785755.32,
+    "labor_budget": 2566570.71,
     "travel_budget": 45861.18,
     "odc_budget": 12508.59,
     "status": "active"
@@ -522,7 +522,7 @@
     "pop_start": "2030-10",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 3600553.56,
+    "labor_budget": 2988749.62,
     "travel_budget": 47366.18,
     "odc_budget": 7553.23,
     "status": "active"
@@ -533,7 +533,7 @@
     "pop_start": "2030-11",
     "pop_end": "2031-08",
     "rate_structure": "direct",
-    "labor_budget": 2559819.4,
+    "labor_budget": 1973488.8,
     "travel_budget": 31644.4,
     "odc_budget": 25256.01,
     "status": "active"
@@ -544,7 +544,7 @@
     "pop_start": "2030-12",
     "pop_end": "2031-05",
     "rate_structure": "direct",
-    "labor_budget": 1656783.35,
+    "labor_budget": 1545069.87,
     "travel_budget": 15928.22,
     "odc_budget": 21521.4,
     "status": "active"
@@ -555,7 +555,7 @@
     "pop_start": "2030-12",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 3485744.78,
+    "labor_budget": 3041345.99,
     "travel_budget": 18571.22,
     "odc_budget": 21159.25,
     "status": "active"
@@ -566,7 +566,7 @@
     "pop_start": "2031-01",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 1993801.6,
+    "labor_budget": 1463976.64,
     "travel_budget": 41248.76,
     "odc_budget": 24294.36,
     "status": "active"
@@ -577,7 +577,7 @@
     "pop_start": "2031-01",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 3018683.18,
+    "labor_budget": 2229335.04,
     "travel_budget": 30466.96,
     "odc_budget": 3149.94,
     "status": "active"
@@ -588,7 +588,7 @@
     "pop_start": "2031-01",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 3056413.22,
+    "labor_budget": 2597182.99,
     "travel_budget": 28973.54,
     "odc_budget": 20522.6,
     "status": "active"
@@ -599,7 +599,7 @@
     "pop_start": "2031-04",
     "pop_end": "2031-09",
     "rate_structure": "direct",
-    "labor_budget": 1447966.86,
+    "labor_budget": 1269527.04,
     "travel_budget": 8103.05,
     "odc_budget": 20131.21,
     "status": "active"
@@ -610,7 +610,7 @@
     "pop_start": "2031-04",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 1309880.36,
+    "labor_budget": 934015.53,
     "travel_budget": 5569.35,
     "odc_budget": 13761.64,
     "status": "active"
@@ -621,7 +621,7 @@
     "pop_start": "2031-06",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 979297.2,
+    "labor_budget": 874175.14,
     "travel_budget": 27059.08,
     "odc_budget": 14138.66,
     "status": "active"
@@ -632,7 +632,7 @@
     "pop_start": "2031-06",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 1294949.55,
+    "labor_budget": 1248105.44,
     "travel_budget": 21298.46,
     "odc_budget": 26964.1,
     "status": "active"
@@ -643,7 +643,7 @@
     "pop_start": "2031-09",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 848074.31,
+    "labor_budget": 662676.93,
     "travel_budget": 25688.27,
     "odc_budget": 6283.75,
     "status": "active"
@@ -653,8 +653,8 @@
     "name": "Project 60",
     "pop_start": "2031-09",
     "pop_end": "2031-12",
-    "rate_structure": "oh_charged",
-    "labor_budget": 361626.53,
+    "rate_structure": "direct",
+    "labor_budget": 518364.85,
     "travel_budget": 12926.16,
     "odc_budget": 16608.91,
     "status": "active"
@@ -665,7 +665,7 @@
     "pop_start": "2031-09",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 973669.3,
+    "labor_budget": 842448.91,
     "travel_budget": 34270.58,
     "odc_budget": 19245.55,
     "status": "active"
@@ -676,7 +676,7 @@
     "pop_start": "2031-10",
     "pop_end": "2031-12",
     "rate_structure": "direct",
-    "labor_budget": 607981.68,
+    "labor_budget": 445195.85,
     "travel_budget": 46382.79,
     "odc_budget": 23689.96,
     "status": "active"

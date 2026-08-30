@@ -101,7 +101,7 @@ def main() -> None:
         export_budget_summary(
             plan, result.hours_assigned, project_id, OUTPUT_DIR / f"budget_{project_id}.csv", as_of_month=first_open_month
         )
-    export_staffing_balance(plan, OUTPUT_DIR / "staffing_balance.csv", hours_assigned=result.hours_assigned)
+    export_staffing_balance(plan, OUTPUT_DIR / "staffing_balance.csv")
     console.print(f"Wrote workforce, variance, budget-summary, and staffing-balance exports to {OUTPUT_DIR}/")
     console.print("See README.md for what a planner does with each of these in practice.")
 

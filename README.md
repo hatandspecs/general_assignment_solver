@@ -42,6 +42,22 @@ python run_example.py     # loads it, solves it, shows the views, runs a reforec
 See `examples/medium_example/README.md` for a full walkthrough, including a tutorial
 aimed at the planner who'd actually use this tool (not just the person building it).
 
+## Try it: the live Grist planner UI
+
+A real, self-hosted Grist document backed by a small FastAPI service, with a
+control-panel widget embedded right in the doc — pre-assignments, run planning,
+export work assignments, portfolio reports, load actuals, variance reports, all as
+buttons, not CLI invocations:
+
+```bash
+cd grist_planner
+./deploy_planner.sh up
+```
+
+Opens Grist at `http://localhost:8484` with a small starting scenario already
+loaded. See `docs/09-planner-tutorial.md` for a full walkthrough and
+`docs/08-grist-ui-design.md` for how it's built.
+
 ## Running the tests
 
 ```bash
@@ -89,7 +105,12 @@ solve/actuals/close/reforecast cycle (`allocsolver advance-month`, proven feasib
 across all 58 months of the medium
 example's full 5-year horizon).
 
-Still design-only (documented in `docs/05-interfaces.md` but not built): a live Grist
-document and its REST client, the real timekeeping-ingest pipeline (this build's
-"actuals" are synthetic), snapshot/diff/accept as CLI verbs, and the legacy MSPDI
-export.
+Also implemented: a live, self-hosted Grist document (`grist_planner/`, `docs/08-
+grist-ui-design.md`) — every input table, a `GristClient` REST wrapper, and a
+control-panel widget wiring pre-assignments/run-planning/export/reports/close-month
+to buttons instead of CLI invocations, deployed with `./grist_planner/deploy_planner.sh up`.
+
+Still design-only (documented in `docs/05-interfaces.md` but not built): the real
+timekeeping-ingest pipeline (actuals are still synthetic, `io/synthetic.py`, or a
+hand-built CSV — there's no mapping-table/reconciliation pipeline against a real
+export yet), snapshot/diff/accept as CLI verbs, and the legacy MSPDI export.

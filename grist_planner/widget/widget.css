@@ -1,0 +1,117 @@
+:root {
+  color-scheme: light;
+  --bg: #ffffff;
+  --fg: #1a1a1a;
+  --muted: #666;
+  --border: #ddd;
+  --accent: #2a6df5;
+  --ok: #1a7f37;
+  --warn: #b35900;
+  --err: #c22;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  padding: 16px 20px 40px;
+  background: var(--bg);
+  color: var(--fg);
+  font: 14px/1.4 -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+
+header h1 {
+  font-size: 18px;
+  margin: 0 0 8px;
+}
+
+.banner {
+  padding: 8px 12px;
+  border-radius: 6px;
+  background: #f2f4f8;
+  border: 1px solid var(--border);
+  margin-bottom: 16px;
+  font-size: 13px;
+}
+
+.banner.error { background: #fdeeee; border-color: var(--err); color: var(--err); }
+
+section {
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+  margin-bottom: 14px;
+}
+
+section h2 {
+  font-size: 15px;
+  margin: 0 0 6px;
+}
+
+.hint {
+  color: var(--muted);
+  font-size: 12.5px;
+  margin: 0 0 10px;
+}
+
+button {
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 7px 14px;
+  font-size: 13px;
+  cursor: pointer;
+  margin-right: 8px;
+}
+
+button:hover { opacity: 0.9; }
+button:disabled { opacity: 0.5; cursor: default; }
+
+input[type="file"], input[type="text"] {
+  font-size: 13px;
+  margin-right: 8px;
+}
+
+.download-link {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 13px;
+  color: var(--accent);
+}
+
+.result {
+  margin-top: 10px;
+  font-size: 12.5px;
+}
+
+.result table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 6px;
+}
+
+.result th, .result td {
+  border: 1px solid var(--border);
+  padding: 4px 8px;
+  text-align: left;
+}
+
+.result th {
+  background: #f7f7f9;
+}
+
+.status-ok { color: var(--ok); font-weight: 600; }
+.status-warn { color: var(--warn); font-weight: 600; }
+.status-err { color: var(--err); font-weight: 600; }
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1e1f22;
+    --fg: #e8e8e8;
+    --muted: #9aa0a6;
+    --border: #3a3b3e;
+  }
+  .banner { background: #2a2b2e; }
+  .result th { background: #2a2b2e; }
+}

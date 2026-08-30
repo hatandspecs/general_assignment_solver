@@ -1,0 +1,12 @@
+[
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_1",
+    "month": "2027-01",
+    "hard_min": 0.0,
+    "soft_min": 130.0,
+    "soft_max": 130.0,
+    "hard_max": 145.0,
+    "eligible": true
+  }
+]

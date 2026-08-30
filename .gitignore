@@ -5,3 +5,5 @@ __pycache__/
 .mypy_cache/
 .ruff_cache/
 examples/medium_example/output/
+grist_planner/.env
+grist_planner/tutorial_data/data/

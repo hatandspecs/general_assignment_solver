@@ -146,7 +146,7 @@ def advance_month(
     # month's just-simulated actuals attached, or it would show no rows for it.
     month_dir = output_dir / str(current_month)
     export_month_snapshot(plan_with_actuals, result.hours_assigned, current_month, month_dir)
-    export_staffing_balance(plan_with_actuals, output_dir / "staffing_balance.csv", hours_assigned=result.hours_assigned)
+    export_staffing_balance(plan_with_actuals, output_dir / "staffing_balance.csv")
     console.print(f"Work assignments, variance, and budget summaries written to {month_dir}/")
     console.print(f"Staffing balance (whole-horizon) refreshed at {output_dir}/staffing_balance.csv")
 

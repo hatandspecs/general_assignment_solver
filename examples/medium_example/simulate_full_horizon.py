@@ -91,7 +91,6 @@ def advance_one_month(plan: Plan, rng: random.Random) -> tuple[Plan, dict | None
         "num_reforecasts": len(proposals),
         "total_variance": sum(p.variance for p in proposals),
         "num_eligible_assignments": sum(1 for h in result.hours_assigned.values() if h > 1e-9),
-        "hours_assigned": result.hours_assigned,
     }
 
 
@@ -140,8 +139,8 @@ def main() -> None:
         print(f"Cumulative reforecast variance absorbed across all months: {total_variance:+,.0f}")
 
         balance_path = OUTPUT_DIR / "staffing_balance.csv"
-        export_staffing_balance(plan, balance_path, hours_assigned=feasible_months[-1]["hours_assigned"])
-        print(f"Staffing balance (from the final solve) written to {balance_path}")
+        export_staffing_balance(plan, balance_path)
+        print(f"Staffing balance (capacity vs. project spend targets) written to {balance_path}")
 
     print(f"Final state saved to {DATA_DIR}, closed_through={plan.closed_through}.")
 
