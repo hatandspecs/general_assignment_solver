@@ -6,7 +6,7 @@ A program manager runs several concurrent projects staffed from a shared pool of
 
 The planning task is: allocate hours across (project, person, month) so that each project lands on its monthly spend target, nobody is overbooked, staffing bounds are respected, and the plan does not thrash between revisions.
 
-Doing this by hand is a constraint satisfaction problem with hundreds of interacting cells. A MILP solver already exists and does it well. The gap is representation: MS Project is the current front end, and its API is a poor integration surface for Python tooling.
+Doing this by hand is a constraint satisfaction problem with hundreds of interacting cells. A MILP solver already exists and does it well. The gap is representation: what's needed is a structured data model with a real API for a solver to read and write, not a manually-maintained document.
 
 ## What this system is
 

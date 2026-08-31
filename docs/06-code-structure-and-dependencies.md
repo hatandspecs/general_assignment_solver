@@ -61,7 +61,6 @@ allocsolver/
                               resolution
         snapshot.py           not yet built: git-backed snapshot read
                               and write
-        mpxj_export.py        legacy, guarded import, unconfirmed need
 
     The `GristClient` from `05-interfaces.md` is implemented, but lives outside
     this package: `grist_planner/planner_api/grist_client.py`, alongside the
@@ -161,8 +160,6 @@ That third rule is what makes the solver testable without a network, replayable 
 
 | Package | License | Guard |
 |---|---|---|
-| `mpxj` | LGPL-2.1 | Extra `[msproject]`. Pulls JPype and needs a JVM. Legacy, unconfirmed need — see `05-interfaces.md`. |
-| `JPype1` | Apache-2.0 | Transitive from `mpxj` |
 | `openpyxl` | MIT | Extra `[excel]`, only if timekeeping exports `.xlsx`, or for `.xlsx` report exports |
 | `duckdb` | MIT | Extra `[analysis]`, ad hoc snapshot querying |
 | `PySCIPOpt` | MIT | Extra `[iis]`. Direct SCIP access for `--iis` only; bypasses OR-Tools' generic wrapper for that one path. |
@@ -205,9 +202,8 @@ Isolate the choice behind `solve/run.py` so that swapping it is a one-file chang
 
 Every runtime dependency is permissive (MIT, BSD, Apache-2.0). Nothing copyleft is linked into the service.
 
-Two things to keep an eye on:
+One thing to keep an eye on:
 
-- **`mpxj` is LGPL-2.1.** Fine for internal use and fine as a dynamically linked optional extra. It becomes a question only if this tool is ever distributed as a binary artifact. Keeping it behind an optional extra means the default install has no LGPL component at all.
 - **`hypothesis` is MPL-2.0.** Weak copyleft, dev-only, never shipped. Not an issue, but worth knowing it is there before someone runs a license scan and asks.
 - **`grist-core` is Apache-2.0**, but the Grist Enterprise features (audit log streaming among them) are not. If audit logging becomes a requirement, that is a purchase decision, not a code decision. Do not build around assuming it is present.
 

@@ -47,7 +47,7 @@ flowchart TB
         REFORE["Reforecast targets<br/>(redistribute month's<br/>variance to remaining months)"]
     end
 
-    EXPORT["Exports: workforce sheet (hours only),<br/>variance sheet, budget summary<br/><i>mpxj/MSPDI: legacy, unconfirmed need</i>"]
+    EXPORT["Exports: workforce sheet (hours only),<br/>variance sheet, budget summary"]
     GIT[("Git: baseline snapshots")]
 
     INPUTS --> API --> PULL

@@ -113,4 +113,4 @@ to buttons instead of CLI invocations, deployed with `./grist_planner/deploy_pla
 Still design-only (documented in `docs/05-interfaces.md` but not built): the real
 timekeeping-ingest pipeline (actuals are still synthetic, `io/synthetic.py`, or a
 hand-built CSV — there's no mapping-table/reconciliation pipeline against a real
-export yet), snapshot/diff/accept as CLI verbs, and the legacy MSPDI export.
+export yet), and snapshot/diff/accept as CLI verbs.

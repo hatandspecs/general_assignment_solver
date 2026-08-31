@@ -127,13 +127,12 @@ allocsolver ingest        --file actuals.csv [--dry-run]
 allocsolver reforecast    --project <id> [--dry-run] [--accept]
 allocsolver diff          --from <snap> --to <snap>
 allocsolver snapshot      --list | --show <id> | --accept <id>
-allocsolver export        --format mspdi --out plan.xml     (legacy, see below)
 allocsolver iis           --horizon ...          analyst tool, infeasibility only
 ```
 
-**Implemented:** `validate`, `solve`, `advance-month` — all three work against a local JSON data directory (`io/local.py`), not yet a live Grist document. `solve`'s `--export-dir` and `advance-month`'s automatic per-month bundle are what actually produce the three confirmed export formats today, rather than a standalone `export --format ...` verb.
+**Implemented:** `validate`, `solve`, `advance-month` — all three work against a local JSON data directory (`io/local.py`); a live Grist document is also implemented, as a separate deployment (`grist_planner/`, `docs/08-grist-ui-design.md`), rather than through this CLI. `solve`'s `--export-dir` and `advance-month`'s automatic per-month bundle are what actually produce the three confirmed export formats today, rather than a standalone `export --format ...` verb.
 
-**Still design-only** (this section's original target shape, not yet built): `ingest` against a real timekeeping export, `reforecast` as its own CLI verb (the mechanism itself is implemented and used internally by `advance-month`, just not exposed standalone), `diff`, `snapshot`, `iis`, and the `mspdi` export format.
+**Still design-only** (this section's original target shape, not yet built): `ingest` against a real timekeeping export, `reforecast` as its own CLI verb (the mechanism itself is implemented and used internally by `advance-month`, just not exposed standalone), `diff`, `snapshot`, and `iis`.
 
 `--dry-run` on `ingest` (once built) writes nothing and prints the deltas it would have made, matching `solve`'s posture of never writing without being asked.
 
@@ -158,7 +157,7 @@ Committed to git; accepted baselines get a tag. This gives reproducibility, scen
 
 ## Exports
 
-Confirmed: only planners use Grist/the solver directly. Everyone else is a recipient of a plain export, never a user of the tool. Three formats are confirmed requirements; a fourth (MSPDI) is legacy and now unconfirmed.
+Confirmed: only planners use Grist/the solver directly. Everyone else is a recipient of a plain export, never a user of the tool. Three formats are confirmed requirements.
 
 ```mermaid
 flowchart LR
@@ -230,22 +229,3 @@ A planner's own input, kept in a file separate from anything the solver or the i
 Not one of the three confirmed exports, but implemented alongside them (`reports/staffing_balance.py`): `staffing_balance.csv`, one row per month, comparing total available spend *capacity* against total portfolio spend *demand* — in dollars, not raw hours, since not all person-hours are equivalent (salary and applicable wrap rate both vary person to person and month to month, so an hour of capacity and an hour of demand aren't fungible units to compare directly). Capacity is valued at each person's standard "direct" project rate (capacity itself isn't tied to any one project's rate structure). Demand comes from `plan.targets` — what the projects need spent, not realized/solved hours: realized hours are physically capped at real capacity (C3), so demand built from them could never mathematically exceed capacity, making a genuine shortfall impossible to ever report. Targets aren't capacity-capped, so they can genuinely run ahead of capacity — that gap is exactly the "pull in staff from outside the pool" signal this report exists to surface. Each row is flagged `surplus`, `shortfall`, or `balanced`, plus a `TOTAL` row across the whole horizon.
 
 This exists because "spend every project out fully" (`01-system-overview.md`'s operational goals) only works if the org's total staff-hours genuinely cover the portfolio's total demand. The report is deliberately an assessment, not a remediation — like an infeasibility report naming a binding constraint without relaxing it, this names the imbalance (find outside-portfolio work for a surplus month, pull in staff from elsewhere for a shortfall one) without deciding how to fix it.
-
-### MS Project export (legacy, unconfirmed need)
-
-Originally speculative, for stakeholders who might need a `.mpp`-family file. Now that the actual downstream consumers are confirmed (workforce: hours only; planners: the three exports above), no one has actually asked for MSPDI/`.mpp`. Kept as optional and low-priority rather than removed, since `01-system-overview.md` names MS Project as the system being replaced and some other legacy consumer may still exist — but don't build this before the three confirmed exports.
-
-`mpxj` via JPype writes MSPDI XML (it reads `.mpp` but does not write it), so the round trip is: generate MSPDI, open in Project, save as `.mpp` if required. Requires a JVM in the container.
-
-The mapping is lossy by construction, and should be, since the whole premise is that Project's model does not fit:
-
-| This system | MSPDI |
-|---|---|
-| Project | Task |
-| Person | Resource |
-| Cell hours | Timephased assignment work |
-| Bounds | Nothing. Dropped. |
-| Spend target | Nothing. Dropped. |
-| Rate structure | Resource standard rate, flattened |
-
-Export is one-way. There is no import path, and adding one would reintroduce exactly the coupling this design exists to remove.

@@ -1,6 +1,6 @@
 # Labor Allocation Planner: Design Documentation
 
-Design docs for a MILP-driven labor allocation and spend planning system, replacing MS Project as the plan representation layer.
+Design docs for a MILP-driven labor allocation and spend planning system.
 
 **Status:** draft. Open decisions are collected in `07-open-questions.md` and are marked inline as `[OPEN]` wherever they affect a design choice.
 
@@ -37,7 +37,7 @@ These are the load-bearing decisions. Changing any one of them invalidates large
 9. **Non-linear spend is achieved by reforecasting `targets` between solves, not by loosening the solver's target weight within one.** The solver always works hard to hit whatever is currently in `targets` (target weight stays dominant). Redistribution happens as a distinct step, triggered when a closed month's actuals reveal a variance, that proposes a proportionally-split updated target profile for the project's remaining open months — always human-reviewed, never a silent write.
 10. **Read-consistency and multi-editor conflict handling are deferred, not solved.** At 1-3 editors this is low-risk today, but the planning group has a known real-world pattern of clobbering each other's work in shared files elsewhere, so this is tracked as real future work, not assumed away — see `02-architecture.md`.
 11. **The solve cadence is monthly, one cycle behind its own actuals, with an optional mid-cycle "hot fix."** Planners solve at month-end for the next month forward and distribute a hours-only workforce export by the 1st. That month's own actuals aren't available until the following month has already started, so reforecasting always corrects the *next* solve, not the one just sent out — except when a variance is judged significant enough to warrant re-solving the in-progress month and re-sending it, which is a human decision, not an automatic trigger.
-12. **Workforce and planners see fundamentally different things.** Only planners use Grist/the solver. The workforce receives a plain export — worker, project, hours for next month, nothing else — with cost, rate, and salary data deliberately excluded. Planners additionally get a variance export and a per-project budget summary export. The originally-speculative MS Project (MSPDI) export has no confirmed consumer and is now legacy/low-priority.
+12. **Workforce and planners see fundamentally different things.** Only planners use Grist/the solver. The workforce receives a plain export — worker, project, hours for next month, nothing else — with cost, rate, and salary data deliberately excluded. Planners additionally get a variance export and a per-project budget summary export.
 
 These reflect the user's answers across two rounds of `07-open-questions.md`; see that document for the reasoning behind each and what (if anything) remains genuinely open.
 

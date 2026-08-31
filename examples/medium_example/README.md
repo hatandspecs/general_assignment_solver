@@ -84,12 +84,13 @@ inbox (`pre_assignments.json`, `io/pre_assignments.py`), and a simulated real-ti
 engine (`advance-month` / `simulate_full_horizon.py`) that drives the whole
 solve → actuals → close → reforecast cycle one month at a time.
 
-Not yet built, and not needed for this example: a live Grist document and its REST
-client, the real timekeeping-system ingest pipeline (this example's "actuals" are
-synthetic, generated directly rather than imported from a CSV), snapshot/diff/accept
-as CLI commands, and the legacy MSPDI export. These are all still described in
-`../../docs/05-interfaces.md` as the target design — this example demonstrates the
-solver and reporting core, not the full integration surface.
+Not built as part of this example (a live Grist document is a separate deployment,
+`../../grist_planner/`, `../../docs/08-grist-ui-design.md`): the real
+timekeeping-system ingest pipeline (this example's "actuals" are synthetic,
+generated directly rather than imported from a CSV), and snapshot/diff/accept as
+CLI commands. These are still described in `../../docs/05-interfaces.md` as the
+target design — this example demonstrates the solver and reporting core, not the
+full integration surface.
 
 ## A tutorial, for a planner
 
