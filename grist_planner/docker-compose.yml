@@ -6,6 +6,11 @@ services:
       - "${GRIST_PORT:-8484}:8484"
     environment:
       - GRIST_BOOT_KEY=${GRIST_BOOT_KEY}
+      # Lifts the boot-key "verify server access" wall for ordinary page loads —
+      # provisioning.py still uses the boot key itself, server-side, to log in
+      # as the admin that owns the doc; this just means a planner's own browser
+      # never has to. See grist_client.py's grant_anonymous_access.
+      - GRIST_IN_SERVICE=true
     volumes:
       - grist_data:/persist
 
@@ -23,6 +28,7 @@ services:
       - GRIST_WORKSPACE_NAME=${GRIST_WORKSPACE_NAME:-Planner}
       - GRIST_DOC_NAME=${GRIST_DOC_NAME:-Labor Allocation Planner}
       - WIDGET_URL=http://localhost:${PLANNER_API_PORT:-8000}/widget/index.html
+      - GRIST_PUBLIC_URL=http://localhost:${GRIST_PORT:-8484}
       - STATE_FILE=/data/.grist_state.json
     volumes:
       - planner_state:/data

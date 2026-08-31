@@ -9,9 +9,11 @@ screenshot below is real output from a live deployment, not a mockup.
 
 ```mermaid
 flowchart TD
-    A["Pre-Assignments<br/>upload JSON, or edit the<br/>Pre_Assignments table in Grist"] --> B["Run Planning (preview)<br/>solves, diffs vs. pre-assignments"]
+    A["Pre-Assignments<br/>upload JSON, or edit the<br/>Pre_Assignments table in Grist"] --> B["Run Planning<br/>solves, writes the solution into Allocation"]
+    B --> T["Tweak & re-solve<br/>hand-edit Allocation, check locked,<br/>Run Planning again"]
+    T --> B
     B --> C{"Happy with<br/>the plan?"}
-    C -->|"No — adjust pre-assignments"| A
+    C -->|"No — adjust Pre-Assignments<br/>or lock a cell"| A
     C -->|"Yes"| D["Export Work Assignments<br/>commits to Bounds, sheet goes to the team"]
     D --> E["Project Portfolio Reports<br/>budget summary + staffing balance"]
     E --> F["Load Actuals<br/>import timekeeping data (or synthetic, for practice)"]
@@ -20,10 +22,10 @@ flowchart TD
     H --> A
 ```
 
-The loop at the top (Pre-Assignments <-> Run Planning) can repeat as many times
-as you like within a month — nothing is saved until Export Work Assignments.
-Everything from there down happens once per month, then the cycle repeats for
-the next one.
+The loop at the top (Pre-Assignments / Run Planning / tweak & re-solve) can
+repeat as many times as you like within a month — nothing is committed until
+Export Work Assignments. Everything from there down happens once per month,
+then the cycle repeats for the next one.
 
 ## 1. Start it up
 
@@ -35,18 +37,14 @@ cd grist_planner
 First run: generates `.env` with a random Grist admin boot key, builds the
 backend image, starts both containers, and provisions a fresh document —
 schema, the control-panel widget page, and `examples/small_example/data/`.
-Takes under a minute.
+Takes under a minute. **No login is needed** — `up` prints a direct link to the
+document; open that link, not the bare `http://localhost:8484` (which shows an
+empty anonymous space, not this doc — `org_domain` is assigned per admin
+account and isn't the same every time, so there's no fixed URL to remember).
 
-**One-time step, first time only:** your own browser has never logged into
-Grist (only the provisioning script has, server-side). `up`'s own output prints
-the exact steps — open `http://localhost:8484/boot`, enter the boot key it
-shows you, confirm the admin email — after which your browser stays logged in
-across every future `down`/`up` cycle. You only do this once per browser, not
-every time you run the tool.
-
-Once logged in, the document has one page per table on the left (`People`,
-`Projects`, `Bounds`, ... — the whole star schema from `03-data-model.md`) plus
-a **Planner Control Panel** page holding the widget this tutorial uses for
+The document has one page per table on the left (`People`, `Projects`,
+`Bounds`, `Allocation`, ... — the whole star schema from `03-data-model.md`)
+plus a **Planner Control Panel** page holding the widget this tutorial uses for
 everything else.
 
 ## 2. The starting scenario
@@ -113,24 +111,54 @@ most of the workforce actually gets assigned in practice. Load it:
 (Same shape as any pre-assignment file — you could hand-edit the
 `Pre_Assignments` table instead, and get the identical result.)
 
-Click **2. Run Planning**. This solves with that pre-assignment merged in, but
-writes nothing yet:
+Click **2. Run Planning**. This solves with that pre-assignment merged in, and
+writes the result into the `Allocation` table:
 
 ![Run Planning result](images/grist_tutorial/05_run_planning.png)
 
 Alicia's row shows `matched` (solved exactly at her requested 130h); the other
 rows are `solver_only` — assignments the solver picked on its own to cover the
-rest of both projects' targets. Adjust the pre-assignment and re-run as many
-times as you like — nothing is saved until the next step.
+rest of both projects' targets.
+
+## 5. This is not one-and-done: tweak, then re-solve
+
+Open the `Allocation` table (left sidebar). Rows for 2027-01 (already closed)
+show both `hours_assigned` and `hours_actual`; rows for 2027-02 onward — the
+month you just planned — show only `hours_assigned`, freshly written by Run
+Planning, with `locked` unchecked:
+
+![Allocation table](images/grist_tutorial/10_allocation_table.png)
+
+This is the actual solution, not a preview, and it's an ordinary editable Grist
+table. Say Alicia should really only work 95 hours this month, not 130 — double-
+click her `hours_assigned` cell for 2027-02, type `95`, hit Enter, then check
+her `locked` box:
+
+![Locked edit](images/grist_tutorial/11_locked_edit.png)
+
+Go back to the Planner Control Panel and click **Run Planning** again. Alicia's
+cell holds at exactly 95 (`solver_adjusted` — it now differs from her original
+130h pre-assignment) while the rest of the plan re-optimizes around it — here,
+Carmen Ruiz's hours on Project Alpha rise from 100 to 94.9 to help absorb the
+difference:
+
+![Ripple effect](images/grist_tutorial/12_ripple_effect.png)
+
+Repeat this as many times as you like — lock more cells, unlock others, adjust
+the pre-assignment, re-run — nothing outside `Allocation` changes until the
+next step.
+
+## 6. Commit the plan
 
 Click **3. Export Work Assignments**. This is the commit point: the
 pre-assignment is merged into `Bounds` permanently, the `Pre_Assignments` table
-clears, and this month's sheet is produced — the one that would go out to the
-workforce (hours only, no cost, `05-interfaces.md`'s workforce export):
+clears, `Allocation` is refreshed once more, and this month's sheet is
+produced — the one that would go out to the workforce (hours only, no cost,
+`05-interfaces.md`'s workforce export):
 
 ![Export Work Assignments result](images/grist_tutorial/06_export_assignments.png)
 
-## 5. Check the portfolio
+## 7. Check the portfolio
 
 Click **4. Run Portfolio Reports**. Two things come back: a budget summary for
 every currently-active project (planned spend populated for the whole PoP;
@@ -145,7 +173,7 @@ nothing here to tune toward a realistic deficit. The point of this step is the
 mechanism (capacity valued at the direct rate, demand from `Targets`, `08-grist-
 ui-design.md`), not the specific numbers.
 
-## 6. Close the month
+## 8. Close the month
 
 No real timekeeping export exists yet, so leave the file input empty under
 **5. Load Actuals** and click **Preview** — this falls back to the same
@@ -166,7 +194,7 @@ month (2027-01):
 
 ![Variance report](images/grist_tutorial/09_variance_report.png)
 
-## 7. Repeat for the rest of the horizon
+## 9. Repeat for the rest of the horizon
 
 Months 2027-03 through 2027-06 follow the identical cycle from the diagram at
 the top (skip the pre-assignment step in any month you don't have one — it's
@@ -184,14 +212,14 @@ specifically:
 By 2027-06, `/api/state`'s `horizon_exhausted` flips to `true` — nothing left
 to plan.
 
-## 8. Loading real actuals instead of synthetic ones
+## 10. Loading real actuals instead of synthetic ones
 
 Once a real timekeeping export exists, build a CSV with exactly these columns —
-`person_id, project_id, hours_actual` — and upload it in step 6's file input
+`person_id, project_id, hours_actual` — and upload it in step 8's file input
 instead of leaving it empty. Everything downstream (variance, reforecast) works
 identically; only the source of the numbers changes.
 
-## 9. Trying the medium example instead
+## 11. Trying the medium example instead
 
 The same deployment can run `examples/medium_example/` instead — 50 people,
 ~10-12 concurrently active projects, a 5-year horizon spanning several
@@ -210,7 +238,7 @@ one command-line run, without clicking anything. Use the Grist UI to look
 closely at a handful of representative months, and the standalone script to
 see the whole horizon at once.
 
-## 10. Shutting down
+## 12. Shutting down
 
 ```bash
 ./deploy_planner.sh down     # stop containers, keep all data

@@ -80,6 +80,45 @@ def _solve_or_422(plan):
     return result
 
 
+def _write_solution_to_allocation(plan, result, client: GristClient) -> None:
+    """Persists every open (not-yet-closed) month's solved hours into the
+    `Allocation` table — this *is* the editable "solution" a planner iterates
+    on: open it in Grist, hand-edit a cell's `hours_assigned`, check its
+    `locked` box, and the next Run Planning pins that cell exactly
+    (`fixed_cells_and_values`, `solve/build.py`) while re-optimizing everything
+    else around it. Closed months' rows (which carry `hours_actual`, fixed by
+    C5 regardless of `locked`) are left untouched. A cell's own `locked` flag,
+    read from `plan.allocation` *before* this solve, is carried forward as-is —
+    this function only ever writes `hours_assigned`, never `locked` itself,
+    matching `05-interfaces.md`'s "never written by the solver: ... locked".
+    """
+    closed_through = plan.closed_through
+    locked_by_cell = {(a.project_id, a.person_id, a.month): a.locked for a in plan.allocation}
+    closed_rows = [a for a in plan.allocation if closed_through and a.month <= closed_through]
+
+    open_rows = []
+    for (p, w, m), hours in result.hours_assigned.items():
+        if closed_through and m <= closed_through:
+            continue
+        locked = locked_by_cell.get((p, w, m), False)
+        if hours <= 1e-9 and not locked:
+            continue
+        open_rows.append(
+            AllocationRow(
+                project_id=p,
+                person_id=w,
+                month=m,
+                hours_assigned=round(hours, 2),
+                hours_actual=None,
+                locked=locked,
+                solve_id=result.solve_id,
+            )
+        )
+
+    all_rows = closed_rows + open_rows
+    client.replace_table("Allocation", [r.model_dump(mode="json") for r in all_rows])
+
+
 @app.get("/health")
 def health():
     return {"status": "ok"}
@@ -128,14 +167,22 @@ async def upload_pre_assignments(file: UploadFile):
 
 @app.post("/api/run-planning")
 def run_planning():
-    """Preview only: solves with the current Pre_Assignments merged in, but never
-    writes anything back — "see how the solution differs from the pre-assignment"."""
+    """Solves with the current Pre_Assignments merged in, and — this is the
+    editable "solution" a planner iterates on, not a one-shot preview — writes
+    every open month's result into `Allocation` (`_write_solution_to_allocation`).
+    Never touches `Bounds`, `Targets`, or `closed_through`: a planner can run
+    this as many times as they like, hand-editing `Allocation` rows (tweak
+    `hours_assigned`, check `locked` to pin a cell) between runs, before ever
+    committing a pre-assignment or closing a month.
+    """
     client = _client()
     try:
         plan = load_plan_from_grist(client)
         pre_assignments = load_pre_assignments_from_grist(client)
         working_plan = apply_pre_assignments(plan, pre_assignments)
         result = _solve_or_422(working_plan)
+
+        _write_solution_to_allocation(plan, result, client)
 
         current_month = _current_month(plan)
         diff_rows = reports.solve_diff_rows(pre_assignments, result.hours_assigned, current_month)
@@ -161,19 +208,28 @@ def export_work_assignments():
     """Commits: merges Pre_Assignments into Bounds for real, saves, and clears the
     inbox — this is the "send it to the workforce" moment, so it's the natural
     point the plan gets locked in (matches `apply_pre_assignments`'s "the override
-    persists permanently in bounds" contract, `io/pre_assignments.py`)."""
+    persists permanently in bounds" contract, `io/pre_assignments.py`). Also
+    refreshes `Allocation` from this solve (`_write_solution_to_allocation`), same
+    as Run Planning — the two exported/committed views should never disagree.
+
+    Deliberately writes only `Bounds` and `Allocation`, not the whole plan via
+    `save_plan_to_grist`: `plan.allocation` here is whatever was loaded *before*
+    this solve ran, so blindly saving the whole plan would overwrite `Allocation`
+    with stale pre-solve data, undoing the fresh result.
+    """
     client = _client()
     try:
         plan = load_plan_from_grist(client)
         pre_assignments = load_pre_assignments_from_grist(client)
-        plan = apply_pre_assignments(plan, pre_assignments)
-        result = _solve_or_422(plan)
+        working_plan = apply_pre_assignments(plan, pre_assignments)
+        result = _solve_or_422(working_plan)
 
-        save_plan_to_grist(plan, client)
+        client.replace_table("Bounds", [b.model_dump(mode="json") for b in working_plan.bounds])
+        _write_solution_to_allocation(plan, result, client)
         clear_pre_assignments_in_grist(client)
 
         current_month = _current_month(plan)
-        rows = reports.work_assignment_rows(plan, result.hours_assigned, current_month)
+        rows = reports.work_assignment_rows(working_plan, result.hours_assigned, current_month)
         client.replace_table("Report_WorkAssignments", rows)
 
         return {"month": str(current_month), "num_assignments": len(rows), "rows": rows}

@@ -23,7 +23,14 @@ import httpx
 
 from allocsolver.io.local import load_plan
 
-from .grist_client import GristClient, boot_login, ensure_doc, ensure_workspace, get_or_create_api_key
+from .grist_client import (
+    GristClient,
+    boot_login,
+    ensure_doc,
+    ensure_workspace,
+    get_or_create_api_key,
+    grant_anonymous_access,
+)
 from .plan_sync import save_plan_to_grist
 from .schema import ALL_TABLES
 
@@ -82,6 +89,7 @@ def provision(
         print(f"Reusing existing provisioning state at {STATE_FILE}")
         client = GristClient(internal_grist_url, state["api_key"], state["doc_id"])
         try:
+            client.grant_anonymous_access(state["org_domain"])  # backfill for docs provisioned before this existed
             _ensure_tables(client)
         except httpx.HTTPStatusError as exc:
             raise RuntimeError(
@@ -94,6 +102,7 @@ def provision(
     session = boot_login(internal_grist_url, boot_key, admin_email)
     api_key = get_or_create_api_key(session)
     org_domain, workspace_id = ensure_workspace(session, workspace_name)
+    grant_anonymous_access(session, org_domain)
     doc_id = ensure_doc(session, workspace_id, doc_name)
     session.close()
 
@@ -146,8 +155,13 @@ def main() -> None:
     if args.seed_dir is not None:
         seed_from_local_data(client, args.seed_dir)
 
+    grist_public_url = os.environ.get("GRIST_PUBLIC_URL", "").rstrip("/")
+    org_domain = _load_state()["org_domain"]  # just written by provision(), always present here
     print(f"\nDone. Doc id: {client.doc_id}")
-    print(f"Open the Grist UI at the browser-facing URL printed by deploy_planner.sh to use it.")
+    if grist_public_url:
+        print(f"Open the doc directly at: {grist_public_url}/o/{org_domain}/doc/{client.doc_id}")
+    else:
+        print("Set GRIST_PUBLIC_URL to get a direct doc link printed here.")
     client.close()
 
 

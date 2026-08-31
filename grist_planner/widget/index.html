@@ -13,11 +13,13 @@
 
   <main>
     <section id="section-pre-assignments">
-      <h2>1. Pre-Assignments</h2>
+      <h2>1. Pre-Assignments (optional, before the first solve)</h2>
       <p class="hint">
         Load a pre-assignment JSON file, or edit the <code>Pre_Assignments</code> table
-        directly in Grist (open it from the page list on the left) — either way, these
-        are what "Run Planning" and "Export Work Assignments" merge into Bounds.
+        directly in Grist (open it from the page list on the left) — either way, each
+        row becomes an hour-range constraint (min/max) on one project/person/month in
+        <code>Bounds</code>, guiding the solver <em>before</em> it ever runs. Optional —
+        skip straight to step 2 if you don't have any this month.
       </p>
       <input type="file" id="pre-assignment-file" accept="application/json">
       <button id="btn-upload-pre-assignments">Load Pre-Assignment JSON</button>
@@ -25,18 +27,30 @@
     </section>
 
     <section id="section-run-planning">
-      <h2>2. Run Planning</h2>
-      <p class="hint">Solves with the current Pre-Assignments merged in. Preview only — nothing is saved.</p>
-      <button id="btn-run-planning">Run Planning (Preview)</button>
+      <h2>2. Run Planning — solve, review, and tweak</h2>
+      <p class="hint">
+        Solves with the current Pre-Assignments merged in, and writes the result into
+        the <code>Allocation</code> table — open it from the page list on the left to
+        see the actual solved hours for every project/person this month. This is not
+        one-and-done: hand-edit any row's <code>hours_assigned</code> there, check its
+        <code>locked</code> box, and click <strong>Run Planning</strong> again — that
+        cell stays pinned exactly as you set it while everything else re-optimizes
+        around it. Repeat as many times as you like. Nothing is committed (no change to
+        <code>Bounds</code> or <code>Pre_Assignments</code>) until step 3.
+      </p>
+      <button id="btn-run-planning">Run Planning</button>
       <div class="result" id="result-run-planning"></div>
     </section>
 
     <section id="section-export">
-      <h2>3. Export Work Assignments</h2>
+      <h2>3. Export Work Assignments — commit</h2>
       <p class="hint">
-        Commits: merges Pre-Assignments into Bounds for good, clears the inbox, and
-        produces this month's work-assignment sheet. Do this once you're happy with
-        the plan from step 2.
+        Re-solves once more, then permanently merges this month's Pre-Assignments into
+        <code>Bounds</code> (the hour-range constraints) and clears the
+        <code>Pre_Assignments</code> inbox — <code>Allocation</code> (the actual solved
+        hours) is refreshed the same way step 2 does, so the two always agree. Do this
+        once you're happy with the plan from step 2; it also produces this month's
+        work-assignment sheet, the one that goes out to the team.
       </p>
       <button id="btn-export">Export Work Assignments (Commit Plan)</button>
       <a id="link-download-assignments" class="download-link" href="/api/export-work-assignments/download">Download CSV</a>

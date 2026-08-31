@@ -55,24 +55,59 @@ JSON files.
 
 | Table | Notes |
 |---|---|
-| `People`, `Projects`, `Rate_Structures`, `Rates`, `Wrap_Rates`, `Capacity`, `Bounds`, `Targets`, `Allocation` | The star schema, unchanged from `03-data-model.md`. |
-| `Pre_Assignments` | New. Same shape as `Bounds` — the manual pre-assignment inbox (`05-interfaces.md`), promoted from a hand-edited JSON file to a live, editable table. Cleared once "Export Work Assignments" merges it into `Bounds` for good. |
-| `Meta` | New. A single row: `horizon_start`, `horizon_end`, `closed_through` — `Plan`'s own top-level fields, which had nowhere else to live now that there's no `meta.json`. |
-| `Report_WorkAssignments`, `Report_Variance`, `Report_BudgetSummary`, `Report_StaffingBalance`, `Report_SolveDiff` | New, generated, read-only. Overwritten wholesale on every relevant button click. **Don't hand-edit these** — the next report run replaces them entirely. |
+| `People`, `Projects`, `Rate_Structures`, `Rates`, `Wrap_Rates`, `Capacity`, `Targets` | The star schema, unchanged from `03-data-model.md` — pure human input. |
+| `Bounds` | Unchanged from `03-data-model.md`: hour-range constraints (hard/soft min/max) per project/person/month, guiding the solver *before* it runs. What "Export Work Assignments" permanently merges each month's `Pre_Assignments` into. |
+| `Allocation` | Unchanged schema, but now the editable **solution** a planner actually looks at and iterates on — see "The solution table and the tweak-and-resolve loop" below. Closed months carry `hours_actual` (fixed, historical); open months carry the latest solve's `hours_assigned`, hand-editable, with a `locked` checkbox that pins a cell across the next solve. |
+| `Pre_Assignments` | Same shape as `Bounds` — the manual pre-assignment inbox (`05-interfaces.md`), promoted from a hand-edited JSON file to a live, editable table. Cleared once "Export Work Assignments" merges it into `Bounds` for good. |
+| `Meta` | A single row: `horizon_start`, `horizon_end`, `closed_through` — `Plan`'s own top-level fields, which had nowhere else to live now that there's no `meta.json`. |
+| `Report_WorkAssignments`, `Report_Variance`, `Report_BudgetSummary`, `Report_StaffingBalance`, `Report_SolveDiff` | Generated, read-only. Overwritten wholesale on every relevant button click. **Don't hand-edit these** — the next report run replaces them entirely. |
 
 `planner-api` provisions all of these once (idempotently — see "Provisioning" below);
 nothing about the schema needs to be created by hand.
+
+## The solution table and the tweak-and-resolve loop
+
+The single most important correction to this design, found by actually using it:
+planning is not one-shot. A planner runs the solver, looks at what it produced,
+overrides a handful of cells by hand, and re-solves around those overrides —
+repeatedly — before anything is final. The data model already had the mechanism
+for exactly this (`AllocationRow.locked`, `05-interfaces.md`: "Hand-editing
+assigned hours is supported only through an explicit lock mechanism, which the
+solver treats as a fixed variable" — `solve/build.py`'s `fixed_cells_and_values`,
+C5) — it just wasn't wired into the Grist backend at first, so **Run Planning**
+only ever showed an ephemeral preview with nowhere to look at or edit the actual
+numbers. Fixed: **Run Planning now writes every open month's solved
+`hours_assigned` into `Allocation`** (`main.py`'s `_write_solution_to_allocation`),
+preserving whatever `locked` flags are already set, and never touching `Bounds`,
+`Targets`, or `closed_through`.
+
+```mermaid
+flowchart TD
+    RP["Run Planning<br/>solves, writes Allocation"] --> LOOK["Open Allocation in Grist<br/>(project- or person-sorted)"]
+    LOOK --> EDIT["Hand-edit a cell's hours_assigned,<br/>check its locked box"]
+    EDIT --> RP
+    LOOK --> HAPPY{"Happy with<br/>the plan?"}
+    HAPPY -->|"Yes"| EX["Export Work Assignments<br/>(commit)"]
+```
+
+A locked cell's `hours_assigned` is pinned exactly across the next solve — the
+rest of the plan re-optimizes around it, and the ripple is visible immediately
+(reducing one person's hours on a project can send another person's hours up
+substantially, to keep that project's spend target covered). This loop can run
+as many times as a planner likes; nothing else is committed until Export Work
+Assignments.
 
 ## Widget: the six actions
 
 Each maps directly to a button the widget requested. Two postures throughout,
 matching `allocsolver.cli`'s existing dry-run/accept pattern — a `POST` either
-previews (nothing written) or commits (everything written), never both:
+previews (writes only the solution, nothing else) or commits (Bounds too), never
+both:
 
 ```mermaid
 flowchart LR
     PA["1. Pre-Assignments<br/>upload JSON, or hand-edit<br/>the Grist table directly"] --> RP
-    RP["2. Run Planning<br/>(preview — solves, diffs<br/>vs. pre-assignments,<br/>writes nothing)"] --> EX
+    RP["2. Run Planning<br/>(solves, writes the solution<br/>into Allocation — tweak & repeat)"] --> EX
     EX["3. Export Work Assignments<br/>(commit — merges pre-assignments<br/>into Bounds, clears the inbox)"] --> PR
     PR["4. Portfolio Reports<br/>(budget summary +<br/>staffing balance)"]
     EX --> LA
@@ -83,20 +118,29 @@ flowchart LR
 1. **Pre-Assignments.** `POST /api/pre-assignments/upload` (multipart JSON, same
    shape as `pre_assignments.json`) replaces the `Pre_Assignments` table wholesale.
    The table is also directly editable in Grist — either path lands in the same
-   place, and both are read by the next two actions.
+   place, and both are read by the next two actions. Distinct from a *locked*
+   `Allocation` cell: a pre-assignment is a soft *range* nudge applied before the
+   first solve; a locked cell is a hard, after-the-fact pin applied once a planner
+   has already seen a solve's output and wants to force one specific value.
 2. **Run Planning** (`POST /api/run-planning`). Loads the plan, merges the current
    `Pre_Assignments` in-memory (`apply_pre_assignments` — full `Plan` revalidation,
-   so a typo'd id is caught immediately), solves, and diffs the solved hours
-   against each pre-assignment's `soft_max` for the current open month. Writes the
-   diff to `Report_SolveDiff` and returns it to the widget. **Nothing else is
-   written** — a planner can run this as many times as they like while adjusting
-   pre-assignments.
+   so a typo'd id is caught immediately), solves, and writes every open month's
+   result into `Allocation` (preserving any `locked` flags already there — see
+   above). Also diffs the solved hours against each pre-assignment's `soft_max`
+   for the current open month, written to `Report_SolveDiff`. **Never touches
+   `Bounds`, `Targets`, or `closed_through`** — a planner can run this as many
+   times as they like, hand-editing `Allocation` between runs.
 3. **Export Work Assignments** (`POST /api/export-work-assignments`). The commit
-   point: re-solves, then actually merges `Pre_Assignments` into `Bounds` and saves
-   the whole plan, and clears the `Pre_Assignments` table (same "the override
-   persists permanently in bounds; the inbox isn't a log" contract as
-   `io/pre_assignments.py`). Writes `Report_WorkAssignments` for the immediate open
-   month. A CSV download is also available (`GET .../download`).
+   point: re-solves, then actually merges `Pre_Assignments` into `Bounds` (the
+   hour-range constraints) and clears the `Pre_Assignments` table (same "the
+   override persists permanently in bounds; the inbox isn't a log" contract as
+   `io/pre_assignments.py`), and refreshes `Allocation` the same way Run Planning
+   does — the two never disagree. Writes only `Bounds` and `Allocation`
+   (`_write_solution_to_allocation`), not the whole plan via `save_plan_to_grist`:
+   `plan.allocation` at the point this handler loads it is pre-solve, so a naive
+   whole-plan save here would silently overwrite `Allocation` with stale data.
+   Also writes `Report_WorkAssignments` for the immediate open month, with a CSV
+   download available (`GET .../download`).
 4. **Portfolio Reports** (`POST /api/run-portfolio-reports`). Budget summary for
    every currently-active project plus the staffing balance assessment
    (`reports/staffing_balance.py`) — writes `Report_BudgetSummary` and
@@ -152,10 +196,24 @@ across restarts, not just the first call:
 2. **Org / workspace / doc.** The admin's personal org already exists right after
    login; a `Planner` workspace and a `Labor Allocation Planner` doc are created
    inside it if they don't already exist by name.
-3. **Tables.** Every table in `planner_api/schema.py` that doesn't already exist
+3. **Grant anonymous access.** `PATCH /api/orgs/{org}/access` grants the special
+   `anon@getgrist.com` user `editors` on the org (`grant_anonymous_access`) — this,
+   combined with `GRIST_IN_SERVICE=true` on the Grist container (`docker-compose.yml`),
+   is what actually lets a planner's own browser open and edit the document with
+   *no login step at all*, not just no boot key. The two are easy to conflate but
+   solve different problems: `GRIST_IN_SERVICE=true` only lifts the boot-key
+   "verify you have server access" wall in front of ordinary page loads (Grist's
+   own documented "turn off this check" env var) — confirmed by actually testing
+   both settings against a live container with Playwright, a fresh anonymous
+   session still got "Access denied" opening the doc with `GRIST_IN_SERVICE=true`
+   alone, since that document is privately owned by the admin's personal org. The
+   access grant is what a real anonymous visitor needs on top of that. Re-applied
+   on every `up` (idempotent), so a doc provisioned before this existed gets it
+   backfilled (`GristClient.grant_anonymous_access`).
+4. **Tables.** Every table in `planner_api/schema.py` that doesn't already exist
    gets created (`POST /api/docs/{doc}/tables`) — re-running this after a partial
    failure only adds what's missing.
-4. **The widget page.** A new Grist page with a single custom-widget section is
+5. **The widget page.** A new Grist page with a single custom-widget section is
    added via the `CreateViewSection` useraction, pointed at `WIDGET_URL`
    (`http://localhost:<port>/widget/index.html`) with `access: "none"` — the
    widget never calls `grist.docApi` (see below), so there's no elevated
@@ -173,27 +231,43 @@ across restarts, not just the first call:
    a duplicate table (e.g. `People2`) instead of attaching to the real one. This
    is, still, a plain REST/useraction call throughout — the whole provisioning
    flow is scriptable end to end with no manual browser step.
-5. **State.** `org_domain`, `workspace_id`, `doc_id`, and the API key are written
+6. **State.** `org_domain`, `workspace_id`, `doc_id`, and the API key are written
    to `/data/.grist_state.json` (a docker volume, `planner_state`). On every
-   subsequent `up`, finding this file short-circuits steps 1–2 entirely; step 3
-   still runs (cheaply — it only adds missing tables) so a doc that was only
-   partially provisioned before a crash gets completed rather than left broken.
-6. **Seed data** (`--seed-dir`, wired by `deploy_planner.sh up --example <name>`
+   subsequent `up`, finding this file short-circuits steps 1–2 entirely; steps
+   3–4 still run (cheaply — re-granting access and adding missing tables) so a
+   doc that was only partially provisioned before a crash gets completed rather
+   than left broken.
+7. **Seed data** (`--seed-dir`, wired by `deploy_planner.sh up --example <name>`
    to `examples/<name>/data/`, default `small_example`). Loads a `Plan` from a
    local JSON directory (`io/local.py`'s layout) and writes it in — skipped if
    `Meta` already has a row, so re-running `up` never clobbers a planner's
    in-progress work (switching examples on an already-seeded doc needs `reset`
    first).
 
+`provisioning.py`'s own final line of output is the direct, clickable doc URL —
+`{GRIST_PUBLIC_URL}/o/{org_domain}/doc/{doc_id}` — which `deploy_planner.sh up`
+passes straight through. Use that link, not the bare Grist homepage: the home
+page's default view is the anonymous visitor's *own* (empty) personal space, not
+the org the doc actually lives in — `org_domain` is assigned by Grist per admin
+account and isn't predictable ahead of time, so there's no fixed URL to
+hardcode here.
+
 ## Auth and scope
 
 Single-user, localhost-only, by design — this is a planning-team tool for 1-3
 people on one machine or trusted network, matching `02-architecture.md`'s existing
-"1 to 3 editors" framing, not a multi-tenant deployment. `docker-compose.yml` sets
-no TLS, no reverse proxy, and CORS is wide open (`allow_origins=["*"]`) since the
-widget and the API are same-origin in practice and the whole stack isn't meant to
-be exposed beyond `localhost`. Don't publish these ports beyond a trusted network
-without adding real auth in front of both services first.
+"1 to 3 editors" framing, not a multi-tenant deployment. In service of that: a
+planner's own browser needs **no login of any kind** — no boot key, no sign-in —
+to open and edit the document (`grant_anonymous_access` + `GRIST_IN_SERVICE=true`,
+above). The boot key still exists and still matters, just only for
+`provisioning.py`'s own one-time, server-side admin login — a planner never
+sees or needs it. `docker-compose.yml` sets no TLS, no reverse proxy, and CORS is
+wide open (`allow_origins=["*"]`) since the widget and the API are same-origin in
+practice and the whole stack isn't meant to be exposed beyond `localhost`. **This
+combination — anonymous edit access, no boot-key wall, no TLS — means anyone who
+can reach these ports has full read/write access to everything, no exceptions.**
+Fine on a private, trusted machine or network; do not publish these ports beyond
+one without adding real auth in front of both services first.
 
 ## Verification
 
@@ -209,21 +283,32 @@ expected result on screen — not just a 200 response from the backend.
 `docs/09-planner-tutorial.md`'s screenshots are the artifacts of that
 verification, not staged mockups.
 
-Two real bugs only surfaced this way, both in `create_custom_widget_page`
-(`grist_client.py`) and both invisible from a backend-only (`curl`) test since
-the backend never renders the page itself:
+Three real bugs only surfaced this way, invisible from a backend-only (`curl`)
+test since the backend never renders the page itself or acts as a second,
+unauthenticated visitor:
 
 1. `CreateViewSection`'s first argument needs the target table's *real* ref
    (looked up from `_grist_Tables`), not `0` — `0` alongside a `tableId` string
-   silently creates a duplicate table instead of attaching to the real one.
+   silently creates a duplicate table instead of attaching to the real one
+   (`create_custom_widget_page`, `grist_client.py`).
 2. `_grist_Views_section.options`'s `customView` property must itself be a
    JSON-encoded *string*, not a nested object — Grist's own client parses it as
    a string, and a nested object breaks that parse silently, surfacing only as
    "Cannot read properties of undefined" the moment a person actually opens the
-   page.
+   page (same location).
+3. `GRIST_IN_SERVICE=true` alone does not give a planner's own browser
+   login-free access to the doc, even though it removes the boot-key wall — a
+   fresh anonymous Playwright session still got "Access denied" until
+   `grant_anonymous_access` was added ("Auth and scope", above).
 
-Both are fixed and re-verified; see `grist_client.py`'s own docstring for the
-detail.
+The tweak-and-resolve loop (locked `Allocation` cells surviving a re-solve
+exactly as set, while unlocked cells re-optimize around them) was also verified
+end to end this way: manually edited a cell via the REST API to simulate a
+human hand-edit, re-ran Run Planning, and confirmed the edited cell held while
+others visibly shifted to compensate.
+
+All four are fixed and re-verified; see `grist_client.py` and `main.py`'s own
+docstrings for the detail.
 
 ## Known limitations
 

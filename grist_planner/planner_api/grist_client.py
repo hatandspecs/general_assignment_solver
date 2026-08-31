@@ -67,6 +67,29 @@ def ensure_workspace(session: httpx.Client, workspace_name: str) -> tuple[str, i
     return org_domain, resp.json()
 
 
+def grant_anonymous_access(session: httpx.Client, org_domain: str) -> None:
+    """Grants the special `anon@getgrist.com` user "editors" access on the org —
+    the actual fix for needing to log into Grist at all. `GRIST_IN_SERVICE=true`
+    (Grist's own documented "turn off this check" env var) only lifts the
+    operator-verification wall in front of `/boot`; it does *not* grant an
+    anonymous browser session access to a document owned by a real logged-in
+    user's personal org, which is what provisioning creates — confirmed by
+    driving a real (Playwright) browser against a document shared this way vs.
+    not: without this grant, a fresh anonymous session gets "Access denied" even
+    with `GRIST_IN_SERVICE=true` set; with it, the same session opens and edits
+    the doc immediately, no boot key or sign-in ever shown. This is exactly the
+    "local-only, no auth" posture `docs/08-grist-ui-design.md` already commits
+    to — this just makes it apply to the planner's own browser too, not only to
+    `planner-api`'s server-side API calls.
+    """
+    resp = session.patch(
+        f"/api/orgs/{org_domain}/access",
+        json={"delta": {"users": {"anon@getgrist.com": "editors"}}},
+        headers={"Content-Type": "application/json"},
+    )
+    resp.raise_for_status()
+
+
 def ensure_doc(session: httpx.Client, workspace_id: int, doc_name: str) -> str:
     """Returns the doc id, creating the doc (and removing its default `Table1`) if
     it doesn't already exist by name."""
@@ -102,6 +125,15 @@ class GristClient:
 
     def close(self) -> None:
         self._client.close()
+
+    def grant_anonymous_access(self, org_domain: str) -> None:
+        """Same grant as the module-level `grant_anonymous_access`, callable with
+        this client's own API-key auth — used to backfill the grant onto a doc
+        that was already provisioned before this existed."""
+        resp = self._client.patch(
+            f"/api/orgs/{org_domain}/access", json={"delta": {"users": {"anon@getgrist.com": "editors"}}}
+        )
+        resp.raise_for_status()
 
     def list_tables(self) -> list[str]:
         resp = self._client.get(f"/api/docs/{self.doc_id}/tables")

@@ -57,26 +57,14 @@ cmd_up() {
     echo "Waiting for Grist and provisioning the document (tables, widget page, $EXAMPLE data)..."
     docker compose run --rm planner-api python -m planner_api.provisioning --seed-dir "/examples/$EXAMPLE/data"
 
-    local grist_port planner_port boot_key
-    grist_port=$(env_var GRIST_PORT 8484)
+    local planner_port
     planner_port=$(env_var PLANNER_API_PORT 8000)
-    boot_key=$(env_var GRIST_BOOT_KEY "")
 
     echo
-    echo "Up. One-time step, first time only — your browser has never logged into"
-    echo "Grist itself (only planner-api's own backend script has, server-side):"
-    echo
-    echo "  1. Open:  http://localhost:${grist_port}/boot"
-    echo "  2. Enter this boot key when asked:  ${boot_key}"
-    echo "  3. Confirm the admin email (default planner@example.com) when asked."
-    echo
-    echo "After that your browser stays logged in across down/up cycles (the session"
-    echo "lives in the grist_data volume) — you only need to do this once per browser,"
-    echo "not every time you run this."
-    echo
-    echo "Then open the doc itself:"
-    echo "    http://localhost:${grist_port}"
-    echo "(the control-panel widget is already embedded on its own page inside the doc)"
+    echo "Up. No login needed — use the direct doc link printed just above."
+    echo "(the control-panel widget is already embedded on its own page inside the doc;"
+    echo " the bare Grist homepage shows an empty anonymous space, not this doc — use"
+    echo " the printed link, not http://localhost:PORT on its own)"
     echo
     echo "Backend API directly at http://localhost:${planner_port} (see /health)."
 }
