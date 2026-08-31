@@ -1,12 +1,29 @@
 # 09. Planner Tutorial
 
-A hands-on walkthrough of a full planning month, using the small starting dataset
-in `grist_planner/tutorial_data/` (8 people, 3 projects, a 6-month horizon,
-nothing pre-closed). Everything below was run once against a real deployment
-while writing this doc — the exact dollar and hour figures are real output, not
-invented, **except** the "actual hours" numbers in step 5 onward, which come from
-a random simulation (`allocsolver/io/synthetic.py`) and will differ every time you
-run it, including if you follow these exact steps yourself.
+A hands-on walkthrough of the monthly planning cycle, using the small starting
+scenario in `examples/small_example/` (8 people, 3 staggered projects, a 6-month
+horizon, with the first month already closed as bootstrap history). Every
+screenshot below is real output from a live deployment, not a mockup.
+
+## The monthly cycle
+
+```mermaid
+flowchart TD
+    A["Pre-Assignments<br/>upload JSON, or edit the<br/>Pre_Assignments table in Grist"] --> B["Run Planning (preview)<br/>solves, diffs vs. pre-assignments"]
+    B --> C{"Happy with<br/>the plan?"}
+    C -->|"No — adjust pre-assignments"| A
+    C -->|"Yes"| D["Export Work Assignments<br/>commits to Bounds, sheet goes to the team"]
+    D --> E["Project Portfolio Reports<br/>budget summary + staffing balance"]
+    E --> F["Load Actuals<br/>import timekeeping data (or synthetic, for practice)"]
+    F --> G["Close the Month<br/>reforecast proposal, accept or reject"]
+    G --> H["Variance Report<br/>assigned vs. actual, by person and by project"]
+    H --> A
+```
+
+The loop at the top (Pre-Assignments <-> Run Planning) can repeat as many times
+as you like within a month — nothing is saved until Export Work Assignments.
+Everything from there down happens once per month, then the cycle repeats for
+the next one.
 
 ## 1. Start it up
 
@@ -15,14 +32,22 @@ cd grist_planner
 ./deploy_planner.sh up
 ```
 
-First run: generates `.env` with a random boot key, builds the `planner-api`
-image, starts both containers, and provisions a fresh Grist document — schema,
-the control-panel widget page, and the tutorial dataset. Takes under a minute.
+First run: generates `.env` with a random Grist admin boot key, builds the
+backend image, starts both containers, and provisions a fresh document —
+schema, the control-panel widget page, and `examples/small_example/data/`.
+Takes under a minute.
 
-Open **http://localhost:8484**. The document has one page per table on the left
-(`People`, `Projects`, `Bounds`, ... — worth a skim, this is the whole star schema
-from `03-data-model.md`) plus a **Planner Control Panel** page holding the widget
-this tutorial uses for everything else.
+**One-time step, first time only:** your own browser has never logged into
+Grist (only the provisioning script has, server-side). `up`'s own output prints
+the exact steps — open `http://localhost:8484/boot`, enter the boot key it
+shows you, confirm the admin email — after which your browser stays logged in
+across every future `down`/`up` cycle. You only do this once per browser, not
+every time you run the tool.
+
+Once logged in, the document has one page per table on the left (`People`,
+`Projects`, `Bounds`, ... — the whole star schema from `03-data-model.md`) plus
+a **Planner Control Panel** page holding the widget this tutorial uses for
+everything else.
 
 ## 2. The starting scenario
 
@@ -34,61 +59,85 @@ Three projects, staggered on purpose:
 | Project Beta | 2027-01 – 2027-04 (ends mid-horizon) | direct | $168,000 | 3 people |
 | Project Gamma | 2027-03 – 2027-06 (starts mid-horizon) | oh_charged | $120,000 | 2 people |
 
-Nothing is closed yet (`closed_through` is empty) — you're planning the very
-first month, 2027-01.
+The first month (2027-01) starts out already closed, with synthetic actuals
+already in — a small bootstrap history, the same idea as `examples/medium_example`'s
+two pre-closed months, just one month instead of two. **2027-02 is the first
+month you actually plan.**
 
-## 3. Month 1: plan around a manual pre-assignment
+## 3. Setting up the roster, rates, and workable hours
+
+Before (or between) planning cycles, this is where a planner maintains the
+underlying facts the solver plans against — all of it lives in ordinary Grist
+tables, editable like any spreadsheet:
+
+![People table](images/grist_tutorial/01_people_table.png)
+
+- **`People`** — the roster. Add a row for a new hire (`person_id`, `name`,
+  `active_from`, and optionally `active_to` for someone leaving); adjust
+  `soft_max_concurrent_projects` / `hard_max_concurrent_projects` per person if
+  their fragmentation limits should differ from the defaults (2 soft, 4 hard).
+- **`Rates`** — one row per person per month, `annual_salary` only (everything
+  else about cost is derived, `03-data-model.md`'s "Derived" section). Giving
+  someone a raise is adding/editing their row for the months it takes effect;
+  since it's dense (one row per person per month), a raise typically means
+  updating every month from the effective date forward, not just one row.
+- **`Wrap_Rates`** — global, not per-person: one row per month with
+  `workable_hours` (the standard reference hours for that month — weekdays
+  minus holidays, `allocsolver.models.calendar.workable_hours()`) and the three
+  wrap-rate multipliers (`project_wrap_rate`, `oh_wrap_rate`, `fee_wrap_rate`).
+  These change at each corporate fiscal year boundary (July 1) in the bigger
+  `examples/medium_example` scenario; this small scenario keeps them constant
+  throughout for simplicity.
+- **`Capacity`** — one row per person per month, `available_hours`: a specific
+  person's *real* available hours that month, which can differ from the global
+  `workable_hours` reference (part-time, planned leave, a partial month). This
+  is the figure `Report_StaffingBalance`'s capacity side and the solver's own
+  per-person monthly ceiling (C3, `04-solver-design.md`) are both built from.
+
+None of these four tables are touched by the solver or by any of the widget's
+buttons — they're pure human input, exactly like `Bounds` and `Targets` are
+until a pre-assignment or a solve touches them.
+
+## 4. Month 1 (2027-02): plan around a manual pre-assignment
 
 Say a planner has already decided Alicia Chen (`person_1`) works 130 hours on
-Project Alpha in January — a decision made before running the solver, the way
-`unstructured_notes.md` describes most of the workforce being assigned. Load it:
+Project Alpha this month — a decision made before running the solver, the way
+most of the workforce actually gets assigned in practice. Load it:
 
 - On the widget's **1. Pre-Assignments** panel, choose
-  `grist_planner/tutorial_data/sample_pre_assignment.json` and click **Load
-  Pre-Assignment JSON**. (Same shape as any pre-assignment file — you could hand-
-  edit the `Pre_Assignments` table instead, and get the identical result.)
+  `examples/small_example/sample_pre_assignment.json` and click **Load
+  Pre-Assignment JSON**.
+
+![Pre-assignment loaded](images/grist_tutorial/04_preassignment_loaded.png)
+
+(Same shape as any pre-assignment file — you could hand-edit the
+`Pre_Assignments` table instead, and get the identical result.)
 
 Click **2. Run Planning**. This solves with that pre-assignment merged in, but
 writes nothing yet:
 
-```
-Feasible for 2027-01. Objective: 9.569.
-matched: 1, solver_only: 4
-```
+![Run Planning result](images/grist_tutorial/05_run_planning.png)
 
-The diff table shows Alicia's row as `matched` (solved exactly at her requested
-130h) and four other assignments the solver picked on its own (`solver_only`) to
-cover the rest of both projects' targets — e.g. Ben Torres at 110.32h on Alpha,
-Farid Osei at 120h on Beta. Adjust the pre-assignment and re-run as many times as
-you like — nothing is saved until the next step.
+Alicia's row shows `matched` (solved exactly at her requested 130h); the other
+rows are `solver_only` — assignments the solver picked on its own to cover the
+rest of both projects' targets. Adjust the pre-assignment and re-run as many
+times as you like — nothing is saved until the next step.
 
 Click **3. Export Work Assignments**. This is the commit point: the
 pre-assignment is merged into `Bounds` permanently, the `Pre_Assignments` table
-clears, and this month's sheet is produced:
+clears, and this month's sheet is produced — the one that would go out to the
+workforce (hours only, no cost, `05-interfaces.md`'s workforce export):
 
-```
-Committed. 5 assignment row(s) for 2027-01.
-Alicia Chen    Project Alpha   130.00h
-Ben Torres     Project Alpha   110.32h
-Carmen Ruiz    Project Alpha   100.00h
-Farid Osei     Project Beta    120.00h
-Grace Liu      Project Beta    100.57h
-```
+![Export Work Assignments result](images/grist_tutorial/06_export_assignments.png)
 
-This is the sheet that would go out to the workforce — hours only, no cost
-(`05-interfaces.md`'s workforce export).
-
-## 4. Check the portfolio
+## 5. Check the portfolio
 
 Click **4. Run Portfolio Reports**. Two things come back: a budget summary for
-every currently-active project (planned spend is populated for the whole PoP;
-actual spend is blank everywhere, since nothing's closed yet — `export_budget_
-summary`'s "as of" rule), and the staffing balance:
+every currently-active project (planned spend populated for the whole PoP;
+actual spend blank for anything not yet closed — `export_budget_summary`'s "as
+of" rule), and the staffing balance assessment:
 
-```
-2027-01: capacity $236,350 vs demand $108,000 -> surplus $128,350
-2027-03: capacity $236,350 vs demand $138,000 -> surplus $98,350   (Gamma has started)
-```
+![Portfolio reports result](images/grist_tutorial/07_portfolio_reports.png)
 
 This toy scenario is deliberately staffed light relative to its 8-person pool —
 unlike `examples/medium_example`'s calibrated-to-near-capacity portfolio, there's
@@ -96,63 +145,72 @@ nothing here to tune toward a realistic deficit. The point of this step is the
 mechanism (capacity valued at the direct rate, demand from `Targets`, `08-grist-
 ui-design.md`), not the specific numbers.
 
-## 5. Close the month
+## 6. Close the month
 
-No real timekeeping export exists yet, so leave the file input empty and click
-**Preview** under **5. Load Actuals** — this falls back to the same synthetic-
-actuals generator the standalone examples use (`io/synthetic.py`), so you can
-practice the full cycle before real data exists. A preview from one run looked
-like:
+No real timekeeping export exists yet, so leave the file input empty under
+**5. Load Actuals** and click **Preview** — this falls back to the same
+synthetic-actuals generator the standalone examples use (`io/synthetic.py`), so
+the tutorial can be practiced before real data exists. Nothing is saved by
+Preview. Check **Accept reforecast proposal**, then click **Confirm & Close
+Month**:
 
-```
-Alicia Chen   130.00h assigned, 128.05h actual, delta 1.95
-Ben Torres    110.32h assigned, 109.29h actual, delta 1.03
-...
-Proposals: project_alpha variance +4,128; project_beta variance +1,310
-```
+![Month closed](images/grist_tutorial/08_close_month.png)
 
-(Yours will differ — this is randomly generated.) Nothing is saved yet. Check
-**Accept reforecast proposal**, then click **Confirm & Close Month**:
+The state banner now reads `closed_through: 2027-02` — Project Alpha and Beta's
+remaining targets have shifted slightly to absorb this month's variance
+(`propose_reforecast`, `04-solver-design.md`'s Reforecasting section).
 
-```
-Closed 2027-01. Reforecast applied: true.
-```
+Use **6. Variance Report** any time afterward to pull the assigned-vs-actual
+delta for any already-closed month back up — here, the original bootstrap
+month (2027-01):
 
-The state banner now reads `closed_through: 2027-01`, `current_month: 2027-02` —
-Project Alpha and Beta's remaining targets have shifted slightly to absorb
-January's variance (`propose_reforecast`, `04-solver-design.md`'s Reforecasting
-section).
+![Variance report](images/grist_tutorial/09_variance_report.png)
 
-Use **6. Variance Report**, enter `2027-01`, click **Get Variance Report** to
-pull the same five rows back up any time later — this is what a program review
-actually wants (`05-interfaces.md`'s Variance sheet).
+## 7. Repeat for the rest of the horizon
 
-## 6. Repeat for the rest of the horizon
-
-Months 2 through 6 follow the identical five-button cycle (skip step 3's
-pre-assignment upload once you've made all the manual decisions you want to —
-it's optional every month, not required). Two months are worth watching for
+Months 2027-03 through 2027-06 follow the identical cycle from the diagram at
+the top (skip the pre-assignment step in any month you don't have one — it's
+optional every month, not required). Two months are worth watching for
 specifically:
 
-- **2027-03**: Project Gamma's PoP starts. Its two-person crew (Elena Kim, Hassan
-  Ali) shows up in Run Planning's diff for the first time, `solver_only` since
-  there's no pre-assignment for it — a fresh project coming online mid-horizon.
-- **2027-04**: Project Beta's PoP ends. Its final month's budget summary is where
-  a real portfolio would show a true-up (the demo's own `examples/medium_example`
-  is where that mechanism is actually exercised at scale — this tutorial's simple
-  even target split doesn't specifically drive one).
+- **2027-03**: Project Gamma's PoP starts. Its two-person crew shows up in Run
+  Planning's diff for the first time, `solver_only` since there's no
+  pre-assignment for it — a fresh project coming online mid-horizon.
+- **2027-04**: Project Beta's PoP ends. Its final month's budget summary is
+  where a real portfolio would show a true-up — this small scenario's even
+  target split doesn't specifically drive one; `examples/medium_example` is
+  where that mechanism is exercised at scale.
 
-By 2027-06 `horizon_exhausted` in `/api/state` flips to `true` — nothing left to
-plan.
+By 2027-06, `/api/state`'s `horizon_exhausted` flips to `true` — nothing left
+to plan.
 
-## 7. Loading real actuals instead of synthetic ones
+## 8. Loading real actuals instead of synthetic ones
 
 Once a real timekeeping export exists, build a CSV with exactly these columns —
-`person_id, project_id, hours_actual` — and upload it in step 5's file input
+`person_id, project_id, hours_actual` — and upload it in step 6's file input
 instead of leaving it empty. Everything downstream (variance, reforecast) works
 identically; only the source of the numbers changes.
 
-## 8. Shutting down
+## 9. Trying the medium example instead
+
+The same deployment can run `examples/medium_example/` instead — 50 people,
+~10-12 concurrently active projects, a 5-year horizon spanning several
+corporate fiscal-year rate transitions:
+
+```bash
+./deploy_planner.sh reset       # a document can only be seeded once; start clean
+./deploy_planner.sh up --example medium_example
+```
+
+The widget, buttons, and monthly cycle are identical — only the data is
+bigger. Clicking through all 58 months by hand in Grist works, but it's slow;
+`examples/medium_example/simulate_full_horizon.py` proves the same solve →
+actuals → close → reforecast cycle holds up across the whole 5-year horizon in
+one command-line run, without clicking anything. Use the Grist UI to look
+closely at a handful of representative months, and the standalone script to
+see the whole horizon at once.
+
+## 10. Shutting down
 
 ```bash
 ./deploy_planner.sh down     # stop containers, keep all data
@@ -160,5 +218,6 @@ identically; only the source of the numbers changes.
 ```
 
 `down` is what you want between sessions. `reset` is for starting over from
-scratch (e.g. to re-run this tutorial from a clean slate) — it deletes the
-`.env` file (with its boot key) along with both docker volumes.
+scratch (e.g. to switch between the small and medium examples, or to re-run
+this tutorial from a clean slate) — it deletes the `.env` file (with its boot
+key) along with both docker volumes.

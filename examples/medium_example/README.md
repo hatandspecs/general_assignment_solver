@@ -4,8 +4,7 @@ A synthetic, medium-sized scenario for the labor allocation planner: 50 people,
 roughly 10-12 concurrently active projects at any given time (independent projects,
 numbered sequentially in chronological PoP-start order — project_1 starts earliest),
 spanning 5 calendar years (2027-2031) so several corporate fiscal year (UFY)
-wrap-rate transitions are visible. Generated from the spec in
-`unstructured_notes_medium_example.md`.
+wrap-rate transitions are visible.
 
 This example is entirely local-file based — there is no live Grist document involved.
 `allocsolver/io/local.py` is the practical stand-in: one JSON file per table in `data/`,

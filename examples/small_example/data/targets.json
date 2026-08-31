@@ -1,0 +1,100 @@
+[
+  {
+    "project_id": "project_alpha",
+    "month": "2027-01",
+    "labor_spend_target": 66000.0,
+    "target_tolerance": 3300.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_alpha",
+    "month": "2027-02",
+    "labor_spend_target": 66000.0,
+    "target_tolerance": 3300.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_alpha",
+    "month": "2027-03",
+    "labor_spend_target": 66000.0,
+    "target_tolerance": 3300.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_alpha",
+    "month": "2027-04",
+    "labor_spend_target": 66000.0,
+    "target_tolerance": 3300.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_alpha",
+    "month": "2027-05",
+    "labor_spend_target": 66000.0,
+    "target_tolerance": 3300.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_alpha",
+    "month": "2027-06",
+    "labor_spend_target": 66000.0,
+    "target_tolerance": 3300.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_beta",
+    "month": "2027-01",
+    "labor_spend_target": 42000.0,
+    "target_tolerance": 2100.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_beta",
+    "month": "2027-02",
+    "labor_spend_target": 42000.0,
+    "target_tolerance": 2100.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_beta",
+    "month": "2027-03",
+    "labor_spend_target": 42000.0,
+    "target_tolerance": 2100.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_beta",
+    "month": "2027-04",
+    "labor_spend_target": 42000.0,
+    "target_tolerance": 2100.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_gamma",
+    "month": "2027-03",
+    "labor_spend_target": 30000.0,
+    "target_tolerance": 1500.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_gamma",
+    "month": "2027-04",
+    "labor_spend_target": 30000.0,
+    "target_tolerance": 1500.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_gamma",
+    "month": "2027-05",
+    "labor_spend_target": 30000.0,
+    "target_tolerance": 1500.0,
+    "target_type": "soft"
+  },
+  {
+    "project_id": "project_gamma",
+    "month": "2027-06",
+    "labor_spend_target": 30000.0,
+    "target_tolerance": 1500.0,
+    "target_type": "soft"
+  }
+]

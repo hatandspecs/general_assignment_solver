@@ -1,10 +1,11 @@
 """Manual pre-assignments — the planner's own input, kept clearly separate from
 everything the solver or the simulation engine writes.
 
-`unstructured_notes.md`: "Most of the people will be pre-assigned in whole or part
-to programs manually by project planners" — a pre-assignment *is* a `Bounds` row
-(hard/soft min/max for one project/person/month); this file is nothing more than a
-staging area for them, reusing that model directly rather than inventing a new shape.
+Most of the workforce is pre-assigned in whole or part to programs manually by
+project planners, before the solver ever runs — a pre-assignment *is* a `Bounds`
+row (hard/soft min/max for one project/person/month); this file is nothing more
+than a staging area for them, reusing that model directly rather than inventing
+a new shape.
 
 Workflow: a planner edits `pre_assignments.json` by hand before running a solve for
 an upcoming month. `advance-month` reads it, upserts each entry into the plan's

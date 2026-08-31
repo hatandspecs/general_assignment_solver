@@ -157,21 +157,33 @@ across restarts, not just the first call:
    failure only adds what's missing.
 4. **The widget page.** A new Grist page with a single custom-widget section is
    added via the `CreateViewSection` useraction, pointed at `WIDGET_URL`
-   (`http://localhost:<port>/widget/index.html`) with `access: "full"` (no
-   per-widget permission prompt) — `_grist_Views_section.options` is a JSON
-   *string* column holding `{"customView": {"mode": "url", "url": ..., "access":
-   "full"}}` (`ViewSectionRec.js`'s `customDef`). This, too, is a plain REST/
-   useraction call — the whole provisioning flow is scriptable end to end with no
-   manual browser step.
+   (`http://localhost:<port>/widget/index.html`) with `access: "none"` — the
+   widget never calls `grist.docApi` (see below), so there's no elevated
+   permission to grant. `_grist_Views_section.options` is a JSON-string column
+   whose `customView` *property* is itself a JSON-encoded string (not a nested
+   object) holding `{"mode": "url", "url": ..., "access": "none", ...}`
+   (`ViewSectionRec.js`'s `customDef`) — reverse-engineered from a real "Add
+   widget to page" flow driven with Playwright against a live container, since
+   this detail isn't discoverable from reading the source in isolation: an
+   earlier version of this method stored `customView` as a nested object, which
+   silently broke the widget frame with "Cannot read properties of undefined"
+   the first time anyone actually opened the page. `CreateViewSection`'s first
+   argument also has to be the *real* existing tableRef (looked up from
+   `_grist_Tables`), not `0` — passing `0` alongside a `tableId` string creates
+   a duplicate table (e.g. `People2`) instead of attaching to the real one. This
+   is, still, a plain REST/useraction call throughout — the whole provisioning
+   flow is scriptable end to end with no manual browser step.
 5. **State.** `org_domain`, `workspace_id`, `doc_id`, and the API key are written
    to `/data/.grist_state.json` (a docker volume, `planner_state`). On every
    subsequent `up`, finding this file short-circuits steps 1–2 entirely; step 3
    still runs (cheaply — it only adds missing tables) so a doc that was only
    partially provisioned before a crash gets completed rather than left broken.
-6. **Seed data** (`--seed-dir`, only used by `deploy_planner.sh up`, wired to
-   `grist_planner/tutorial_data/data/`). Loads a `Plan` from a local JSON directory
-   (`io/local.py`'s layout) and writes it in — skipped if `Meta` already has a row,
-   so re-running `up` never clobbers a planner's in-progress work.
+6. **Seed data** (`--seed-dir`, wired by `deploy_planner.sh up --example <name>`
+   to `examples/<name>/data/`, default `small_example`). Loads a `Plan` from a
+   local JSON directory (`io/local.py`'s layout) and writes it in — skipped if
+   `Meta` already has a row, so re-running `up` never clobbers a planner's
+   in-progress work (switching examples on an already-seeded doc needs `reset`
+   first).
 
 ## Auth and scope
 
@@ -183,15 +195,38 @@ widget and the API are same-origin in practice and the whole stack isn't meant t
 be exposed beyond `localhost`. Don't publish these ports beyond a trusted network
 without adding real auth in front of both services first.
 
-## Known limitations / what to verify by hand
+## Verification
 
-- **The widget's actual rendering inside Grist's iframe hasn't been visually
-  confirmed.** Every mechanic behind it — the custom-widget-section useraction,
-  the `options` JSON shape, the doc's tables, every backend endpoint — was tested
-  directly against a running Grist container (`curl`, not a browser), since this
-  environment has no browser available. Please open `http://localhost:8484` once
-  and confirm the "Planner Control Panel" page actually shows the control panel as
-  expected, rather than a blank iframe.
+Every mechanic here — the boot-key login, the API key, table/column creation,
+record read/write, the custom-widget-section useraction and its exact `options`
+JSON shape, and all six of the widget's actions — was driven against a real,
+running `docker compose` stack (not just read from source or assumed): first via
+`curl`/`httpx` for the REST mechanics, then via a headless Playwright browser
+(no `chromium-cli`/Node available in this environment, so a `mcr.microsoft.com/
+playwright/python` container was used directly instead) to confirm the widget
+page actually *renders* inside Grist's own UI and each button produces the
+expected result on screen — not just a 200 response from the backend.
+`docs/09-planner-tutorial.md`'s screenshots are the artifacts of that
+verification, not staged mockups.
+
+Two real bugs only surfaced this way, both in `create_custom_widget_page`
+(`grist_client.py`) and both invisible from a backend-only (`curl`) test since
+the backend never renders the page itself:
+
+1. `CreateViewSection`'s first argument needs the target table's *real* ref
+   (looked up from `_grist_Tables`), not `0` — `0` alongside a `tableId` string
+   silently creates a duplicate table instead of attaching to the real one.
+2. `_grist_Views_section.options`'s `customView` property must itself be a
+   JSON-encoded *string*, not a nested object — Grist's own client parses it as
+   a string, and a nested object breaks that parse silently, surfacing only as
+   "Cannot read properties of undefined" the moment a person actually opens the
+   page.
+
+Both are fixed and re-verified; see `grist_client.py`'s own docstring for the
+detail.
+
+## Known limitations
+
 - **`Report_*` tables duplicate a small amount of computation** from
   `allocsolver.reports.exports` (`planner_api/reports.py`'s `budget_summary_rows`
   mirrors `export_budget_summary`'s cumulative/"as of" logic in a different,
@@ -204,8 +239,6 @@ without adding real auth in front of both services first.
   recent staffing-balance retuning) can compound into an escalating target over a
   long horizon — this doesn't affect the small 6-month tutorial dataset here, but
   is an open item from earlier the same session, not yet resolved.
-- No automated test suite covers `grist_planner/` yet (there's no CI hook running
-  against a live Grist container) — everything here was verified by hand, once,
-  against a real `docker compose` stack. Worth adding an integration test that
-  spins up the stack and exercises the six actions, if this becomes a
-  longer-lived part of the repo rather than a first cut.
+- No *automated* test suite covers `grist_planner/` (no CI hook spins up a real
+  Grist container and re-runs the verification above on every change) — worth
+  adding if this becomes a longer-lived part of the repo rather than a first cut.

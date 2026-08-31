@@ -1,0 +1,502 @@
+[
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_1",
+    "month": "2027-01",
+    "hard_min": 0.0,
+    "soft_min": 119.0,
+    "soft_max": 140.0,
+    "hard_max": 161.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_2",
+    "month": "2027-01",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_3",
+    "month": "2027-01",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_4",
+    "month": "2027-01",
+    "hard_min": 0.0,
+    "soft_min": 68.0,
+    "soft_max": 80.0,
+    "hard_max": 92.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_5",
+    "month": "2027-01",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_1",
+    "month": "2027-02",
+    "hard_min": 0.0,
+    "soft_min": 119.0,
+    "soft_max": 140.0,
+    "hard_max": 161.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_2",
+    "month": "2027-02",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_3",
+    "month": "2027-02",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_4",
+    "month": "2027-02",
+    "hard_min": 0.0,
+    "soft_min": 68.0,
+    "soft_max": 80.0,
+    "hard_max": 92.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_5",
+    "month": "2027-02",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_1",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 119.0,
+    "soft_max": 140.0,
+    "hard_max": 161.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_2",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_3",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_4",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 68.0,
+    "soft_max": 80.0,
+    "hard_max": 92.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_5",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_1",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 119.0,
+    "soft_max": 140.0,
+    "hard_max": 161.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_2",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_3",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_4",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 68.0,
+    "soft_max": 80.0,
+    "hard_max": 92.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_5",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_1",
+    "month": "2027-05",
+    "hard_min": 0.0,
+    "soft_min": 119.0,
+    "soft_max": 140.0,
+    "hard_max": 161.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_2",
+    "month": "2027-05",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_3",
+    "month": "2027-05",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_4",
+    "month": "2027-05",
+    "hard_min": 0.0,
+    "soft_min": 68.0,
+    "soft_max": 80.0,
+    "hard_max": 92.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_5",
+    "month": "2027-05",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_1",
+    "month": "2027-06",
+    "hard_min": 0.0,
+    "soft_min": 119.0,
+    "soft_max": 140.0,
+    "hard_max": 161.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_2",
+    "month": "2027-06",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_3",
+    "month": "2027-06",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_4",
+    "month": "2027-06",
+    "hard_min": 0.0,
+    "soft_min": 68.0,
+    "soft_max": 80.0,
+    "hard_max": 92.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_alpha",
+    "person_id": "person_5",
+    "month": "2027-06",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_2",
+    "month": "2027-01",
+    "hard_min": 0.0,
+    "soft_min": 34.0,
+    "soft_max": 40.0,
+    "hard_max": 46.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_6",
+    "month": "2027-01",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_7",
+    "month": "2027-01",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_2",
+    "month": "2027-02",
+    "hard_min": 0.0,
+    "soft_min": 34.0,
+    "soft_max": 40.0,
+    "hard_max": 46.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_6",
+    "month": "2027-02",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_7",
+    "month": "2027-02",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_2",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 34.0,
+    "soft_max": 40.0,
+    "hard_max": 46.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_6",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_7",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_2",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 34.0,
+    "soft_max": 40.0,
+    "hard_max": 46.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_6",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 102.0,
+    "soft_max": 120.0,
+    "hard_max": 138.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_beta",
+    "person_id": "person_7",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 85.0,
+    "soft_max": 100.0,
+    "hard_max": 115.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_gamma",
+    "person_id": "person_5",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_gamma",
+    "person_id": "person_8",
+    "month": "2027-03",
+    "hard_min": 0.0,
+    "soft_min": 110.5,
+    "soft_max": 130.0,
+    "hard_max": 149.5,
+    "eligible": true
+  },
+  {
+    "project_id": "project_gamma",
+    "person_id": "person_5",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_gamma",
+    "person_id": "person_8",
+    "month": "2027-04",
+    "hard_min": 0.0,
+    "soft_min": 110.5,
+    "soft_max": 130.0,
+    "hard_max": 149.5,
+    "eligible": true
+  },
+  {
+    "project_id": "project_gamma",
+    "person_id": "person_5",
+    "month": "2027-05",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_gamma",
+    "person_id": "person_8",
+    "month": "2027-05",
+    "hard_min": 0.0,
+    "soft_min": 110.5,
+    "soft_max": 130.0,
+    "hard_max": 149.5,
+    "eligible": true
+  },
+  {
+    "project_id": "project_gamma",
+    "person_id": "person_5",
+    "month": "2027-06",
+    "hard_min": 0.0,
+    "soft_min": 51.0,
+    "soft_max": 60.0,
+    "hard_max": 69.0,
+    "eligible": true
+  },
+  {
+    "project_id": "project_gamma",
+    "person_id": "person_8",
+    "month": "2027-06",
+    "hard_min": 0.0,
+    "soft_min": 110.5,
+    "soft_max": 130.0,
+    "hard_max": 149.5,
+    "eligible": true
+  }
+]

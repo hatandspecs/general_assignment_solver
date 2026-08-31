@@ -1,0 +1,35 @@
+[
+  {
+    "project_id": "project_alpha",
+    "name": "Project Alpha",
+    "pop_start": "2027-01",
+    "pop_end": "2027-06",
+    "rate_structure": "direct",
+    "labor_budget": 396000.0,
+    "travel_budget": 10000.0,
+    "odc_budget": 5000.0,
+    "status": "active"
+  },
+  {
+    "project_id": "project_beta",
+    "name": "Project Beta",
+    "pop_start": "2027-01",
+    "pop_end": "2027-04",
+    "rate_structure": "direct",
+    "labor_budget": 168000.0,
+    "travel_budget": 10000.0,
+    "odc_budget": 5000.0,
+    "status": "active"
+  },
+  {
+    "project_id": "project_gamma",
+    "name": "Project Gamma",
+    "pop_start": "2027-03",
+    "pop_end": "2027-06",
+    "rate_structure": "oh_charged",
+    "labor_budget": 120000.0,
+    "travel_budget": 10000.0,
+    "odc_budget": 5000.0,
+    "status": "active"
+  }
+]

@@ -47,11 +47,11 @@ These reflect the user's answers across two rounds of `07-open-questions.md`; se
 docs/                 this set
 allocsolver/           python package (see 06)
 tests/
+examples/small_example/    8 people, 3 projects, 6 months (see its own README)
 examples/medium_example/   a 5-year simulated demo (see its own README)
 grist_planner/         the live Grist deployment (see 08, 09):
-    deploy_planner.sh      up/down/reset/logs/status/seed
-    docker-compose.yml
+    deploy_planner.sh      up/down/reset/logs/status/seed [--example ...]
+    docker-compose.yml       mounts ../examples read-only, for seeding
     planner_api/            FastAPI backend wrapping allocsolver
     widget/                 the control-panel widget (static HTML/JS)
-    tutorial_data/          the small dataset docs/09 walks through
 ```

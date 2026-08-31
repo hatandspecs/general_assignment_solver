@@ -1,0 +1,66 @@
+[
+  {
+    "person_id": "person_1",
+    "name": "Alicia Chen",
+    "active_from": "2027-01",
+    "active_to": null,
+    "soft_max_concurrent_projects": 2,
+    "hard_max_concurrent_projects": 4
+  },
+  {
+    "person_id": "person_2",
+    "name": "Ben Torres",
+    "active_from": "2027-01",
+    "active_to": null,
+    "soft_max_concurrent_projects": 2,
+    "hard_max_concurrent_projects": 4
+  },
+  {
+    "person_id": "person_3",
+    "name": "Carmen Ruiz",
+    "active_from": "2027-01",
+    "active_to": null,
+    "soft_max_concurrent_projects": 2,
+    "hard_max_concurrent_projects": 4
+  },
+  {
+    "person_id": "person_4",
+    "name": "Dev Patel",
+    "active_from": "2027-01",
+    "active_to": null,
+    "soft_max_concurrent_projects": 2,
+    "hard_max_concurrent_projects": 4
+  },
+  {
+    "person_id": "person_5",
+    "name": "Elena Kim",
+    "active_from": "2027-01",
+    "active_to": null,
+    "soft_max_concurrent_projects": 2,
+    "hard_max_concurrent_projects": 4
+  },
+  {
+    "person_id": "person_6",
+    "name": "Farid Osei",
+    "active_from": "2027-01",
+    "active_to": null,
+    "soft_max_concurrent_projects": 2,
+    "hard_max_concurrent_projects": 4
+  },
+  {
+    "person_id": "person_7",
+    "name": "Grace Liu",
+    "active_from": "2027-01",
+    "active_to": null,
+    "soft_max_concurrent_projects": 2,
+    "hard_max_concurrent_projects": 4
+  },
+  {
+    "person_id": "person_8",
+    "name": "Hassan Ali",
+    "active_from": "2027-01",
+    "active_to": null,
+    "soft_max_concurrent_projects": 2,
+    "hard_max_concurrent_projects": 4
+  }
+]

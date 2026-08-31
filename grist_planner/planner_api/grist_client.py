@@ -154,18 +154,65 @@ class GristClient:
 
     def create_custom_widget_page(self, bind_table_id: str, widget_url: str, page_title: str) -> int:
         """Adds a new page with a single custom-widget section pointed at
-        `widget_url`, granted full document access (`access: "full"`) so the
-        widget can read/write any table via `grist.docApi` without a per-widget
-        access prompt. `_grist_Views_section.options` is a JSON-*string* column
-        (`ViewSectionRec.js`'s `customDef`); `bind_table_id` just gives the section
-        something to attach to and is not otherwise used by this widget.
+        `widget_url`. `bind_table_id` just gives the section something to attach
+        to and is not otherwise used by this widget (it talks to its own backend,
+        never `grist.docApi` — see `docs/08-grist-ui-design.md`, "Why the widget
+        doesn't talk to Grist directly" — so `access: "none"` is correct and is
+        also Grist's own default; there's no elevated permission to grant).
+
+        Reverse-engineered from a real "Add widget to page" flow (driven with
+        Playwright against a live container, since this is unverifiable from
+        source reading alone) — two details that reading `ViewSectionRec.js` in
+        isolation got wrong:
+
+        1. `CreateViewSection`'s first argument must be the *existing* table's
+           real ref, not `0` — passing `0` (meant to mean "no table yet") along
+           with a `tableId` string is read as "create a *new* table with this
+           name hint", which silently creates a duplicate (e.g. `People2`)
+           instead of attaching to the real `People` table.
+        2. `_grist_Views_section.options` is a JSON-string column whose
+           `customView` *property* is itself a JSON-encoded **string**, not a
+           nested object — `ViewSectionRec.js` parses it as a string
+           (`jsonObservable(optionsObj.prop("customView"), ...)`); storing a real
+           nested object there (as an earlier version of this method did) means
+           that inner parse fails, and the widget frame throws trying to read
+           properties (`mode`, `sectionId`, ...) off the resulting `undefined` —
+           exactly the "Cannot read properties of undefined" error this fixes.
         """
-        result = self.apply_actions([["CreateViewSection", 0, 0, "custom", None, bind_table_id]])
+        tables_meta = self.fetch_records("_grist_Tables")
+        table_ref = next((r["id"] for r in tables_meta if r["tableId"] == bind_table_id), None)
+        if table_ref is None:
+            raise ValueError(f"create_custom_widget_page: no such table {bind_table_id!r}")
+
+        result = self.apply_actions([["CreateViewSection", table_ref, 0, "custom", None, None]])
         ret = result["retValues"][0]
         section_ref, view_ref = ret["sectionRef"], ret["viewRef"]
         import json as _json
 
-        options = _json.dumps({"customView": {"mode": "url", "url": widget_url, "access": "full"}})
+        custom_view = _json.dumps(
+            {
+                "mode": "url",
+                "url": widget_url,
+                "widgetDef": None,
+                "access": "none",
+                "pluginId": "",
+                "sectionId": "",
+                "renderAfterReady": False,
+                "widgetId": None,
+                "widgetOptions": None,
+                "columnsMapping": None,
+            }
+        )
+        options = _json.dumps(
+            {
+                "verticalGridlines": True,
+                "horizontalGridlines": True,
+                "zebraStripes": False,
+                "rowNumbers": "number",
+                "customView": custom_view,
+                "numFrozen": 0,
+            }
+        )
         self.apply_actions(
             [
                 ["UpdateRecord", "_grist_Views_section", section_ref, {"options": options}],

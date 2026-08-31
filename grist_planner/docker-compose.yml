@@ -26,7 +26,7 @@ services:
       - STATE_FILE=/data/.grist_state.json
     volumes:
       - planner_state:/data
-      - ./tutorial_data:/tutorial_data:ro
+      - ../examples:/examples:ro
     depends_on:
       - grist
 

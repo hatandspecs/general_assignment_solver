@@ -27,16 +27,29 @@ conda env remove -n general_assignment_solver
 conda env create -f environment.yml
 ```
 
+## Try it: the small example
+
+The quickest way to see the tool working end to end — 8 people, 3 staggered
+projects, a 6-month horizon, readable in a few minutes:
+
+```bash
+cd examples/small_example
+python generate_data.py   # writes data/*.json (already checked in; re-run to reset)
+python run_example.py     # loads it, solves it, shows the views, runs a reforecast demo, exports
+```
+
+See `examples/small_example/README.md`.
+
 ## Try it: the medium example
 
-The fastest way to see the tool working end to end is the bundled synthetic scenario
-in `examples/medium_example/` — 50 people, ~10-12 concurrent projects, a 5-year
-horizon spanning several fiscal-year rate transitions:
+A bigger, longer-running scenario in `examples/medium_example/` — 50 people,
+~10-12 concurrent projects, a 5-year horizon spanning several fiscal-year rate
+transitions:
 
 ```bash
 cd examples/medium_example
-python generate_data.py   # writes data/*.json (already checked in; re-run for a fresh draw)
-python run_example.py     # loads it, solves it, shows the views, runs a reforecast demo, exports
+python generate_data.py --seed 42   # writes data/*.json (already checked in; re-run for a fresh draw)
+python run_example.py               # loads it, solves it, shows the views, runs a reforecast demo, exports
 ```
 
 See `examples/medium_example/README.md` for a full walkthrough, including a tutorial
@@ -54,8 +67,9 @@ cd grist_planner
 ./deploy_planner.sh up
 ```
 
-Opens Grist at `http://localhost:8484` with a small starting scenario already
-loaded. See `docs/09-planner-tutorial.md` for a full walkthrough and
+Opens Grist at `http://localhost:8484` with the small example already loaded
+(pass `--example medium_example` to load the bigger scenario instead). See
+`docs/09-planner-tutorial.md` for a full walkthrough, with real screenshots, and
 `docs/08-grist-ui-design.md` for how it's built.
 
 ## Running the tests

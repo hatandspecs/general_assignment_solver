@@ -1,0 +1,44 @@
+[
+  {
+    "month": "2027-01",
+    "workable_hours": 168.0,
+    "project_wrap_rate": 2.9,
+    "oh_wrap_rate": 1.65,
+    "fee_wrap_rate": 1.1
+  },
+  {
+    "month": "2027-02",
+    "workable_hours": 168.0,
+    "project_wrap_rate": 2.9,
+    "oh_wrap_rate": 1.65,
+    "fee_wrap_rate": 1.1
+  },
+  {
+    "month": "2027-03",
+    "workable_hours": 168.0,
+    "project_wrap_rate": 2.9,
+    "oh_wrap_rate": 1.65,
+    "fee_wrap_rate": 1.1
+  },
+  {
+    "month": "2027-04",
+    "workable_hours": 168.0,
+    "project_wrap_rate": 2.9,
+    "oh_wrap_rate": 1.65,
+    "fee_wrap_rate": 1.1
+  },
+  {
+    "month": "2027-05",
+    "workable_hours": 168.0,
+    "project_wrap_rate": 2.9,
+    "oh_wrap_rate": 1.65,
+    "fee_wrap_rate": 1.1
+  },
+  {
+    "month": "2027-06",
+    "workable_hours": 168.0,
+    "project_wrap_rate": 2.9,
+    "oh_wrap_rate": 1.65,
+    "fee_wrap_rate": 1.1
+  }
+]

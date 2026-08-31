@@ -1,0 +1,242 @@
+[
+  {
+    "person_id": "person_1",
+    "month": "2027-01",
+    "annual_salary": 130000.0
+  },
+  {
+    "person_id": "person_1",
+    "month": "2027-02",
+    "annual_salary": 130000.0
+  },
+  {
+    "person_id": "person_1",
+    "month": "2027-03",
+    "annual_salary": 130000.0
+  },
+  {
+    "person_id": "person_1",
+    "month": "2027-04",
+    "annual_salary": 130000.0
+  },
+  {
+    "person_id": "person_1",
+    "month": "2027-05",
+    "annual_salary": 130000.0
+  },
+  {
+    "person_id": "person_1",
+    "month": "2027-06",
+    "annual_salary": 130000.0
+  },
+  {
+    "person_id": "person_2",
+    "month": "2027-01",
+    "annual_salary": 115000.0
+  },
+  {
+    "person_id": "person_2",
+    "month": "2027-02",
+    "annual_salary": 115000.0
+  },
+  {
+    "person_id": "person_2",
+    "month": "2027-03",
+    "annual_salary": 115000.0
+  },
+  {
+    "person_id": "person_2",
+    "month": "2027-04",
+    "annual_salary": 115000.0
+  },
+  {
+    "person_id": "person_2",
+    "month": "2027-05",
+    "annual_salary": 115000.0
+  },
+  {
+    "person_id": "person_2",
+    "month": "2027-06",
+    "annual_salary": 115000.0
+  },
+  {
+    "person_id": "person_3",
+    "month": "2027-01",
+    "annual_salary": 140000.0
+  },
+  {
+    "person_id": "person_3",
+    "month": "2027-02",
+    "annual_salary": 140000.0
+  },
+  {
+    "person_id": "person_3",
+    "month": "2027-03",
+    "annual_salary": 140000.0
+  },
+  {
+    "person_id": "person_3",
+    "month": "2027-04",
+    "annual_salary": 140000.0
+  },
+  {
+    "person_id": "person_3",
+    "month": "2027-05",
+    "annual_salary": 140000.0
+  },
+  {
+    "person_id": "person_3",
+    "month": "2027-06",
+    "annual_salary": 140000.0
+  },
+  {
+    "person_id": "person_4",
+    "month": "2027-01",
+    "annual_salary": 108000.0
+  },
+  {
+    "person_id": "person_4",
+    "month": "2027-02",
+    "annual_salary": 108000.0
+  },
+  {
+    "person_id": "person_4",
+    "month": "2027-03",
+    "annual_salary": 108000.0
+  },
+  {
+    "person_id": "person_4",
+    "month": "2027-04",
+    "annual_salary": 108000.0
+  },
+  {
+    "person_id": "person_4",
+    "month": "2027-05",
+    "annual_salary": 108000.0
+  },
+  {
+    "person_id": "person_4",
+    "month": "2027-06",
+    "annual_salary": 108000.0
+  },
+  {
+    "person_id": "person_5",
+    "month": "2027-01",
+    "annual_salary": 122000.0
+  },
+  {
+    "person_id": "person_5",
+    "month": "2027-02",
+    "annual_salary": 122000.0
+  },
+  {
+    "person_id": "person_5",
+    "month": "2027-03",
+    "annual_salary": 122000.0
+  },
+  {
+    "person_id": "person_5",
+    "month": "2027-04",
+    "annual_salary": 122000.0
+  },
+  {
+    "person_id": "person_5",
+    "month": "2027-05",
+    "annual_salary": 122000.0
+  },
+  {
+    "person_id": "person_5",
+    "month": "2027-06",
+    "annual_salary": 122000.0
+  },
+  {
+    "person_id": "person_6",
+    "month": "2027-01",
+    "annual_salary": 118000.0
+  },
+  {
+    "person_id": "person_6",
+    "month": "2027-02",
+    "annual_salary": 118000.0
+  },
+  {
+    "person_id": "person_6",
+    "month": "2027-03",
+    "annual_salary": 118000.0
+  },
+  {
+    "person_id": "person_6",
+    "month": "2027-04",
+    "annual_salary": 118000.0
+  },
+  {
+    "person_id": "person_6",
+    "month": "2027-05",
+    "annual_salary": 118000.0
+  },
+  {
+    "person_id": "person_6",
+    "month": "2027-06",
+    "annual_salary": 118000.0
+  },
+  {
+    "person_id": "person_7",
+    "month": "2027-01",
+    "annual_salary": 135000.0
+  },
+  {
+    "person_id": "person_7",
+    "month": "2027-02",
+    "annual_salary": 135000.0
+  },
+  {
+    "person_id": "person_7",
+    "month": "2027-03",
+    "annual_salary": 135000.0
+  },
+  {
+    "person_id": "person_7",
+    "month": "2027-04",
+    "annual_salary": 135000.0
+  },
+  {
+    "person_id": "person_7",
+    "month": "2027-05",
+    "annual_salary": 135000.0
+  },
+  {
+    "person_id": "person_7",
+    "month": "2027-06",
+    "annual_salary": 135000.0
+  },
+  {
+    "person_id": "person_8",
+    "month": "2027-01",
+    "annual_salary": 110000.0
+  },
+  {
+    "person_id": "person_8",
+    "month": "2027-02",
+    "annual_salary": 110000.0
+  },
+  {
+    "person_id": "person_8",
+    "month": "2027-03",
+    "annual_salary": 110000.0
+  },
+  {
+    "person_id": "person_8",
+    "month": "2027-04",
+    "annual_salary": 110000.0
+  },
+  {
+    "person_id": "person_8",
+    "month": "2027-05",
+    "annual_salary": 110000.0
+  },
+  {
+    "person_id": "person_8",
+    "month": "2027-06",
+    "annual_salary": 110000.0
+  }
+]

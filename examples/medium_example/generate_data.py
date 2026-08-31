@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-"""Generates the medium example's data files, per `unstructured_notes_medium_example.md`.
+"""Generates the medium example's data files.
 
 Run once (or whenever you want a fresh random scenario):
 

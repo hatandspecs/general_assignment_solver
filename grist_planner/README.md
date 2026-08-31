@@ -16,8 +16,11 @@ Requires Docker and Docker Compose.
 
 First run generates `.env` (a random Grist admin boot key), builds the backend
 image, starts both containers, and provisions a fresh document with the full
-schema, the widget page, and a small starting dataset (`tutorial_data/`). Takes
-under a minute. Then open **http://localhost:8484**.
+schema, the widget page, and `examples/small_example/data/`. Takes under a
+minute. `up`'s own output then prints a **one-time** step: your browser needs to
+log into Grist once (the provisioning script logs in server-side, which isn't
+the same as your browser having a session) — after that you stay logged in
+across every future `up`/`down`. Then open **http://localhost:8484**.
 
 ## Commands
 
@@ -27,14 +30,18 @@ under a minute. Then open **http://localhost:8484**.
 ./deploy_planner.sh reset    # destroy everything (containers, volumes, .env) — confirms first
 ./deploy_planner.sh logs     # follow both containers' logs
 ./deploy_planner.sh status   # docker compose ps
-./deploy_planner.sh seed     # re-run just the tutorial-data seed step
+./deploy_planner.sh seed     # re-run just the data-seed step
+
+# Any of up/seed also take --example, to seed examples/medium_example instead
+# of the default examples/small_example (needs `reset` first if already seeded):
+./deploy_planner.sh up --example medium_example
 ```
 
 ## Layout
 
 ```
 deploy_planner.sh       the one command you run
-docker-compose.yml
+docker-compose.yml       mounts ../examples read-only, for seeding
 docker/Dockerfile        planner-api's image (installs allocsolver + this service)
 planner_api/
     main.py                 FastAPI endpoints — what the widget's buttons call
@@ -44,10 +51,11 @@ planner_api/
     reports.py                 report-row computation for the widget's report buttons
     schema.py                   the Grist table schema, single source of truth
 widget/                  the control-panel widget: index.html, widget.js, widget.css
-tutorial_data/           the small dataset docs/09-planner-tutorial.md walks through
-    generate_tutorial_data.py
-    sample_pre_assignment.json
 ```
+
+The dataset seeded on `up` lives in `../examples/small_example/` (or
+`../examples/medium_example/`) — see that example's own README, and
+`docs/09-planner-tutorial.md` for the walkthrough.
 
 ## Local-only, by design
 
