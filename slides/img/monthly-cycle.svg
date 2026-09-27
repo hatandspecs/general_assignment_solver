@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1240 400" width="1240" height="400" font-family="Liberation Sans, Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#6b7680"/>
+    </marker>
+    <marker id="k" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#111111"/>
+    </marker>
+  </defs>
+  <rect width="1240" height="400" fill="#ffffff"/>
+
+  <rect x="20" y="14" width="600" height="176" rx="8" fill="#f4f6f8" stroke="#c9d0d6" stroke-width="2"/>
+  <g stroke="#111111" stroke-width="2.5" fill="#ffffff">
+    <rect x="45" y="44" width="200" height="76" rx="6"/>
+    <rect x="355" y="44" width="200" height="76" rx="6"/>
+  </g>
+  <g text-anchor="middle" fill="#111111" font-size="22">
+    <text x="145" y="78">Pre-Assignments</text><text x="455" y="78">Run Planning</text>
+  </g>
+  <g text-anchor="middle" fill="#5b6770" font-size="16">
+    <text x="145" y="102">optional</text><text x="455" y="102">preview only</text>
+  </g>
+  <line x1="251" y1="82" x2="349" y2="82" stroke="#6b7680" stroke-width="2.5" marker-end="url(#a)"/>
+  <path d="M455,124 C455,152 260,152 148,126" fill="none" stroke="#6b7680" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="320" y="178" text-anchor="middle" font-size="18" fill="#5b6770">hand-edit a cell, lock it, solve again &#8212; nothing is committed here</text>
+
+  <path d="M320,192 V216 H115 V240" fill="none" stroke="#111111" stroke-width="3" marker-end="url(#k)"/>
+  <text x="352" y="212" font-size="18" fill="#111111" font-weight="600">commit</text>
+
+  <g stroke="#111111" stroke-width="2.5" fill="#ffffff">
+    <rect x="20"  y="244" width="190" height="82" rx="6"/>
+    <rect x="250" y="244" width="190" height="82" rx="6"/>
+    <rect x="480" y="244" width="190" height="82" rx="6"/>
+    <rect x="710" y="244" width="190" height="82" rx="6"/>
+    <rect x="940" y="244" width="190" height="82" rx="6"/>
+  </g>
+  <g text-anchor="middle" fill="#111111" font-size="20">
+    <text x="115" y="278">Export Work</text><text x="115" y="302">Assignments</text>
+    <text x="345" y="278">Portfolio</text><text x="345" y="302">Reports</text>
+    <text x="575" y="290">Load Actuals</text>
+    <text x="805" y="278">Close the</text><text x="805" y="302">Month</text>
+    <text x="1035" y="278">Variance</text><text x="1035" y="302">Report</text>
+  </g>
+  <g stroke="#6b7680" stroke-width="2.5" marker-end="url(#a)" fill="none">
+    <line x1="216" y1="285" x2="244" y2="285"/>
+    <line x1="446" y1="285" x2="474" y2="285"/>
+    <line x1="676" y1="285" x2="704" y2="285"/>
+    <line x1="906" y1="285" x2="934" y2="285"/>
+  </g>
+
+  <path d="M1035,330 V372 H10 V102 H38" fill="none" stroke="#6b7680" stroke-width="2.5" marker-end="url(#a)"/>
+  <text x="560" y="394" text-anchor="middle" font-size="18" fill="#5b6770">next month</text>
+</svg>

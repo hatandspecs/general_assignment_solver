@@ -12,6 +12,7 @@ fragmentation limits, and stays stable across plan revisions.
 | `README.md` | Getting it running |
 | `docs/README.md` | Design rationale — start here for why, not how |
 | `tests/` | Behavior worth preserving |
+| `slides/` | A 15-slide Marp deck for program managers; see `slides/README.md` |
 
 Setup is conda: `conda env create -f environment.yml` then
 `conda activate general_assignment_solver`.
