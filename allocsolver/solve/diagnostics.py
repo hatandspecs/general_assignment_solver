@@ -5,17 +5,27 @@ from ortools.linear_solver import pywraplp
 from allocsolver.models.plan import Plan
 
 from .elastic import build_elastic_model
+from .locks import lock_conflicts
 from .result import BindingSlack, DiagnosticsReport
 
 
 def diagnose(plan: Plan) -> DiagnosticsReport:
-    """This model is always feasible. Nonzero slacks are exactly what had to break."""
+    """Nonzero slacks in the elastic model are exactly what had to break.
+
+    Lock conflicts are computed first and reported alongside, because the elastic
+    model re-pins locked cells verbatim and so can be infeasible itself when the locks
+    are the problem — in which case the slack half of this report comes back empty and
+    `locks.py` is the only half that has anything to say. See that module's docstring.
+    """
+    conflicts = lock_conflicts(plan)
     bundle = build_elastic_model(plan)
     status = bundle.solver.Solve()
     binding: list[BindingSlack] = []
 
     if status not in (pywraplp.Solver.OPTIMAL, pywraplp.Solver.FEASIBLE):
-        return DiagnosticsReport(binding=[])  # pragma: no cover - the elastic model is always feasible
+        # The relaxation itself didn't solve — locks pinned into it are the usual
+        # reason, and `conflicts` is what names them.
+        return DiagnosticsReport(binding=[], lock_conflicts=conflicts)
 
     for cell, var in bundle.s_hmin.items():
         if var.solution_value() > 1e-6:
@@ -36,7 +46,7 @@ def diagnose(plan: Plan) -> DiagnosticsReport:
                 BindingSlack("hard_target", proj, None, str(m), var.solution_value(), "hard target exceeded")
             )
 
-    return DiagnosticsReport(binding=binding)
+    return DiagnosticsReport(binding=binding, lock_conflicts=conflicts)
 
 
 def iis(plan: Plan) -> str:

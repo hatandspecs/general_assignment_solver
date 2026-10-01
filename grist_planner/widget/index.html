@@ -9,80 +9,182 @@
   <header>
     <h1>Labor Allocation Planner</h1>
     <div id="state-banner" class="banner">Loading plan state…</div>
+    <div id="lock-warnings" class="banner warn" hidden></div>
   </header>
 
   <main>
-    <section id="section-pre-assignments">
-      <h2>1. Pre-Assignments (optional, before the first solve)</h2>
+    <section id="section-import">
+      <h2>1. Import the ballpark</h2>
       <p class="hint">
-        Load a pre-assignment JSON file, or edit the <code>Pre_Assignments</code> table
-        directly in Grist (open it from the page list on the left) — either way, each
-        row becomes an hour-range constraint (min/max) on one project/person/month in
-        <code>Bounds</code>, guiding the solver <em>before</em> it ever runs. Optional —
-        skip straight to step 2 if you don't have any this month.
+        A hand-built starting assignment: CSV or JSON, columns
+        <code>project_id, person_id, month, hours, locked</code> (<code>hours_assigned</code>
+        works for <code>hours</code>; <code>locked</code> is optional). It is allowed to be
+        partial and to break the rules — over capacity, over a cell's bounds, too many
+        projects at once. <strong>Audit</strong> reports every violation without writing
+        anything; <strong>Import</strong> loads it anyway, because pulling an infeasible
+        starting point back to feasibility is what step 3 is for.
       </p>
-      <input type="file" id="pre-assignment-file" accept="application/json">
-      <button id="btn-upload-pre-assignments">Load Pre-Assignment JSON</button>
-      <div class="result" id="result-pre-assignments"></div>
+      <p class="hint">
+        One kind of problem the solver <em>cannot</em> fix: a project/person/month with no
+        eligible <code>Bounds</code> row has no variable in the model at all, so those rows
+        are reported and skipped. Tick the box below to add permissive bounds and open those
+        cells — that is a real staffing decision, so it never happens silently.
+      </p>
+      <input type="file" id="ballpark-file" accept=".csv,.json,.txt,text/csv,application/json">
+      <label><input type="checkbox" id="make-eligible"> Also make ineligible pairs eligible</label>
+      <div class="button-row">
+        <button id="btn-audit" class="secondary">Audit only</button>
+        <button id="btn-import">Import Ballpark</button>
+        <a class="download-link" href="/api/working-assignment/download">Download current as CSV</a>
+      </div>
+      <div class="result" id="result-import"></div>
     </section>
 
-    <section id="section-run-planning">
-      <h2>2. Run Planning — solve, review, and tweak</h2>
+    <section id="section-tweak">
+      <h2>2. Tweak and lock</h2>
       <p class="hint">
-        Solves with the current Pre-Assignments merged in, and writes the result into
-        the <code>Allocation</code> table — open it from the page list on the left to
-        see the actual solved hours for every project/person this month. This is not
-        one-and-done: hand-edit any row's <code>hours_assigned</code> there, check its
-        <code>locked</code> box, and click <strong>Run Planning</strong> again — that
-        cell stays pinned exactly as you set it while everything else re-optimizes
-        around it. Repeat as many times as you like. Nothing is committed (no change to
-        <code>Bounds</code> or <code>Pre_Assignments</code>) until step 3.
+        Edit the <code>Allocation</code> table in Grist — open it from the page list on the
+        left. Change any row's <code>hours_assigned</code>, and tick <code>locked</code> to
+        pin a cell so step 3 cannot move it. Hand-edits are picked up automatically: the
+        next solve saves them as their own iteration first, so they are recoverable even if
+        the solve goes badly.
       </p>
-      <button id="btn-run-planning">Run Planning</button>
-      <div class="result" id="result-run-planning"></div>
+      <p class="hint">
+        The sweeps below are the ones that are tedious cell by cell. With no filters they
+        match the whole open horizon. Locking a zero-hour cell pins it <em>empty</em>, which
+        is why "only cells with hours" is on by default.
+      </p>
+      <div class="filter-row">
+        <label>Project <input type="text" id="lock-project" placeholder="any" size="10"></label>
+        <label>Person <input type="text" id="lock-person" placeholder="any" size="10"></label>
+        <label>Month <input type="text" id="lock-month" placeholder="any (YYYY-MM)" size="10"></label>
+        <label><input type="checkbox" id="lock-nonzero" checked> Only cells with hours</label>
+      </div>
+      <div class="button-row">
+        <button id="btn-lock">Lock matching</button>
+        <button id="btn-unlock" class="secondary">Unlock matching</button>
+        <button id="btn-view-working" class="secondary">Show working assignment</button>
+      </div>
+      <div class="result" id="result-tweak"></div>
+    </section>
+
+    <section id="section-solve">
+      <h2>3. Solve</h2>
+      <p class="hint">
+        Takes the working assignment as its starting point, holds every locked cell exactly
+        where it is, and re-optimizes the rest against capacity, bounds and the spend
+        targets. If no assignment can satisfy the locks and constraints together, this
+        writes nothing and reports which constraint or lock is responsible.
+      </p>
+      <p class="hint">
+        <strong>Adherence</strong> is how hard the solver tries to keep what you gave it.
+        At <em>free</em> the ballpark only breaks ties between equally good plans; at
+        <em>exact</em> it is reproduced almost literally, which can overshoot the spend
+        targets this tool exists to hit. Use <em>exact</em> to find out whether your
+        ballpark is reachable at all, not to produce a plan to send out.
+      </p>
+      <label>Adherence
+        <select id="adherence">
+          <option value="free">free — only break ties</option>
+          <option value="loose" selected>loose — follow the shape</option>
+          <option value="close">close — follow closely</option>
+          <option value="exact">exact — reproduce it, targets second</option>
+        </select>
+      </label>
+      <div class="button-row">
+        <button id="btn-solve">Solve</button>
+      </div>
+      <div class="result" id="result-solve"></div>
+    </section>
+
+    <section id="section-history">
+      <h2>4. Iterations &amp; going back</h2>
+      <p class="hint">
+        Every import, hand-tweak, solve, lock sweep and commit is saved as a numbered
+        iteration. Restoring one copies its cells back over the working assignment and
+        appends the result as a new iteration — nothing later is deleted, so going back and
+        changing your mind again costs nothing.
+      </p>
+      <p class="hint">
+        The <code>objective</code> column is not comparable between rows. Part of it
+        measures distance from whatever the assignment held when that solve started, so
+        each iteration is scored against a different reference point — a lower number does
+        not mean a better plan.
+      </p>
+      <div class="button-row">
+        <button id="btn-history" class="secondary">Refresh iterations</button>
+      </div>
+      <div class="result" id="result-history"></div>
     </section>
 
     <section id="section-export">
-      <h2>3. Export Work Assignments — commit</h2>
+      <h2>5. Export work assignments (commit)</h2>
       <p class="hint">
-        Re-solves once more, then permanently merges this month's Pre-Assignments into
-        <code>Bounds</code> (the hour-range constraints) and clears the
-        <code>Pre_Assignments</code> inbox — <code>Allocation</code> (the actual solved
-        hours) is refreshed the same way step 2 does, so the two always agree. Do this
-        once you're happy with the plan from step 2; it also produces this month's
-        work-assignment sheet, the one that goes out to the team.
+        Sends out the working assignment <em>as it stands</em> — the plan you approved in
+        step 3, not a fresh solve that might differ from it. Permanently merges this cycle's
+        <code>Pre_Assignments</code> into <code>Bounds</code> and clears that inbox. If the
+        working assignment holds tweaks that have not been through a solve, this refuses and
+        asks you to solve first, since those numbers have never been checked.
       </p>
-      <button id="btn-export">Export Work Assignments (Commit Plan)</button>
-      <a id="link-download-assignments" class="download-link" href="/api/export-work-assignments/download">Download CSV</a>
+      <div class="button-row">
+        <button id="btn-export">Export Work Assignments</button>
+        <a class="download-link" href="/api/export-work-assignments/download">Download CSV</a>
+      </div>
       <div class="result" id="result-export"></div>
     </section>
 
+    <section id="section-preassign">
+      <h2>6. Bounds-shaped pre-assignments (optional)</h2>
+      <p class="hint">
+        The other, narrower manual input: an hour <em>range</em> per project/person/month
+        rather than a number — "put Alice on this project for 40–80 hours, I don't care
+        exactly how many". JSON, shaped like <code>Bounds</code> rows. These are real
+        constraints, so unlike a ballpark they must be self-consistent, and step 5 merges
+        them permanently into <code>Bounds</code>. Use step 1 instead for an actual
+        assignment you want the solver to start from.
+      </p>
+      <input type="file" id="pre-assignment-file" accept="application/json">
+      <div class="button-row">
+        <button id="btn-upload-pre-assignments" class="secondary">Load Pre-Assignment JSON</button>
+      </div>
+      <div class="result" id="result-pre-assignments"></div>
+    </section>
+
     <section id="section-portfolio">
-      <h2>4. Project Portfolio Reports</h2>
-      <p class="hint">Budget summary for every currently-active project, plus the staffing balance assessment.</p>
-      <button id="btn-portfolio">Run Portfolio Reports</button>
-      <a id="link-download-portfolio" class="download-link" href="/api/run-portfolio-reports/download">Download ZIP</a>
+      <h2>7. Project portfolio reports</h2>
+      <p class="hint">
+        Budget summary for every currently-active project plus the staffing balance
+        assessment, both computed from the current working assignment.
+      </p>
+      <div class="button-row">
+        <button id="btn-portfolio" class="secondary">Run Portfolio Reports</button>
+        <a class="download-link" href="/api/run-portfolio-reports/download">Download ZIP</a>
+      </div>
       <div class="result" id="result-portfolio"></div>
     </section>
 
     <section id="section-actuals">
-      <h2>5. Load Actuals &amp; Close the Month</h2>
+      <h2>8. Load actuals &amp; close the month</h2>
       <p class="hint">
-        CSV columns: <code>person_id, project_id, hours_actual</code>. No file yet?
-        Leave it empty and use "Preview" to see synthetic actuals instead — handy for
-        practicing the tutorial before real timekeeping data exists.
+        CSV columns: <code>person_id, project_id, hours_actual</code>. Variance is measured
+        against the assignment on record for the month, not a re-solve. No file yet? Leave
+        it empty and use Preview to see synthetic actuals instead.
       </p>
       <input type="file" id="actuals-file" accept=".csv">
-      <button id="btn-actuals-preview">Preview</button>
       <label><input type="checkbox" id="accept-reforecast"> Accept reforecast proposal</label>
-      <button id="btn-actuals-commit">Confirm &amp; Close Month</button>
+      <div class="button-row">
+        <button id="btn-actuals-preview" class="secondary">Preview</button>
+        <button id="btn-actuals-commit">Confirm &amp; Close Month</button>
+      </div>
       <div class="result" id="result-actuals"></div>
     </section>
 
     <section id="section-variance">
-      <h2>6. Variance Report (assigned vs. actual billed hours)</h2>
-      <label>Month: <input type="text" id="variance-month" placeholder="YYYY-MM"></label>
-      <button id="btn-variance">Get Variance Report</button>
+      <h2>9. Variance report (assigned vs. actual billed hours)</h2>
+      <label>Month <input type="text" id="variance-month" placeholder="YYYY-MM"></label>
+      <div class="button-row">
+        <button id="btn-variance" class="secondary">Get Variance Report</button>
+      </div>
       <div class="result" id="result-variance"></div>
     </section>
   </main>

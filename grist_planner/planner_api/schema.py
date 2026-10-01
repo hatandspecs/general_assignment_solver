@@ -123,6 +123,38 @@ INPUT_TABLES: list[TableSchema] = [
     ),
     # Plan.horizon_start / horizon_end / closed_through — a single row, id=1.
     TableSchema("Meta", [("horizon_start", "Text"), ("horizon_end", "Text"), ("closed_through", "Text")]),
+    # The working assignment's undo stack (`history.py`). Append-only: one header row
+    # per saved iteration, plus that iteration's cells in the companion table. Read-only
+    # to a planner — restoring an iteration is a button, not a hand-edit.
+    TableSchema(
+        "Assignment_History",
+        [
+            ("iteration", "Int"),
+            ("created_at", "Text"),
+            ("source", "Text"),
+            ("label", "Text"),
+            ("feasible", "Bool"),
+            ("objective", "Numeric"),
+            ("adherence", "Text"),
+            ("num_cells", "Int"),
+            ("num_locked", "Int"),
+            ("total_hours", "Numeric"),
+            ("note", "Text"),
+        ],
+    ),
+    TableSchema(
+        "Assignment_History_Cells",
+        [
+            ("iteration", "Int"),
+            ("project_id", "Text"),
+            ("person_id", "Text"),
+            ("month", "Text"),
+            ("hours_assigned", "Numeric"),
+            ("locked", "Bool"),
+            ("lock_note", "Text"),
+            ("solve_id", "Text"),
+        ],
+    ),
 ]
 
 REPORT_TABLES: list[TableSchema] = [
@@ -166,9 +198,8 @@ REPORT_TABLES: list[TableSchema] = [
             ("status", "Text"),
         ],
     ),
-    # "See how the solution differs from the pre-assignment" — one row per cell that
-    # was either pre-assigned, solved, or both, for the month a "Run Planning"
-    # preview just solved.
+    # "What did the solver change about my ballpark" — one row per cell that the
+    # working assignment held going in, the solve produced coming out, or both.
     TableSchema(
         "Report_SolveDiff",
         [
@@ -178,7 +209,24 @@ REPORT_TABLES: list[TableSchema] = [
             ("pre_assigned_hours", "Numeric"),
             ("solved_hours", "Numeric"),
             ("delta", "Numeric"),
+            ("locked", "Bool"),
             ("status", "Text"),
+        ],
+    ),
+    # What the solver will and won't be able to do with an imported ballpark
+    # (`io/working_assignment.py`'s `audit`). `applied=False` is the column that
+    # matters: those cells have no solver variable at all.
+    TableSchema(
+        "Report_BallparkAudit",
+        [
+            ("project_id", "Text"),
+            ("person_id", "Text"),
+            ("month", "Text"),
+            ("hours", "Numeric"),
+            ("locked", "Bool"),
+            ("status", "Text"),
+            ("applied", "Bool"),
+            ("detail", "Text"),
         ],
     ),
 ]

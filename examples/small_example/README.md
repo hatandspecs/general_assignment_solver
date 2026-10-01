@@ -59,6 +59,7 @@ generate_data.py             writes data/*.json (checked in; re-run to reset)
 run_example.py                 load -> solve -> views -> exports -> reforecast demo
 simulate_full_horizon.py        drives the whole remaining horizon, one month at a time
 sample_pre_assignment.json       a manual pre-assignment, used by docs/09-planner-tutorial.md
+sample_ballpark.csv              a hand-built starting assignment, used by docs/09-planner-tutorial.md
 data/                          the star-schema JSON files (allocsolver/io/local.py's layout)
 output/                        CSV exports (gitignored — regenerate any time)
 ```

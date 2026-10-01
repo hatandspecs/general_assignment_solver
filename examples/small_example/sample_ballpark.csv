@@ -1,0 +1,7 @@
+project_id,person_id,month,hours,locked
+project_alpha,person_1,2027-02,150,true
+project_alpha,person_2,2027-02,150,false
+project_beta,person_2,2027-02,40,false
+project_beta,person_6,2027-02,120,false
+project_alpha,person_6,2027-02,80,false
+project_gamma,person_8,2027-03,140,false

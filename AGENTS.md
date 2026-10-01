@@ -11,6 +11,8 @@ fragmentation limits, and stays stable across plan revisions.
 |---|---|
 | `README.md` | Getting it running |
 | `docs/README.md` | Design rationale — start here for why, not how |
+| `docs/08-grist-ui-design.md` | The planner loop: import a ballpark, tweak and lock, solve, restore an iteration |
+| `docs/09-planner-tutorial.md`, `docs/10-medium-example-tutorial.md` | Manual test protocols — small example, then three months on the medium one |
 | `tests/` | Behavior worth preserving |
 | `slides/` | A 15-slide Marp deck for program managers; see `slides/README.md` |
 
@@ -25,6 +27,58 @@ Setup is conda: `conda env create -f environment.yml` then
   before changing it.
 - **An infeasible model needs to say why.** "No solution" is not an answer a
   planner can act on; prefer diagnostics that name the binding constraint.
+- **The working assignment is one object in three roles.** `Allocation`'s open
+  months are simultaneously the imported ballpark, the hand-tweaked plan, the
+  solver's starting point and the solver's output
+  (`allocsolver/io/working_assignment.py`). That identity is what makes "this
+  solve's result is the next solve's input" true without a conversion step —
+  don't split it back into separate input and output tables.
+- **`solve(plan, baseline=...)` is the "follow my ballpark" knob, and its
+  weight matters more than its wiring.** The churn term measures distance from
+  the baseline. At the default weight of 5 — calibrated for stability between
+  two *solver outputs* — it mostly only breaks ties and will not reshape a plan
+  toward a hand-built assignment. `config.ADHERENCE_CHURN_WEIGHTS` holds the
+  measured levels; `docs/08-grist-ui-design.md` has the numbers. Past `close`,
+  adherence is bought with the spend targets.
+- **Three manual inputs, three different jobs.** A ballpark cell is a starting
+  number the solver may move; a `Pre_Assignments` row is an hour *range* it must
+  respect; a `locked` cell is a number it cannot move at all. All three are
+  supported and they are not interchangeable.
+- **Locks need their own diagnostics, and C1/C2 don't apply to them.**
+  `constraints.py` skips the hard/soft bound constraints for fixed cells, so a
+  lock above its cell's `hard_max` is legal by design, not a conflict. What can
+  genuinely break is capacity (C3), the concurrency ceiling (C6) and hard spend
+  targets (C4) — and the elastic relaxation cannot report any of it, because it
+  re-pins locked cells verbatim and so goes infeasible itself, returning an
+  empty slack report. `allocsolver/solve/locks.py` computes those conflicts
+  directly in Python instead. Don't "fix" that by relaxing locks in the elastic
+  model: slack on a locked cell reports that a deliberate pin had to move, which
+  is useless.
+- **Nothing reads the plan by re-solving it.** Reports, exports and variance all
+  read the working assignment (`_working_hours` in `planner_api/main.py`).
+  Re-solving to "look up" the current hours can legitimately return a different
+  equally optimal plan, which is how a budget report ends up disagreeing with
+  the `Allocation` table for no visible reason.
+- **Importing a ballpark replaces every open month, wholesale.** A cell the
+  file omits ends up empty — correct when the ballpark *is* the plan, and a
+  loaded gun against a mid-horizon plan: on the medium example a one-row import
+  collapses ~4,700 cells to one. Recovery is restoring the last `solve`
+  iteration. The safe round trip is Download-current-as-CSV, edit that, re-import.
+  A merge/upsert import mode is the obvious missing option and hasn't been built.
+- **`examples/medium_example/data/` is checked in fully closed.** Its
+  `meta.json` says `closed_through: 2031-12` because those files are the output
+  of `simulate_full_horizon.py`. Seeding a Grist doc from them yields a planner
+  with nothing to plan. Run `python generate_data.py --seed 42` first, which
+  resets it to `2027-02`.
+- **`grist_planner/` deps aren't in the conda env.** `fastapi` and `httpx` live
+  only in the container image, so the FastAPI handlers can't be imported by the
+  test suite. `planner_api/history.py` avoids importing `httpx` (its
+  `TableStore` protocol exists for exactly this) and so *is* tested. To verify
+  the handlers, stand up a throwaway stack on alternate ports rather than
+  touching a running instance:
+  `docker compose -p planner_verify --env-file <alt.env> up -d`, provision with
+  `--seed-dir /examples/small_example/data`, drive it with `curl`, then
+  `down -v`.
 
 ## How I work — standing preferences
 

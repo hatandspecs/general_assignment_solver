@@ -35,6 +35,10 @@ header h1 {
 }
 
 .banner.error { background: #fdeeee; border-color: var(--err); color: var(--err); }
+.banner.warn { background: #fff6e8; border-color: var(--warn); color: var(--warn); }
+.banner.warn ul { margin: 6px 0 0; padding-left: 20px; }
+.banner strong { font-weight: 600; }
+[hidden] { display: none !important; }
 
 section {
   border: 1px solid var(--border);
@@ -68,9 +72,48 @@ button {
 button:hover { opacity: 0.9; }
 button:disabled { opacity: 0.5; cursor: default; }
 
-input[type="file"], input[type="text"] {
+/* Secondary: the read-only and reversible actions (audit, preview, refresh,
+   restore), so the one button in each section that actually commits something
+   stands out from the ones that don't. */
+button.secondary {
+  background: transparent;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+}
+
+.button-row { margin-top: 10px; }
+
+.filter-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 16px;
+  align-items: center;
+  margin-top: 6px;
+}
+
+input[type="file"], input[type="text"], select {
   font-size: 13px;
   margin-right: 8px;
+}
+
+label { font-size: 13px; }
+
+h3 {
+  font-size: 13.5px;
+  margin: 14px 0 4px;
+}
+
+ul.conflicts { margin: 4px 0 0; padding-left: 20px; }
+ul.conflicts li { margin-bottom: 6px; }
+
+pre.diagnostics {
+  background: #f7f7f9;
+  border: 1px solid var(--border);
+  border-radius: 5px;
+  padding: 8px 10px;
+  font-size: 12px;
+  overflow-x: auto;
+  white-space: pre;
 }
 
 .download-link {
@@ -113,5 +156,8 @@ input[type="file"], input[type="text"] {
     --border: #3a3b3e;
   }
   .banner { background: #2a2b2e; }
+  .banner.warn { background: #332a1c; }
+  .banner.error { background: #3a2526; }
   .result th { background: #2a2b2e; }
+  pre.diagnostics { background: #2a2b2e; }
 }

@@ -16,7 +16,8 @@ Design docs for a MILP-driven labor allocation and spend planning system.
 | `06-code-structure-and-dependencies.md` | Package layout, dependency graph, licenses | Setting up the repo |
 | `07-open-questions.md` | Decisions not yet made, with the tradeoff for each | Before committing to schema or formulation |
 | `08-grist-ui-design.md` | The live Grist deployment: schema, backend service, widget, provisioning | Running or changing `grist_planner/` |
-| `09-planner-tutorial.md` | Hands-on walkthrough of a full planning month | Learning the UI, or writing the next one |
+| `09-planner-tutorial.md` | Manual test protocol: the import/tweak/solve/restore loop on the small example | Learning the UI, or verifying a change by hand |
+| `10-medium-example-tutorial.md` | Manual test protocol: planning three months at scale, on a near-capacity portfolio | After `09`, to see what changes when the plan is too big to read |
 
 ## One-paragraph summary
 

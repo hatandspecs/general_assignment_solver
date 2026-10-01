@@ -36,6 +36,13 @@ python generate_data.py --seed 42
 python run_example.py
 ```
 
+> **The checked-in `data/` is fully closed.** Its `meta.json` carries
+> `closed_through: 2031-12`, because those files are the end state of a
+> `simulate_full_horizon.py` run rather than a fresh draw — there is no open month left
+> in them. Anything that plans forward (the Grist planner in particular, see
+> `docs/10-medium-example-tutorial.md`) needs step 1 run first, which resets
+> `closed_through` to `2027-02`.
+
 `run_example.py` walks through, in order: loading the plan, solving the full 5-year
 horizon, rendering a sample of the task view and resource view, pointing out the
 ramp-up pattern in the generated data, running the reforecast mechanism against the

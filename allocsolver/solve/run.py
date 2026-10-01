@@ -11,6 +11,7 @@ from allocsolver.models.plan import Plan
 
 from .build import ModelBundle, build_model
 from .diagnostics import diagnose
+from .locks import lock_conflicts
 from .result import ObjectiveBreakdown, SolveResult
 
 
@@ -67,6 +68,9 @@ def solve(
             wall_time_seconds=wall_time,
             solve_id=solve_id,
             diagnostics=None,
+            # A feasible solve can still have quietly dropped a lock on an ineligible
+            # cell (`locks.py`): worth reporting precisely *because* nothing failed.
+            lock_warnings=[c for c in lock_conflicts(plan) if not c.is_infeasible],
         )
 
     return SolveResult(

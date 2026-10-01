@@ -58,9 +58,10 @@ aimed at the planner who'd actually use this tool (not just the person building 
 ## Try it: the live Grist planner UI
 
 A real, self-hosted Grist document backed by a small FastAPI service, with a
-control-panel widget embedded right in the doc — pre-assignments, run planning,
-export work assignments, portfolio reports, load actuals, variance reports, all as
-buttons, not CLI invocations:
+control-panel widget embedded right in the doc. The loop it drives: import a hand-built
+ballpark assignment, tweak and lock cells, press Solve, repeat, and restore an earlier
+iteration whenever a round goes badly — plus export work assignments, portfolio reports,
+load actuals and variance reports, all as buttons rather than CLI invocations:
 
 ```bash
 cd grist_planner
@@ -69,7 +70,8 @@ cd grist_planner
 
 Opens Grist at `http://localhost:8484` with the small example already loaded
 (pass `--example medium_example` to load the bigger scenario instead). See
-`docs/09-planner-tutorial.md` for a full walkthrough, with real screenshots, and
+`docs/09-planner-tutorial.md` for a step-by-step manual test protocol,
+`docs/10-medium-example-tutorial.md` for planning several months at scale, and
 `docs/08-grist-ui-design.md` for how it's built.
 
 ## Running the tests
@@ -92,7 +94,8 @@ allocsolver/
                     that follows a closed month
     reports/       Task/resource views and the three confirmed export formats
     io/            Local JSON file I/O (the current stand-in for a live Grist doc),
-                    synthetic-actuals simulation, and the manual pre-assignment inbox
+                    synthetic-actuals simulation, the range-shaped pre-assignment inbox,
+                    and the hours-shaped working assignment (import/audit/baseline)
     cli.py         `allocsolver validate|solve|advance-month` — the last one is a
                     simulated real-time engine: solve, simulate that month's
                     actuals, close it, reforecast, one month per invocation
@@ -110,9 +113,13 @@ selection-not-stacking rate model), the MILP (semi-continuous assignment, soft
 bounds, capacity, spend targets, fragmentation tiers, churn minimization),
 elastic-relaxation infeasibility diagnostics, the reforecast mechanism, task/resource
 views, the three confirmed exports (workforce sheet, variance sheet, budget
-summary — measured against each project's fixed `labor_budget`), a manual
-pre-assignment inbox (`pre_assignments.json`, validated and merged into `bounds`
-before each solve), a staffing-balance assessment (spend capacity vs. spend demand,
+summary — measured against each project's fixed `labor_budget`), two manual input
+shapes — a range-shaped pre-assignment inbox (`pre_assignments.json`, validated and
+merged into `bounds` before each solve) and an hours-shaped working assignment
+(`io/working_assignment.py`: a partial, possibly rule-breaking ballpark, imported from
+CSV or JSON, audited rather than rejected, and fed to the solver as its starting point
+via the churn baseline) — lock-conflict diagnostics that name why a set of pins cannot
+hold (`solve/locks.py`), a staffing-balance assessment (spend capacity vs. spend demand,
 in dollars, surfaced as a monthly surplus/shortfall — an assessment, not an
 auto-remediation), and a simulated real-time engine that drives the whole monthly
 solve/actuals/close/reforecast cycle (`allocsolver advance-month`, proven feasible
@@ -121,10 +128,16 @@ example's full 5-year horizon).
 
 Also implemented: a live, self-hosted Grist document (`grist_planner/`, `docs/08-
 grist-ui-design.md`) — every input table, a `GristClient` REST wrapper, and a
-control-panel widget wiring pre-assignments/run-planning/export/reports/close-month
-to buttons instead of CLI invocations, deployed with `./grist_planner/deploy_planner.sh up`.
+control-panel widget wiring the import/tweak/solve/restore loop plus
+pre-assignments/export/reports/close-month to buttons instead of CLI invocations,
+deployed with `./grist_planner/deploy_planner.sh up`. Includes an append-only iteration
+history of the working assignment (`Assignment_History`), so any earlier state can be
+restored.
 
 Still design-only (documented in `docs/05-interfaces.md` but not built): the real
 timekeeping-ingest pipeline (actuals are still synthetic, `io/synthetic.py`, or a
 hand-built CSV — there's no mapping-table/reconciliation pipeline against a real
-export yet), and snapshot/diff/accept as CLI verbs.
+export yet), and the snapshot repo with `diff`/`accept` as CLI verbs. The Grist planner's
+iteration history covers the interactive "go back one step" need but not the audit one:
+it versions the assignment, not the full inputs, so it can't replay an old solve against
+a different code version.

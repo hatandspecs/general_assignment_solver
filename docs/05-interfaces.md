@@ -155,6 +155,13 @@ Committed to git; accepted baselines get a tag. This gives reproducibility, scen
 
 `allocsolver diff` compares two snapshots cell by cell and reports movement grouped by project and by person, which is what a program review actually wants to see.
 
+Status: the snapshot repo and `allocsolver diff` remain design-only. What exists is the
+Grist planner's own iteration history (`grist_planner/planner_api/history.py`,
+`08-grist-ui-design.md`), which covers the interactive need — every state of the working
+assignment is appended as a numbered iteration and any of them can be restored — but not
+the audit need: it versions the assignment, not the full inputs, so it cannot replay a
+months-old solve against a different code version.
+
 ## Exports
 
 Confirmed: only planners use Grist/the solver directly. Everyone else is a recipient of a plain export, never a user of the tool. Three formats are confirmed requirements.
@@ -221,6 +228,21 @@ A project's budget summary is also copied into a persistent `completed_project_r
 All three are computed entirely from existing derived values (`03-data-model.md`'s Derived section) — no new stored data, just a new rendering. Format is CSV by default (universally readable, no dependency); `openpyxl` (already an optional extra for timekeeping `.xlsx` input) covers `.xlsx` output too if that's ever preferred over CSV.
 
 ### Manual pre-assignments
+
+There are two shapes of manual input, for two different intents, and a third mechanism
+that is neither.
+
+- **A working assignment** is hours-shaped: a specific number for a project/person/month.
+  Partial and possibly rule-breaking, it is the "ballpark" a planner arrives with. It
+  reaches the solver as the churn baseline (`solve(plan, baseline=...)`) — a starting
+  point the solver may move — and is overwritten by that solve's own result, so it is
+  also the next iteration's input. `allocsolver/io/working_assignment.py`; in Grist, the
+  open months of `Allocation`.
+- **A pre-assignment** is range-shaped: `hard_min`/`soft_min`/`soft_max`/`hard_max` for a
+  cell. A constraint the solver must respect, and therefore necessarily self-consistent.
+  Described below.
+- **A lock** is a hard pin on one cell at one value, applied after a planner has seen a
+  solve and wants that number held exactly (`AllocationRow.locked`, C5).
 
 A planner's own input, kept in a file separate from anything the solver or the ingest/reforecast machinery writes: `pre_assignments.json`, one `bounds`-shaped row per manual decision (bring a specific person onto a specific project for a specific month, at specific hour bounds). `advance-month` applies it — upserting each entry into `bounds` by `(project_id, person_id, month)`, running full plan validation so a typo'd id is caught immediately — then clears it before solving. The override itself persists permanently in `bounds`; the file is only ever "this cycle's new manual decisions," not a running log.
 

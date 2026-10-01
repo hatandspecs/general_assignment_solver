@@ -57,106 +57,215 @@ JSON files.
 |---|---|
 | `People`, `Projects`, `Rate_Structures`, `Rates`, `Wrap_Rates`, `Capacity`, `Targets` | The star schema, unchanged from `03-data-model.md` — pure human input. |
 | `Bounds` | Unchanged from `03-data-model.md`: hour-range constraints (hard/soft min/max) per project/person/month, guiding the solver *before* it runs. What "Export Work Assignments" permanently merges each month's `Pre_Assignments` into. |
-| `Allocation` | Unchanged schema, but now the editable **solution** a planner actually looks at and iterates on — see "The solution table and the tweak-and-resolve loop" below. Closed months carry `hours_actual` (fixed, historical); open months carry the latest solve's `hours_assigned`, hand-editable, with a `locked` checkbox that pins a cell across the next solve. |
-| `Pre_Assignments` | Same shape as `Bounds` — the manual pre-assignment inbox (`05-interfaces.md`), promoted from a hand-edited JSON file to a live, editable table. Cleared once "Export Work Assignments" merges it into `Bounds` for good. |
+| `Allocation` | Unchanged schema, but its open months are now the **working assignment** — the imported ballpark, the hand-tweaked plan, the solver's starting point and the solver's output, all the same rows. See "The working assignment and the iterate-to-satisfaction loop" below. Closed months carry `hours_actual` (fixed, historical); open months carry `hours_assigned`, hand-editable, with a `locked` checkbox that pins a cell across the next solve. |
+| `Pre_Assignments` | Same shape as `Bounds` — the manual pre-assignment inbox (`05-interfaces.md`), promoted from a hand-edited JSON file to a live, editable table. Expresses an hour *range* for a cell, which the hours-shaped working assignment cannot; retained alongside it. Cleared once "Export Work Assignments" merges it into `Bounds` for good. |
+| `Assignment_History`, `Assignment_History_Cells` | The working assignment's append-only iteration history (`planner_api/history.py`) — one header row per saved state plus its cells. Generated; restoring an iteration is a button, not a hand-edit. |
 | `Meta` | A single row: `horizon_start`, `horizon_end`, `closed_through` — `Plan`'s own top-level fields, which had nowhere else to live now that there's no `meta.json`. |
-| `Report_WorkAssignments`, `Report_Variance`, `Report_BudgetSummary`, `Report_StaffingBalance`, `Report_SolveDiff` | Generated, read-only. Overwritten wholesale on every relevant button click. **Don't hand-edit these** — the next report run replaces them entirely. |
+| `Report_WorkAssignments`, `Report_Variance`, `Report_BudgetSummary`, `Report_StaffingBalance`, `Report_SolveDiff`, `Report_BallparkAudit` | Generated, read-only. Overwritten wholesale on every relevant button click. **Don't hand-edit these** — the next report run replaces them entirely. |
 
 `planner-api` provisions all of these once (idempotently — see "Provisioning" below);
 nothing about the schema needs to be created by hand.
 
-## The solution table and the tweak-and-resolve loop
+## The working assignment and the iterate-to-satisfaction loop
 
-The single most important correction to this design, found by actually using it:
-planning is not one-shot. A planner runs the solver, looks at what it produced,
-overrides a handful of cells by hand, and re-solves around those overrides —
-repeatedly — before anything is final. The data model already had the mechanism
-for exactly this (`AllocationRow.locked`, `05-interfaces.md`: "Hand-editing
-assigned hours is supported only through an explicit lock mechanism, which the
-solver treats as a fixed variable" — `solve/build.py`'s `fixed_cells_and_values`,
-C5) — it just wasn't wired into the Grist backend at first, so **Run Planning**
-only ever showed an ephemeral preview with nowhere to look at or edit the actual
-numbers. Fixed: **Run Planning now writes every open month's solved
-`hours_assigned` into `Allocation`** (`main.py`'s `_write_solution_to_allocation`),
-preserving whatever `locked` flags are already set, and never touching `Bounds`,
-`Targets`, or `closed_through`.
+Planning is not one-shot, and it does not start from nothing. A planner arrives with a
+hand-built, partial, approximate assignment — who should be on what, roughly — drawn up
+without checking it against capacity or bounds. The tool's job is to take that
+"ballpark", say what is wrong with it, optimize around the parts being held fixed, and
+let the cycle repeat until the planner is satisfied.
+
+**The working assignment is one object in three roles.** It lives in `Allocation`'s open
+months (`allocsolver/io/working_assignment.py`), and it is simultaneously the imported
+ballpark, the thing hand-tweaked in Grist, the solver's starting point, and the solver's
+output. Because the output and the next input are the same rows, "the result of this
+solve becomes the input to the next one" holds by construction rather than through a
+conversion step that could lose or reshape anything.
 
 ```mermaid
 flowchart TD
-    RP["Run Planning<br/>solves, writes Allocation"] --> LOOK["Open Allocation in Grist<br/>(project- or person-sorted)"]
-    LOOK --> EDIT["Hand-edit a cell's hours_assigned,<br/>check its locked box"]
-    EDIT --> RP
-    LOOK --> HAPPY{"Happy with<br/>the plan?"}
-    HAPPY -->|"Yes"| EX["Export Work Assignments<br/>(commit)"]
+    IMP["1. Import ballpark<br/>CSV/JSON, partial, may break rules"] --> AUD["Audit: every violation named,<br/>import proceeds anyway"]
+    AUD --> TW["2. Tweak in the Grist Allocation table<br/>edit hours, tick locked"]
+    TW --> SV["3. Solve<br/>locks pinned, rest re-optimized"]
+    SV -->|feasible| TW
+    SV -->|infeasible| DIAG["Binding constraint or lock conflict named;<br/>nothing written"]
+    DIAG --> TW
+    TW --> HIST["4. Every state saved as an iteration<br/>restore any of them"]
+    HIST --> TW
+    TW --> EX["5. Export work assignments<br/>commits what was approved"]
 ```
 
-A locked cell's `hours_assigned` is pinned exactly across the next solve — the
-rest of the plan re-optimizes around it, and the ripple is visible immediately
-(reducing one person's hours on a project can send another person's hours up
-substantially, to keep that project's spend target covered). This loop can run
-as many times as a planner likes; nothing else is committed until Export Work
-Assignments.
+### A ballpark is allowed to be wrong
 
-## Widget: the six actions
+Imported rows are not validated into submission. `audit` classifies each one and the
+import proceeds regardless, because pulling an infeasible starting point back to
+feasibility is exactly what the solve step does. Violations split into two kinds, and
+the distinction is most of why the audit exists:
 
-Each maps directly to a button the widget requested. Two postures throughout,
-matching `allocsolver.cli`'s existing dry-run/accept pattern — a `POST` either
-previews (writes only the solution, nothing else) or commits (Bounds too), never
-both:
+- **Over a cell's bounds, over capacity, over the concurrency ceiling.** The solver
+  resolves these. Informational.
+- **No eligible `Bounds` row for the cell.** `eligible_cells` generates no variable for
+  it (`costing/masks.py`), so the solver cannot place anyone there and the ballpark's
+  intent for that cell would vanish silently. These rows are reported, excluded from the
+  import, and listed as `needs_bounds`. Re-importing with `make_eligible=true` adds
+  permissive `Bounds` rows to open them — a real staffing decision, so never implicit.
+
+### The ballpark steers the solve, by a dial
+
+A baseline assignment reaches the solver as `solve(plan, baseline=...)`, whose churn term
+is distance from that baseline. The mechanism already existed and was tested; nothing
+passed it. It is now passed on every solve in the service.
+
+Weight matters more than wiring. The default churn weight of 5 is calibrated for
+revision-to-revision stability between two *solver outputs*, not for following a
+hand-built assignment, and at that weight it mostly only breaks ties. Measured on
+`tests/fixtures.two_person_two_project_plan` with a four-cell ballpark, as L1 distance
+from it in hours:
+
+| churn | distance | behavior |
+|---|---|---|
+| 0 | 313h | a mirror-image plan — the "equally optimal but different every run" instability `AGENTS.md` calls out |
+| 5 | 113h | the same assignment a baseline-less solve returns; the ballpark picked the orientation and nothing else |
+| 25 | 87h | follows the shape |
+| 100 | 87h | |
+| 500 | 0h | reproduces the ballpark exactly, and overshoots that month's spend target by ~40% to do it |
+
+So adherence is a planner-facing control (`config.ADHERENCE_CHURN_WEIGHTS`), with four
+named levels mapping to those weights: `free`, `loose` (the default — a planner who has
+just imported a ballpark means for it to be followed), `close`, `exact`. The bottom row
+is the trade-off the dial exists to expose: past a point, adherence is bought with the
+spend targets this tool exists to hit, so `exact` answers "is my ballpark even
+reachable" rather than producing a plan to send out.
+
+### Locks are hard; a failed solve costs nothing
+
+A `locked` cell is pinned exactly (`fixed_cells_and_values`, C5) and the rest
+re-optimizes around it. An infeasible solve writes nothing at all and returns 422 with
+the binding constraints and any lock conflicts named, so a planner can always retreat to
+tweaking.
+
+Lock conflicts need their own machinery (`allocsolver/solve/locks.py`). The elastic
+relaxation re-pins locked cells verbatim, so when the locks themselves are the
+contradiction the relaxation is infeasible too and its slack report comes back empty —
+`INFEASIBLE. No binding constraints.`, the exact failure `AGENTS.md` warns about. Locks
+are constants rather than variables, so the conflicts are arithmetic over known numbers
+and are computed directly in Python instead: locked hours over a person-month's capacity
+(C3), locked cells over `hard_max_concurrent_projects` (C6, which has no slack in either
+model), locked spend over a hard target's ceiling (C4), and locks on ineligible cells,
+which are not infeasibilities but silent no-ops reported even on a *successful* solve.
+
+A lock above its own cell's `hard_max` is deliberately not a conflict: `constraints.py`
+skips C1/C2 for fixed cells, so the lock overrides the bound by design.
+
+### Every state is recoverable
+
+Each import, hand-tweak, solve, lock sweep, restore and commit appends a numbered
+iteration to `Assignment_History` and its cells to `Assignment_History_Cells`
+(`planner_api/history.py`). Hand-edits made directly in the Grist table are what this
+most exists for: nothing else observes them, and a solve would otherwise overwrite them
+irrecoverably, so a solve snapshots the pre-solve state first whenever it differs from
+the last iteration.
+
+Append-only. Restoring iteration 4 does not delete 5 and 6 — it copies 4's cells back
+into `Allocation` and appends them as iteration 7. Going back and then changing one's
+mind loses nothing, so there is no branch to strand.
+
+The `objective` column is not comparable between iterations: part of the objective is
+distance from the baseline, and the baseline is whatever the working assignment held when
+that solve started. Restoring an iteration and re-solving returns the identical
+assignment scored 10.54 against the original run's 19.60, the whole difference being
+where the solve started from.
+
+### What is committed is what was approved
+
+`export-work-assignments` exports the working assignment as it stands rather than
+re-solving. Re-solving at commit time meant the sheet that went to the team came from a
+different solver run than the one the planner reviewed — and with many equally optimal
+assignments available, that run could legitimately return a different plan, changing it
+after sign-off with nobody touching anything. The same reasoning applies to the report
+and download endpoints, which read the working assignment (`_working_hours`) instead of
+solving again; a budget report that disagreed with the `Allocation` table would be worse
+than no report.
+
+The cost of not re-solving is that an unsolved hand-tweak would ship unchecked, so that
+is refused: committing after a tweak returns 409 asking for a solve first, with
+`force=true` available for a planner who deliberately wants their own numbers out
+regardless.
+
+## Widget: the actions
+
+The widget's sections follow the loop above, in the order a planner works through them.
+Two postures throughout, matching `allocsolver.cli`'s dry-run/accept pattern — a `POST`
+either previews or persists, never both.
 
 ```mermaid
 flowchart LR
-    PA["1. Pre-Assignments<br/>upload JSON, or hand-edit<br/>the Grist table directly"] --> RP
-    RP["2. Run Planning<br/>(solves, writes the solution<br/>into Allocation — tweak & repeat)"] --> EX
-    EX["3. Export Work Assignments<br/>(commit — merges pre-assignments<br/>into Bounds, clears the inbox)"] --> PR
-    PR["4. Portfolio Reports<br/>(budget summary +<br/>staffing balance)"]
+    IMP["1. Import Ballpark<br/>(audit, then import)"] --> TW
+    TW["2. Tweak & Lock<br/>(Grist table + bulk sweeps)"] --> SV
+    SV["3. Solve<br/>(adherence dial)"] --> TW
+    SV --> HI
+    HI["4. Iterations<br/>(restore any)"] --> TW
+    SV --> EX
+    EX["5. Export Work Assignments<br/>(commit what was approved)"] --> PR
+    PR["7. Portfolio Reports"]
     EX --> LA
-    LA["5. Load Actuals<br/>(preview, then confirm —<br/>closes the month,<br/>proposes reforecast)"] --> VR
-    VR["6. Variance Report<br/>(assigned vs. actual,<br/>any closed month)"]
+    LA["8. Load Actuals<br/>(preview, then close)"] --> VR
+    VR["9. Variance Report"]
 ```
 
-1. **Pre-Assignments.** `POST /api/pre-assignments/upload` (multipart JSON, same
-   shape as `pre_assignments.json`) replaces the `Pre_Assignments` table wholesale.
-   The table is also directly editable in Grist — either path lands in the same
-   place, and both are read by the next two actions. Distinct from a *locked*
-   `Allocation` cell: a pre-assignment is a soft *range* nudge applied before the
-   first solve; a locked cell is a hard, after-the-fact pin applied once a planner
-   has already seen a solve's output and wants to force one specific value.
-2. **Run Planning** (`POST /api/run-planning`). Loads the plan, merges the current
-   `Pre_Assignments` in-memory (`apply_pre_assignments` — full `Plan` revalidation,
-   so a typo'd id is caught immediately), solves, and writes every open month's
-   result into `Allocation` (preserving any `locked` flags already there — see
-   above). Also diffs the solved hours against each pre-assignment's `soft_max`
-   for the current open month, written to `Report_SolveDiff`. **Never touches
-   `Bounds`, `Targets`, or `closed_through`** — a planner can run this as many
-   times as they like, hand-editing `Allocation` between runs.
-3. **Export Work Assignments** (`POST /api/export-work-assignments`). The commit
-   point: re-solves, then actually merges `Pre_Assignments` into `Bounds` (the
-   hour-range constraints) and clears the `Pre_Assignments` table (same "the
-   override persists permanently in bounds; the inbox isn't a log" contract as
-   `io/pre_assignments.py`), and refreshes `Allocation` the same way Run Planning
-   does — the two never disagree. Writes only `Bounds` and `Allocation`
-   (`_write_solution_to_allocation`), not the whole plan via `save_plan_to_grist`:
-   `plan.allocation` at the point this handler loads it is pre-solve, so a naive
-   whole-plan save here would silently overwrite `Allocation` with stale data.
-   Also writes `Report_WorkAssignments` for the immediate open month, with a CSV
-   download available (`GET .../download`).
-4. **Portfolio Reports** (`POST /api/run-portfolio-reports`). Budget summary for
-   every currently-active project plus the staffing balance assessment
+1. **Import Ballpark** (`POST /api/working-assignment/import`, multipart CSV or JSON,
+   columns `project_id, person_id, month, hours, locked`). Format is sniffed from the
+   content rather than the extension; `hours_assigned` is accepted for `hours` so a
+   sheet exported straight out of the `Allocation` table imports unrenamed. `dry_run=true`
+   audits and writes nothing; `make_eligible=true` also adds permissive `Bounds` rows for
+   cells that have none. The audit lands in `Report_BallparkAudit`.
+   `GET /api/working-assignment/download` is the reverse trip, for reworking an iteration
+   in a spreadsheet.
+2. **Tweak & Lock.** Cell editing is the Grist `Allocation` table itself — already a
+   spreadsheet, with sorting, filtering and a `locked` checkbox, and nothing the widget
+   could add would improve on it. `POST /api/working-assignment/locks` covers the sweeps
+   that are tedious cell by cell (`locked`, plus optional `project_id`/`person_id`/`month`
+   filters and `only_nonzero`, on by default since locking a zero-hour cell pins it
+   *empty*). `GET /api/working-assignment` renders the current state read-only.
+3. **Solve** (`POST /api/run-planning?adherence=...`). Snapshots any hand-edits, merges
+   the `Pre_Assignments` inbox in memory (`apply_pre_assignments`, with full `Plan`
+   revalidation so a typo'd id is caught immediately), solves baselined on the working
+   assignment, writes the result back over it, and diffs before-against-after into
+   `Report_SolveDiff` across the whole open horizon — a diff stopping at the current
+   month would hide the forward ripple, which is the part worth seeing. Never touches
+   `Bounds`, `Targets` or `closed_through`.
+4. **Iterations** (`GET /api/working-assignment/history`,
+   `POST /api/working-assignment/restore?iteration=N`).
+5. **Export Work Assignments** (`POST /api/export-work-assignments`). The commit point:
+   merges `Pre_Assignments` into `Bounds` for good and clears that inbox (the same
+   "the override persists permanently in bounds; the inbox isn't a log" contract as
+   `io/pre_assignments.py`), writes `Report_WorkAssignments`, and exports the working
+   assignment as it stands. Returns 409 on unsolved tweaks unless `force=true`. Writes
+   only `Bounds`, `Allocation` and the report, not the whole plan via
+   `save_plan_to_grist`, which would overwrite `Allocation` with the pre-commit copy the
+   handler is holding.
+6. **Bounds-shaped pre-assignments** (`POST /api/pre-assignments/upload`, multipart JSON
+   shaped like `pre_assignments.json`) replaces the `Pre_Assignments` table wholesale;
+   the table is also directly editable in Grist. Retained alongside the working
+   assignment because it expresses something the hours-shaped form cannot: an hour
+   *range* for a cell — "40 to 80 hours, exactly how many is the solver's problem". Three
+   manual inputs, three different jobs: a **ballpark cell** is a starting number the
+   solver may move, a **pre-assignment** is a range it must respect, and a **locked cell**
+   is a number it cannot move at all.
+7. **Portfolio Reports** (`POST /api/run-portfolio-reports`). Budget summary for every
+   currently-active project plus the staffing balance assessment
    (`reports/staffing_balance.py`) — writes `Report_BudgetSummary` and
-   `Report_StaffingBalance`, with a zip download of the same data as CSVs.
-5. **Load Actuals** (`POST /api/actuals/upload`, CSV columns `person_id,
-   project_id, hours_actual`). `dry_run=true` (the widget's "Preview" button)
-   computes variance and a reforecast proposal (`propose_reforecast`) without
-   writing anything. Re-submitting with `dry_run=false` (a real file, or an empty
-   one to fall back to `io/synthetic.py`'s synthetic actuals for practice)
-   persists: `hours_actual` into `Allocation`, `closed_through` advances, and — only
-   if `accept_reforecast=true` — the proposed target updates apply. Mirrors
-   `advance-month`'s solve → simulate → close → propose → confirm sequence exactly,
-   just split across two HTTP calls instead of one interactive CLI prompt.
-6. **Variance Report** (`GET /api/reports/variance?month=...`). The assigned-vs-
-   actual delta for any already-closed month — the same figures `Load Actuals`
-   just computed, retrievable again later without re-uploading anything.
+   `Report_StaffingBalance`, with a zip download of the same data as CSVs. Computed from
+   the working assignment, not a fresh solve.
+8. **Load Actuals** (`POST /api/actuals/upload`, CSV columns `person_id, project_id,
+   hours_actual`). `dry_run=true` computes variance and a reforecast proposal
+   (`propose_reforecast`) without writing. Re-submitting with `dry_run=false` (a real
+   file, or an empty one to fall back to `io/synthetic.py` for practice) persists
+   `hours_actual` into `Allocation`, advances `closed_through`, and — only if
+   `accept_reforecast=true` — applies the proposed target updates. Variance is measured
+   against the assignment on record for the month, never a re-solve: measuring a month
+   against a plan nobody worked to is the one comparison a variance report must not make.
+9. **Variance Report** (`GET /api/reports/variance?month=...`). The assigned-vs-actual
+   delta for any already-closed month, retrievable later without re-uploading anything.
 
 ## Why the widget doesn't talk to Grist directly
 
@@ -280,8 +389,9 @@ running `docker compose` stack (not just read from source or assumed): first via
 playwright/python` container was used directly instead) to confirm the widget
 page actually *renders* inside Grist's own UI and each button produces the
 expected result on screen — not just a 200 response from the backend.
-`docs/09-planner-tutorial.md`'s screenshots are the artifacts of that
-verification, not staged mockups.
+Those screenshots have since been retired from `docs/09-planner-tutorial.md`: they
+captured the widget's pre-loop layout and no longer match it. The image files remain in
+`docs/images/grist_tutorial/` pending recapture.
 
 Three real bugs only surfaced this way, invisible from a backend-only (`curl`)
 test since the backend never renders the page itself or acts as a second,
@@ -324,6 +434,27 @@ docstrings for the detail.
   recent staffing-balance retuning) can compound into an escalating target over a
   long horizon — this doesn't affect the small 6-month tutorial dataset here, but
   is an open item from earlier the same session, not yet resolved.
-- No *automated* test suite covers `grist_planner/` (no CI hook spins up a real
-  Grist container and re-runs the verification above on every change) — worth
-  adding if this becomes a longer-lived part of the repo rather than a first cut.
+- **`grist_planner/` is only partly covered by automated tests.** `planner_api/history.py`
+  is tested against an in-memory store (`tests/unit/test_assignment_history.py`, which is
+  what its `TableStore` protocol exists to allow — `httpx`/`fastapi` live in the container
+  image, not the conda environment the suite runs in). The FastAPI handlers themselves
+  have no automated coverage; they were verified by hand against a throwaway Grist stack
+  on alternate ports, driving the whole loop through `curl`. A CI hook that spins up Grist
+  and replays that sequence is the missing piece.
+- **Importing a ballpark replaces every open month, wholesale** — there is no merge or
+  upsert mode. `merged_allocation` treats an import as a statement about the whole open
+  horizon, which is right when the ballpark *is* the plan (the small example) and
+  dangerous mid-horizon: on the medium example a one-row import collapses ~4,700 cells to
+  one. The iteration history makes it recoverable and
+  `docs/10-medium-example-tutorial.md` demonstrates the recovery, but an explicit merge
+  mode is the obvious missing option.
+- **Cell editing happens in the Grist table, not the widget.** A deliberate choice — the
+  `Allocation` table is already a spreadsheet with sorting, filtering and a checkbox
+  column — but it does mean the loop spans two surfaces, and a hand-edit is invisible to
+  the service until the next solve snapshots it.
+- **Adherence levels are calibrated on a two-person fixture.** The weights in
+  `ADHERENCE_CHURN_WEIGHTS` come from measurements on
+  `tests/fixtures.two_person_two_project_plan`, where `norms.count` is 8 and the headcount
+  term is correspondingly heavy. At the medium example's scale that normalizer is far
+  larger, so the same weights are relatively stronger; the levels are a usable dial rather
+  than a calibrated scale, and the right setting is found by trying one.
